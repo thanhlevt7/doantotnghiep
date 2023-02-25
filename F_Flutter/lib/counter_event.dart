@@ -1,0 +1,4 @@
+enum CounterEvent {
+  decrement,
+  increment,
+}
