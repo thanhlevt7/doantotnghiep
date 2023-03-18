@@ -40,7 +40,6 @@
                 <tr>
               
                 <th scope="col">Mã hóa đơn</th>
-                <th scope="col">Nhân viên</th>
                 <th scope="col">Khách hàng</th>
                 <th scope="col">Ngày tạo hóa đơn</th>
                 <th scope="col">Tổng</th>
@@ -53,7 +52,6 @@
                 <tr>
                   
                     <td>{{$item->id}}</td>
-                    <td>{{$item->NV}}</td>
                     <td>{{$item->fullName}}</td>
                     <td>{{$item->dateCreated}}</td>
                     <td>{{number_format($item->total)}}VNĐ</td>

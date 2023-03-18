@@ -17,12 +17,11 @@ class ForeignKey extends Migration
        
         Schema::table('vouchers', function (Blueprint $table) {
             // $table->foreign('productID')->references('id')->on('products');
-            $table->foreign('employeeID')->references('id')->on('employees');
         });
         
-        // Schema::table('notifications', function (Blueprint $table) {
-        //     $table->foreign('userID')->references('id')->on('users');
-        // });
+        Schema::table('notifications', function (Blueprint $table) {
+            $table->foreign('userID')->references('id')->on('users');
+        });
 
         Schema::table('addresses', function (Blueprint $table) {
             $table->foreign('userID')->references('id')->on('users');
@@ -41,7 +40,6 @@ class ForeignKey extends Migration
         });
        
         Schema::table('invoices', function (Blueprint $table) {
-            $table->foreign('employeeID')->references('id')->on('employees');
             $table->foreign('userID')->references('id')->on('users');
         });
         Schema::table('invoice_details', function (Blueprint $table) {

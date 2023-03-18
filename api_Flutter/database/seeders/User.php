@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class User extends Seeder
 {
@@ -25,6 +24,7 @@ class User extends Seeder
                 'fullName' => 'Nguyễn Thành Lễ',
                 'phone' => '0348340873',
                 'avatar' => 'a.png',
+                'type' => 'admin',
                 'status' => 0,
             ],
             [
@@ -35,10 +35,10 @@ class User extends Seeder
                 'fullName' => 'Bùi kim thanh',
                 'phone' => '0348340873',
                 'avatar' => 'a.png',
+                'type' => 'user',
                 'status' => 0,
             ],
-         
-           
+
         ]);
     }
 }

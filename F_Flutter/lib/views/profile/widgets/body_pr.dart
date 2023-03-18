@@ -9,17 +9,17 @@ class BodyProfile extends StatefulWidget {
 
   @override
   State<BodyProfile> createState() => _BodyProfileState();
-}
+  }
 
-class _BodyProfileState extends State<BodyProfile> {
-  heightContainer() {
-    var dem = 0.0;
-    for (int i = 1; i <= profiles.length; i++) {
-      if (i % 2 != 0) {
-        dem += 200;
+  class _BodyProfileState extends State<BodyProfile> {
+    heightContainer() {
+      var dem = 0.0;
+      for (int i = 1; i <= profiles.length; i++) {
+        if (i % 2 != 0) {
+          dem += 200;
+        }
       }
-    }
-    return dem;
+      return dem;
   }
 
   final _profileBloc = ProfileBloc();

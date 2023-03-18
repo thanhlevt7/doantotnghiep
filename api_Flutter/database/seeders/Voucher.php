@@ -18,7 +18,6 @@ class Voucher extends Seeder
             [
                 'id' => 1,
                 'code' => 'pqrbGC',
-                'employeeID' => 1,
                 'name' => 'Giảm giá ',
                 'sale' => '10000',
                 'startDate' => "2023/02/13",

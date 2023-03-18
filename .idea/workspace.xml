@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="868b75cf-f7ec-42a6-8cc3-dfe86b73059a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/F_Flutter/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/F_Flutter/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F_Flutter/lib/repository/user_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/F_Flutter/lib/repository/user_api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F_Flutter/lib/views/details_product/widgets/user_review.dart" beforeDir="false" afterPath="$PROJECT_DIR$/F_Flutter/lib/views/details_product/widgets/user_review.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F_Flutter/lib/views/profile/account/widgets/address/google_map_address_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/F_Flutter/lib/views/profile/account/widgets/address/google_map_address_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F_Flutter/lib/views/profile/widgets/body_pr.dart" beforeDir="false" afterPath="$PROJECT_DIR$/F_Flutter/lib/views/profile/widgets/body_pr.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F_Flutter/lib/views/profile/widgets/header_avatar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/F_Flutter/lib/views/profile/widgets/header_avatar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F_Flutter/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/F_Flutter/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F_Flutter/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/F_Flutter/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/AccountController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/AccountController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/EmployeeController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/InvoiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/LoginController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/NotificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/NotificationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/VoucherController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/Admin/VoucherController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/app/Http/Controllers/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/app/Models/Employee.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/app/Models/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/app/Models/Invoice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/config/auth.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/database/migrations/2014_10_12_000000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/database/migrations/2014_10_12_000000_create_users_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/database/migrations/2022_01_17_085228_create_invoices_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/database/migrations/2022_01_17_085228_create_invoices_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/database/migrations/2022_01_17_090025_create_vouchers_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/database/migrations/2022_01_17_090025_create_vouchers_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/database/migrations/2022_01_24_123019_create_employees_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/database/migrations/2022_03_04_041014_foreign_key.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/database/migrations/2022_03_04_041014_foreign_key.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/database/seeders/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/database/seeders/EmployeeSeeder.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/database/seeders/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/database/seeders/Invoice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/database/seeders/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/database/seeders/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/database/seeders/Voucher.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/database/seeders/Voucher.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/accounts/create.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/accounts/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/accounts/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/accounts/profile.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/accounts/profile.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/app.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/auth/login.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/auth/passwords/confirm.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/auth/register.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/auth/verify.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/dashboard.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/employee/create.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/employee/index.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/employee/partials/scripts.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/notifications/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/notifications/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/notifications/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/notifications/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/partials/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/partials/header.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/partials/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/partials/navbar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/products/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/products/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/products/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/products/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/reviews/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/reviews/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/vouchers/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/vouchers/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/resources/views/admin/vouchers/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/resources/views/admin/vouchers/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/routes/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/routes/admin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api_Flutter/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/api_Flutter/routes/api.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2N93IigFx7hXU9yt7hWSg56CpCK" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="868b75cf-f7ec-42a6-8cc3-dfe86b73059a" name="Default Changelist" comment="" />
+      <created>1679062395283</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679062395283</updated>
+    </task>
+    <servers />
+  </component>
+</project>

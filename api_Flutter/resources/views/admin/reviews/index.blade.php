@@ -21,19 +21,19 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th> Id</th>
+                        <th> ID</th>
                         <th> Tên người dùng </th>
-                        <th>Sản phẩm</th>
+                        <th> Mã Sản phẩm</th>
                         <th> Nội dung </th>
                         <th> Số sao </th>
-                        <th> Ngày đăng</th>
+                        <th> Ngày giờ</th>
                         <!-- <th> Ảnh minh họa</th> -->
                         <th> Trạng thái</th>
                         <th>Thao tác </th>
-                       
+
                     </tr>
                 </thead>
-                <tbody>
+                <tbody> 
                     @foreach ($rating as $item)
                         <tr>
                             <td> {{ $item->id }}</td>
@@ -41,18 +41,18 @@
                             <td>{{$item->productID}}</td>
                             <td> {{ $item->content }}</td>
                             <td> {{ $item->quantity }}</td>
-                            <td> {{ $item->postedDate }}</td>
+                            <td> {{\Carbon\Carbon::parse($item->postedDate)->format('d-m-Y H:i:s') }}</td>
                             <!-- <td> <img style="background:white"
                                     src="{{$item->image}}"
                                     class="rounded" alt="Ảnh" width="70" height="70"> </td> -->
-                            <td> {{ $item->status }}</td>     
+                            <td> {{ $item->status }}</td>
                             <td>
-                            <div class="btn-group">      
-                                <!-- <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-lock"></i></a>               
+                            <div class="btn-group">
+                                <!-- <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-lock"></i></a>
                                 <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a> -->
                                 <a class="btn btn-primary" onclick="deleteReview({{$item->id}})"
                                     href=""><i class="fa fa-lg fa-trash"></i></a>
-                            </div>                            
+                            </div>
                             </td>
                         </tr>
                     @endforeach
@@ -63,7 +63,7 @@
     </div>
 @endsection
 
-<script>   
+<script>
     function deleteReview(id)
     {
         if(confirm("Bạn có chắc muốn xóa? "))
@@ -71,18 +71,11 @@
             $.ajax({
                 type: 'get',
                 url: '/admin/reviews/delete/'+id,
-                data: {
-                    _token: $("input[name=_token]").val()
-                },
                 success: function (data) {
                     setTimeout(function () {
                     window.location.href = "reviews";
                     }, 200);
-                    
                 },
-                
-
-
             });
         }
     }

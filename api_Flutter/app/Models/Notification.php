@@ -13,6 +13,7 @@ class Notification extends Model
         'content',
         'startDate',
         'endDate',
+        'userID',
         'image',
     ];
 }

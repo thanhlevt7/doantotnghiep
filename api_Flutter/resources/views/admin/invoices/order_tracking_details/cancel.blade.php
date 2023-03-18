@@ -45,8 +45,6 @@
                 <th scope="col">Khách hàng</th>
                 <th scope="col">Ngày tạo hóa đơn</th>
                 <th scope="col">Tổng</th>
-                <!-- <th scope="col">Thanh toán</th> -->
-                <th scope="col">Lý do</th>
                 <th scope="col">Thao tác</th>
              
                 </tr>
@@ -60,10 +58,7 @@
                     <td>{{$item->fullName}}</td>
                     <td>{{$item->dateCreated}}</td>
                     <td>{{number_format($item->total)}}VNĐ</td>
-                    <!-- <td>
-                        <span>   <i class="fa fa-check" style="color:green" ></i>Ok</span>
-                    </td> -->
-                    <td>123</td>
+                  
                     <td>
                     <div class="btn-group">
                         <a class="btn btn-primary" href="{{route('admin.invoice.details',$item->id)}}"><i class="fa fa-eye"></i></a>

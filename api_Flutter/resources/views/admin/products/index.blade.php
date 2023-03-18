@@ -15,18 +15,24 @@
       <li class="breadcrumb-item"><a href="#">Quản lí sản phẩm</a></li>
     </ul>
 </div>
+@if(session('success'))
+<div class="alert alert-success" id="alert">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+          {{session('success')}}</div>
+      @endif
 <div class="row">
     <div class="col-sm-4  text-white">
         <a href="{{route('admin.product.create')}}" class="btn btn-primary">Tạo sản phẩm</a>
 
     </div>
 </div>
+
 <div class="container">
     <div class="d-flex bd-highlight mb-4">
         <div class="p-2 w-100 bd-highlight">
             <h2>Sản phẩm</h2>
         </div>
-    
+
     </div>
     <div>
         <table class="table table-inverse">
@@ -42,7 +48,7 @@
                         <th>Ngày tạo </th>
                         <th>Trạng thái </th>
                         <th>Thao tác </th>
-                        
+
                     </tr>
             </thead>
             <tbody id="todo-list" name="todo-list">
@@ -57,23 +63,23 @@
                             <td> <img src="{{$item->image}}"
                                     class="rounded" alt="Ảnh" width="70" height="70"> </td>
                             <td> {{ $item->unit }}</td>
-                            <td> {{ $item->createDate }}</td>
+                            <td>  {{\Carbon\Carbon::parse($item->createDate)->format('d-m-Y H:i:s') }} </td>
                             <td> {{ $item->status }}</td>
                             <td id="">
-                                <div class="btn-group">                     
-                                    <a class="btn btn-primary" onclick="updateProduct({{$item->id}})" type="button"><i class="fa fa-lg fa-edit"></i></a>
+                                <div class="btn-group">
+                                        <a href="{{ url('/admin/products/edit/' . $item->id) }}" class="btn btn-primary"  type="button"><i class="fa fa-lg fa-edit"></i></a>
                                     <a class="btn btn-primary" onclick="deleteProduct({{$item->id}})" ><i class="fa fa-lg fa-trash"></i></a>
-                                </div>                              
+                                </div>
                             </td>
-                @endforeach
+                            @endforeach
             </tbody>
-        
         </table>
         <div style="margin:auto">
-       
+        {{ $data->links() }}
+
     </div>
 </div>
-<script>   
+<script>
     function deleteProduct(id)
     {
         if(confirm("Bạn có chắc muốn xóa? "))
@@ -81,9 +87,6 @@
             $.ajax({
                 type: 'get',
                 url: '/admin/products/delete/'+id,
-                data: {
-                    _token: $("input[name=_token]").val()
-                },
                 success: function (data) {
                     setTimeout(function () {
                     window.location.href = "products";
@@ -100,21 +103,6 @@
     }
 </script>
 
-<script>   
-    function updateProduct(id)
-    {
-        $.ajax({
-           type:'put',
-           url:'/admin/products/update/'+id,
-           data: {
-                    _token: $("input[name=_token]").val()
-                },
-                success: function (data) {
-                   
-                    
-                },
-               
-        });
-    }    
-</script>
+
+
 @endsection

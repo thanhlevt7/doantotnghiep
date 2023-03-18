@@ -1,10 +1,56 @@
+import 'dart:convert';
+
 import 'package:fluter_19pmd/constant.dart';
 import 'package:fluter_19pmd/models/user_models.dart';
+import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:io';
+import 'package:http/http.dart' as https;
 
-class HeaderWithAvatar extends StatelessWidget {
+import 'package:image_picker/image_picker.dart';
+
+enum DialogsAction { yes, cancel }
+
+// ignore: must_be_immutable
+class HeaderWithAvatar extends StatefulWidget {
   const HeaderWithAvatar({Key key, this.user}) : super(key: key);
   final User user;
+
+  @override
+  State<HeaderWithAvatar> createState() => _HeaderWithAvatarState();
+}
+
+class _HeaderWithAvatarState extends State<HeaderWithAvatar> {
+  File _image;
+  String secure_url;
+
+  Future getImage(ImageSource source) async {
+    var image = await ImagePicker().pickImage(source: source);
+    if (image != null) {
+      setState(() {
+        _image = File(image.path);
+      });
+      uploadFile();
+      Navigator.of(context, rootNavigator: true).pop();
+      setState(() {});
+    }
+  }
+
+  Future uploadFile() async {
+    final url =
+        Uri.parse("https://api.cloudinary.com/v1_1/thanhlevt7/image/upload");
+    var response = await https.post(url, body: {
+      'file': 'data:image/png;base64,' + base64Encode(_image.readAsBytesSync()),
+      'upload_preset': "amdyfjvl",
+    }); 
+    final json = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      secure_url = json['secure_url'];
+      RepositoryUser.updateImage(secure_url);
+      Fluttertoast.showToast(msg: "Đã cập nhật", fontSize: 22);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +79,11 @@ class HeaderWithAvatar extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 buildHeader(size, context),
-                buildAvatar(size, user.avatar),
+                buildAvatar(size, RepositoryUser.info.avatar),
               ],
             ),
           ),
-          buildNameUser(size, user.username),
+          buildNameUser(size, widget.user.username),
         ],
       ),
     );
@@ -54,20 +100,14 @@ class HeaderWithAvatar extends StatelessWidget {
           ),
           height: size.height * 0.2,
           width: size.width * 0.37,
-          child: (avatar == null)
-              ? Image.network(
-                  'https://image.thanhnien.vn/w660/Uploaded/2022/ygtmjz/2021_02_15/thanh_guom_diet_quy_djkh.jpg',
-                  fit: BoxFit.cover,
+          child: (avatar == null || avatar.isEmpty)
+              ? const CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      "https://res.cloudinary.com/thanhlevt7/image/upload/v1678943288/image_flutter/u2swpnxwfv3s15on7ngo.png"),
                 )
-              : (avatar == '')
-                  ? Image.network(
-                      'https://image.thanhnien.vn/w660/Uploaded/2022/ygtmjz/2021_02_15/thanh_guom_diet_quy_djkh.jpg',
-                      fit: BoxFit.cover,
-                    )
-                  : CircleAvatar(
-                      backgroundImage:
-                          AssetImage("assets/images/person/$avatar"),
-                    ),
+              : CircleAvatar(
+                  backgroundImage: NetworkImage(avatar),
+                ),
         ),
         Positioned(
           right: 0,
@@ -82,13 +122,43 @@ class HeaderWithAvatar extends StatelessWidget {
               ),
             ),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                diglog();
+              },
               icon: const Icon(Icons.camera_alt),
             ),
           ),
         ),
       ],
     );
+  }
+
+  diglog() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text("Camera"),
+                  onTap: () {
+                    getImage(ImageSource.camera);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.image),
+                  title: const Text("Bộ sưu tập"),
+                  onTap: () {
+                    getImage(ImageSource.gallery);
+                  },
+                )
+              ],
+            ),
+          );
+        });
   }
 
   Row buildHeader(Size size, BuildContext context) {

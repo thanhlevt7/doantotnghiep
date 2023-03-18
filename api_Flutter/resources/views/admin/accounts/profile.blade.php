@@ -5,73 +5,52 @@
     <div class="row">
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                <img class="rounded-circle mt-5" width="150px" src="{{asset('backend/assets/img/avaters/')}}./{{Session::get('emp')->avatar}}">
+                <img class="rounded-circle mt-5" width="100px" height="100" src="{{Session::get('emp')->avatar}}">
                 <span class="font-weight-bold">{{Session::get('emp')->fullName}}</span>
                 <span class="text-black-50">{{Session::get('emp')->email}}</span>
                 <span> </span>
             </div>
         </div>
-        <div class="col-md-5 border-right">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Thiết lập hồ sơ</h4>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-6">
-                        <label class="labels">Họ tên</label>
-                        <input type="text" class="form-control" name="fullName"placeholder="{{Session::get('emp')->fullName}}" value="">
+      
+
+            <div class="col-md-5 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Thiết lập hồ sơ</h4>
                     </div>
-                    <div class="col-md-6">
-                        <label class="labels">Tên hiển thị</label>
-                        <input type="text" class="form-control" name="username" value="" placeholder="{{Session::get('emp')->username}}">
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label class="labels">Tên hiển thị</label>
+                            <input type="text" class="form-control" name="username" value="{{Session::get('emp')->username}}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">Họ tên</label>
+                            <input type="text" class="form-control" name="fullName" value="{{Session::get('emp')->fullName}}" placeholder="{{Session::get('emp')->fullName}}" value="">
+                        </div>
                     </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12">
-                        <label class="labels">Số điện thoại</label>
-                        <input type="number" class="form-control"name="phone" placeholder="{{Session::get('emp')->phone}}" value="">
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="labels">Số điện thoại :</label>
+                            <input type="number" class="form-control" name="phone" value="{{Session::get('emp')->phone}}" value="">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">Email :</label>
+                            <input type="text" class="form-control" name="address" value="{{Session::get('emp')->email}}" readonly>
+                        </div>
                     </div>
-                    <div class="col-md-12">
-                        <label class="labels">Địa chỉ </label>
-                        <input type="text" class="form-control"name="address"placeholder="{{Session::get('emp')->address}}" value="">
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label class="labels">Thay đổi ảnh</label>
+                            <input type="file" class="form-control" id="avatar" name="avatar" >
+                        </div>
+
                     </div>
-                    <div class="col-md-12">
-                        <label class="labels">Nhân viên</label>
-                        <input type="text" class="form-control" name="isAdmin" placeholder="{{Session::get('emp')->type}}" value="">
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary profile-button" type="submit">Cập nhật</button>
                     </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <label class="labels">Ảnh</label>
-                        <input type="text" class="form-control" placeholder="{{Session::get('emp')->avatar}}" value="">
-                    </div>
-                  
-                </div>
-                <div class="mt-5 text-center">
-                    <button class="btn btn-primary profile-button" type="button">Save Profile</button>
                 </div>
             </div>
-        </div>
-        <!-- <div class="col-md-4">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience">
-                    <span>Edit Experience</span>
-                    <span class="border px-3 p-1 add-experience">
-                        <i class="fa fa-plus"></i>
-                        &nbsp;Experience
-                    </span>
-                </div>
-                <br>
-                <div class="col-md-12">
-                    <label class="labels">Experience in Designing</label>
-                    <input type="text" class="form-control" placeholder="experience" value="">
-                </div> <br>
-                <div class="col-md-12">
-                    <label class="labels">Additional Details</label>
-                    <input type="text" class="form-control" placeholder="additional details" value="">
-                </div>
-            </div>
-        </div> -->
+  
     </div>
 </div>
 

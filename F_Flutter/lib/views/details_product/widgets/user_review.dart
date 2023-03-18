@@ -142,10 +142,18 @@ class _UserReviewState extends State<UserReview> {
                                         Radius.circular(30),
                                       ),
                                     ),
-                                    child: CircleAvatar(
-                                        backgroundImage: AssetImage(
-                                      "assets/images/person/${widget.userReview[index].avatar}",
-                                    )),
+                                    child: (widget.userReview[index].avatar ==
+                                                null ||
+                                            widget.userReview[index].avatar
+                                                .isEmpty)
+                                        ? const CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                "https://res.cloudinary.com/thanhlevt7/image/upload/v1678943288/image_flutter/u2swpnxwfv3s15on7ngo.png"),
+                                          )
+                                        : CircleAvatar(
+                                            backgroundImage: NetworkImage(widget
+                                                .userReview[index].avatar),
+                                          ),
                                   ),
                                   const SizedBox(
                                     width: 15,

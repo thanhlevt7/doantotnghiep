@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -135,7 +136,6 @@ class ProductController extends Controller
                 ->orderBy('reviews.postedDate', 'desc')
                 ->select('reviews.*', 'users.fullName', 'users.avatar')
                 ->get();
-
         }
         if ($products != null) {
             return json_encode(
@@ -176,7 +176,6 @@ class ProductController extends Controller
                 ->orderBy('reviews.postedDate', 'desc')
                 ->select('reviews.*', 'users.fullName', 'users.avatar')
                 ->get();
-
         }
         if ($products != null) {
             return json_encode(
@@ -217,7 +216,6 @@ class ProductController extends Controller
                 ->orderBy('reviews.postedDate', 'desc')
                 ->select('reviews.*', 'users.fullName', 'users.avatar')
                 ->get();
-
         }
         if ($products != null) {
             return json_encode(
@@ -258,7 +256,6 @@ class ProductController extends Controller
                 ->orderBy('reviews.postedDate', 'desc')
                 ->select('reviews.*', 'users.fullName', 'users.avatar')
                 ->get();
-
         }
         if ($products != null) {
             return json_encode(
@@ -356,9 +353,7 @@ class ProductController extends Controller
                 ->orderBy('reviews.postedDate', 'desc')
                 ->select('reviews.*', 'users.fullName', 'users.avatar')
                 ->get();
-
         }
         return response()->json($data);
     }
-
 }

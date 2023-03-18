@@ -54,6 +54,7 @@ dependencies:
   google_maps_flutter: ^2.2.3
   image_network: ^2.5.1
   pin_code_text_field: ^1.8.0
+  image_picker: null
 
  
 dev_dependencies:

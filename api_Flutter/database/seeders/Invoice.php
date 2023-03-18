@@ -19,7 +19,6 @@ class Invoice extends Seeder
             [  
                 'id'=>  "HD202203161",             
                 'userID' => 1,
-                'employeeID' => 1,
                 'shippingName' =>  'Nguyễn Thành Lễ',
                 'shippingPhone' => '0348340873',
                 'shippingAddress' => 'Quận Tân Bình',
@@ -31,7 +30,6 @@ class Invoice extends Seeder
             [  
                 'id'=>  'HD202203162',             
                 'userID' => 2,
-                'employeeID' => 1,
                 'shippingName' =>  'Nguyễn Thành Lễ',
                 'shippingPhone' => '0348340873',
                 'shippingAddress' => 'Quận Tân Bình',

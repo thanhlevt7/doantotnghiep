@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             User::class,
             Address::class,
             Product::class,
-            EmployeeSeeder::class,
             Voucher::class,
             Notification::class,
             Invoice::class,

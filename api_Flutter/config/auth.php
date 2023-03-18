@@ -42,7 +42,7 @@ return [
         ],
         'admin' => [
             'driver' => 'session',
-            'provider' => 'employees',
+            'provider' => 'users',
         ],
 
         'user' => [
@@ -74,10 +74,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'employees' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Employee::class,
-        ],
+        // 'employees' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\Employee::class,
+        // ],
     ],
 
     /*
@@ -103,12 +103,12 @@ return [
             'throttle' => 60,
         ],
 
-        'employees' => [
-            'provider' => 'employees',
-            'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
+        // 'employees' => [
+        //     'provider' => 'employees',
+        //     'table' => 'password_resets',
+        //     'expire' => 60,
+        //     'throttle' => 60,
+        // ],
     ],
 
     /*
