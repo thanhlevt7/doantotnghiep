@@ -17,6 +17,7 @@ class CreateVouchersTable extends Migration
             $table->Increments('id');
             $table->string('code');
             $table->string('name');
+            $table->bigInteger('userID')->unsigned();
             $table->integer('sale');
             $table->dateTime('startDate');
             $table->dateTime('endDate');

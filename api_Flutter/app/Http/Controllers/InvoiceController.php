@@ -13,8 +13,6 @@ class InvoiceController extends Controller
 {
     function payment(Request $request, $invoiceID)
     {
-
-
         DB::table('invoices')->where('id', $invoiceID)
             ->update([
                 'shippingAddress' => $request->address,
@@ -239,6 +237,40 @@ class InvoiceController extends Controller
                     ->join('products', 'invoice_details.productID', '=', 'products.id')
                     ->where('invoiceID', $item->id)
                     ->select('products.*', 'invoice_details.quantity')->get();
+                $item->products = $listProduct;
+            }
+        }
+        if ($query != null) {
+            return json_encode(
+                $query,
+            );
+        } else {
+            return response()->json([
+                "message" => false
+            ], 201);
+        }
+    }
+    function review($userID)
+    {
+        $checkInvoice = DB::table('invoices')
+            ->where('invoices.userID', $userID)
+            ->Where('invoices.status', '=', -1)
+            ->exists();
+        $query = null;
+        if ($checkInvoice) {
+            $query = DB::table('invoices')
+                ->join('users', 'invoices.userID', '=', 'users.id')
+                ->select('invoices.*')
+                ->where('invoices.userID', $userID)
+                ->Where('invoices.status', '=', -1)
+                ->addSelect(DB::raw("null as products"))->get();
+
+            foreach ($query  as $item) {
+                $listProduct = DB::table('invoice_details')
+                    ->join('products', 'invoice_details.productID', '=', 'products.id')
+                    ->where('invoiceID', $item->id)
+                    ->where('invoice_details.status', 1)
+                    ->select('products.*', 'invoice_details.status', 'invoice_details.quantity')->get();
                 $item->products = $listProduct;
             }
         }

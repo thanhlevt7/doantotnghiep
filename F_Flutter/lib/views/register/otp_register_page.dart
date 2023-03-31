@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/views/login/signIn_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:math';
-import 'package:http/http.dart' as http;
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 import '../../function.dart';
@@ -131,7 +129,8 @@ class _OtpRegisterPageState extends State<OtpRegisterPage> {
                   onTap: wait
                       ? null
                       : () {
-                          sendEmail(widget.email);
+                          RepositoryUser.sendEmail(
+                              widget.email, RepositoryUser.templateRegister);
                           startTimer();
                           if (mounted) {
                             setState(() {
@@ -233,32 +232,6 @@ class _OtpRegisterPageState extends State<OtpRegisterPage> {
         }
       }
     });
-  }
-
-  Future sendEmail(String email) async {
-    final otp = random.nextInt(899999) + 100000;
-    RepositoryUser.otp = otp;
-    const serviceId = 'service_yed4dhz';
-    const templateId = 'template_tmzua9o';
-    const userId = 'MsE9IzXWqJEcqdVgd';
-    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
-    await http.post(url,
-        headers: {
-          'origin': 'http://localhost',
-          'Content-Type': 'application/json',
-        },
-        body: json.encode({
-          'service_id': serviceId,
-          'template_id': templateId,
-          'user_id': userId,
-          'template_params': {
-            'otp': otp,
-            'user_name': 'name',
-            'user_email': email,
-          },
-        }));
-    Fluttertoast.showToast(
-        msg: "Mã otp đã gửi đến email của bạn", fontSize: 15);
   }
 
   void _submit(context, email, password, displayname, fullname, phone) async {

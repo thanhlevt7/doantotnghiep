@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 import 'package:fluter_19pmd/constant.dart';
 import 'package:fluter_19pmd/function.dart';
@@ -7,7 +6,6 @@ import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/views/forgot_password/otp_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:http/http.dart' as http;
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key key}) : super(key: key);
@@ -205,37 +203,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     }
     _formKey.currentState.save();
     _isLoading.loadingSink.add(true);
-    await sendEmail(email);
-  }
-
-  Future sendEmail(String email) async {
-    final otp = random.nextInt(899999) + 100000;
-    RepositoryUser.otp = otp;
-    var client = http.Client();
-    const serviceId = 'service_yed4dhz';
-    const templateId = 'template_zirzlbc';
-    const userId = 'MsE9IzXWqJEcqdVgd';
-
-    var data = await client
-        .post(Uri.parse('http://10.0.2.2:8000/api/users/check/$email'));
-
-    if (data.statusCode == 200) {
-      final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
-      await http.post(url,
-          headers: {
-            'origin': 'http://localhost',
-            'Content-Type': 'application/json',
-          },
-          body: json.encode({
-            'service_id': serviceId,
-            'template_id': templateId,
-            'user_id': userId,
-            'template_params': {
-              'otp': otp,
-              'user_name': 'name',
-              'user_email': email,
-            },
-          }));
+    var data = await RepositoryUser.check(email);
+    if (data == 200) {
+      RepositoryUser.sendEmail(email, RepositoryUser.templateForgot);
       await showDialog(
           context: context,
           builder: (context) {
@@ -249,12 +219,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         context,
         MaterialPageRoute(
           builder: (context) => OtpPage(
-            otp: otp,
+            otp: RepositoryUser.otp,
             email: email,
           ),
         ),
       );
-    } else if (data.statusCode == 201) {
+    } else if (data == 201) {
       _isLoading.loadingSink.add(false);
       showDialog(
           context: context,
@@ -262,16 +232,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             return AlertDiaLogCustom(
               json: "assets/error.json",
               text: "Email của bạn chưa có trong hệ thống.",
-            );
-          });
-    } else {
-      _isLoading.loadingSink.add(false);
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDiaLogCustom(
-              json: "assets/error.json",
-              text: "Đã xảy ra lỗi.",
             );
           });
     }

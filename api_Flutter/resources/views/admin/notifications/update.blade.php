@@ -10,7 +10,7 @@
 
 </div>
 <div class="row">
-    <form action="{{ url('admin/notifications/update/' .$notification->id) }}" method="post" enctype="multipart/form-data"  >
+    <form action="{{ url('admin/notifications/update/' .$notification->id) }}" method="post" enctype="multipart/form-data">
         {{csrf_field() }}
         <h1>ID : {{$notification->id}}</h1>
         <label>Tiêu đề</label></br>
@@ -18,7 +18,7 @@
         <div class="form-group">
             <label>Đối tượng</label>
             <select class="form-select" id="userID" name="userID">
-                <option hidden>@if($notification->userID==1) <th>Cho tất cả người dùng</th> @endif
+                <option hidden value="1">@if($notification->userID==1) <th>Cho tất cả người dùng</th> @endif
                     @if($notification->userID!=1) <th>{{$notification->userID}}</th> @endif </option>
                 <option value="1">Cho tất cả người dùng</option>
                 @foreach($data as $item)
@@ -34,11 +34,11 @@
             <input type="text" name="startDate" id="startDate" value="{{ \Carbon\Carbon::parse($notification ->startDate)->format('Y/m/d') }}" autocomplete="off" class="form-control" required></br>
             <label>Ngày kết thúc</label></br>
             <input type="text" name="endDate" id="endDate" value="{{ \Carbon\Carbon::parse($notification ->endDate)->format('Y/m/d') }}" autocomplete="off" class="form-control" required></br>
-        <label>Ảnh</label>
-        <input type="file" class="form-control" id="image" name="image" ></br>
-        <button type="submit" class="btn btn-success">Cập nhật</br>
+            <label>Ảnh</label>
+            <input type="file" class="form-control" id="image" name="image"></br>
+            <button type="submit" class="btn btn-success">Cập nhật</br>
     </form>
-    
+
 </div>
 <style>
     h1 {

@@ -32,6 +32,7 @@
                 <tr>
                     <th> ID</th>
                     <th> Mã</th>
+                    <th> Đối tượng</th>
                     <th> Tên khuyến mãi </th>
                     <th> Số tiền giảm </th>
                     <th> Ngày bắt đầu</th>
@@ -46,6 +47,12 @@
                 <tr>
                     <td> {{ $item->id }}</td>
                     <td> {{ $item->code }}</td>
+                    @if( $item->userID==1 ) <td> Mọi người </td>
+
+                    @endif
+                    @if( $item->userID!=1 ) <td> {{$item->userID}} </td>
+
+                    @endif
                     <td> {{ $item->name }}</td>
                     <td> {{ $item->sale }}</td>
                     <td> {{ \Carbon\Carbon::parse($item->startDate)->format('d/m/Y') }}</td>

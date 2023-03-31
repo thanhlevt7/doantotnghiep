@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,13 +27,14 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
+        $randomCode = Str::random(6);
         $isCheckEmail = DB::table('users')->where('email', $request->email)->exists();
         if ($isCheckEmail) {
             return response()->json([
                 "message" => "Email đã tồn tại",
             ], 201);
         }
-        DB::table('users')->insert([
+        $ID = DB::table('users')->insertGetId([
             'username' => $request->username,
             'fullName' => $request->fullname,
             'email' => $request->email,
@@ -42,7 +44,26 @@ class UserController extends Controller
             'type' => 'user',
             'status' => 0,
         ]);
-
+        DB::table('vouchers')
+            ->insert([
+                'code' => $randomCode,
+                'name' => "Test",
+                'userID' => $ID,
+                'sale' => "10000",
+                'startDate' =>  Carbon::now('Asia/Ho_Chi_Minh')->format('Y/m/d'),
+                'endDate' => Carbon::now('Asia/Ho_Chi_Minh')->addDays(3)->format('Y/m/d'),
+                'limit' => 1,
+                'status' => 1,
+            ]);
+        DB::table('notifications')
+            ->insert([
+                'title' => "Giảm giá",
+                'userID' => $ID,
+                'content' => "Nhanh tay mua ngay, nhập ngay mã voucher :{$randomCode}",
+                'image' => "https://img-cache.coccoc.com/image2?i=4&l=54/854640637",
+                'startDate' =>  Carbon::now('Asia/Ho_Chi_Minh')->format('Y/m/d'),
+                'endDate' =>  Carbon::now('Asia/Ho_Chi_Minh')->addDays(3)->format('Y/m/d'),
+            ]);
         return json_encode([
             "message" => "Thành công",
         ]);

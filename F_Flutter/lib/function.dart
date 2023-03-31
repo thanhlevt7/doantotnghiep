@@ -395,4 +395,49 @@ class _AlertDiaLogCustomState extends State<AlertDiaLogCustom>
   }
 }
 
- 
+appbar(String title, BuildContext context) {
+  return AppBar(
+    flexibleSpace: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.teal, Colors.teal.shade200],
+          begin: Alignment.bottomLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+    ),
+    elevation: 0.5,
+    leading: IconButton(
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+      icon: const Icon(
+        Icons.arrow_back,
+        size: 30,
+        color: Colors.white,
+      ),
+    ),
+    title: Text(
+      title,
+      style: const TextStyle(
+        fontFamily: "Pacifico",
+        fontSize: 24,
+        color: Colors.white,
+      ),
+    ),
+    actions: [
+      IconButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+          );
+        },
+        icon: const Icon(Icons.house_rounded),
+        iconSize: 28,
+      )
+    ],
+  );
+}

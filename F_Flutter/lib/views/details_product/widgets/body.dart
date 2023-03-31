@@ -22,6 +22,8 @@ class _BodyState extends State<Body> {
             stock: widget.details.stock,
             price: widget.details.price,
             sell: widget.details.total.toString(),
+            name: widget.details.name,
+            unit: widget.details.unit,
           ),
           UserReview(
             userReview: widget.details.reviews,

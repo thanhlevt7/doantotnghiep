@@ -279,7 +279,6 @@ class ProductController extends Controller
         foreach ($data as $item) {
             $item->products = DB::table('products')->where('id', $item->productID)
                 ->select('products.*')
-
                 ->get();
             foreach ($item->products as $key) {
                 $array[] = $key;
@@ -315,15 +314,74 @@ class ProductController extends Controller
             $array
         );
     }
-
-    public function Search(Request $request, $userID)
+    public function Filter($userID, Request $request)
     {
 
-        $data = DB::table('products')
-            ->where('name', 'LIKE', '%' . $request->keyword . '%')
-            ->select('products.*')
-            ->addSelect(DB::raw('null as checkFavorite,null as reviews'))
-            ->get();
+        if ($request->type != null) {
+            if ($request->maxPrice != null && $request->minPrice != null) {
+                $data = DB::table('products')
+                    ->where('name', 'LIKE', '%' . $request->keyword . '%')
+                    ->where('type', $request->type)
+                    ->whereBetween('price', [$request->minPrice, $request->maxPrice])
+                    ->select('products.*')
+                    ->where('products.stock', '>', 0)
+                    ->get();
+            } else if ($request->minPrice != null) {
+                $data = DB::table('products')
+                    ->where('name', 'LIKE', '%' . $request->keyword . '%')
+                    ->where('type', $request->type)
+                    ->where('price', '>=', $request->minPrice)
+                    ->select('products.*')
+                    ->where('products.stock', '>', 0)
+                    ->get();
+            } else if ($request->maxPrice != null) {
+                $data = DB::table('products')
+                    ->where('name', 'LIKE', '%' . $request->keyword . '%')
+                    ->where('type', $request->type)
+                    ->where('price', '<=', $request->maxPrice)
+                    ->select('products.*')
+                    ->where('products.stock', '>', 0)
+                    ->get();
+            } else {
+                $data = DB::table('products')
+                    ->where('name', 'LIKE', '%' . $request->keyword . '%')
+                    ->where('type', $request->type)
+                    ->select('products.*')
+                    ->where('products.stock', '>', 0)
+                    ->get();
+            }
+        } else {
+            if (!empty($request->maxPrice)  && !empty($request->minPrice)) {
+                $data = DB::table('products')
+                    ->where('name', 'LIKE', '%' . $request->keyword . '%')
+                    ->whereBetween('price', [$request->minPrice, $request->maxPrice])
+                    ->select('products.*')
+                    ->where('products.stock', '>', 0)
+                    ->get();
+            } else if (!empty($request->minPrice)) {
+                $data = DB::table('products')
+                    ->where('name', 'LIKE', '%' . $request->keyword . '%')
+                    ->where('price', '>=', $request->minPrice)
+                    ->select('products.*')
+                    ->where('products.stock', '>', 0)
+                    ->get();
+            } else if (!empty($request->maxPrice)) {
+                $data = DB::table('products')
+                    ->where('name', 'LIKE', '%' . $request->keyword . '%')
+                    ->where('price', '<=', $request->maxPrice)
+                    ->select('products.*')
+                    ->where('products.stock', '>', 0)
+                    ->get();
+            } else {
+                $data = DB::table('products')
+                    ->select('products.*')
+                    ->where('name', 'LIKE', '%' . $request->keyword . '%')
+                    ->where('products.stock', '>', 0)
+                    ->orderBy("products.price")
+                    ->get();
+            }
+        }
+
         foreach ($data as $item) {
             $item->total = DB::table('invoices')
                 ->join('invoice_details', 'invoices.id', '=', 'invoice_details.invoiceID')
@@ -354,6 +412,8 @@ class ProductController extends Controller
                 ->select('reviews.*', 'users.fullName', 'users.avatar')
                 ->get();
         }
-        return response()->json($data);
+        return json_encode(
+            $data,
+        );
     }
 }

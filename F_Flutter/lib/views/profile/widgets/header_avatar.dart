@@ -23,7 +23,6 @@ class HeaderWithAvatar extends StatefulWidget {
 
 class _HeaderWithAvatarState extends State<HeaderWithAvatar> {
   File _image;
-  String secure_url;
 
   Future getImage(ImageSource source) async {
     var image = await ImagePicker().pickImage(source: source);
@@ -31,24 +30,10 @@ class _HeaderWithAvatarState extends State<HeaderWithAvatar> {
       setState(() {
         _image = File(image.path);
       });
-      uploadFile();
+      RepositoryUser.uploadFile(_image);
+      Fluttertoast.showToast(msg: "Đã cập nhật", fontSize: 22);
       Navigator.of(context, rootNavigator: true).pop();
       setState(() {});
-    }
-  }
-
-  Future uploadFile() async {
-    final url =
-        Uri.parse("https://api.cloudinary.com/v1_1/thanhlevt7/image/upload");
-    var response = await https.post(url, body: {
-      'file': 'data:image/png;base64,' + base64Encode(_image.readAsBytesSync()),
-      'upload_preset': "amdyfjvl",
-    }); 
-    final json = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      secure_url = json['secure_url'];
-      RepositoryUser.updateImage(secure_url);
-      Fluttertoast.showToast(msg: "Đã cập nhật", fontSize: 22);
     }
   }
 

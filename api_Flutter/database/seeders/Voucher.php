@@ -20,6 +20,7 @@ class Voucher extends Seeder
                 'code' => 'pqrbGC',
                 'name' => 'Giảm giá ',
                 'sale' => '10000',
+                'userID' => '1',
                 'startDate' => "2023/02/13",
                 'endDate' => "2030/02/11",
                 'limit' => 22222222,

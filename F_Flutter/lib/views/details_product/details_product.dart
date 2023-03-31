@@ -57,14 +57,9 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                             },
                             child: const Icon(
                               Icons.arrow_back_ios_new,
-                              color: Colors.black,
+                              color: Colors.red,
                               size: 24,
                             ),
-                          ),
-                          title: Text(
-                            'Sản phẩm',
-                            style: TextStyle(
-                                fontSize: 22, color: Colors.grey.shade600),
                           ),
                           actions: [
                             (widget.products.checkFavorite)
@@ -99,33 +94,6 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 130, left: 20),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            widget.products.name,
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontFamily: "RobotoSlab",
-                                                color: Colors.grey.shade800),
-                                          ),
-                                          const SizedBox(
-                                            height: 30,
-                                          ),
-                                          Text(
-                                            '${convertToVND(widget.products.price)}đ/${widget.products.unit}',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: "RobotoSlab",
-                                                color: Colors.grey.shade800),
-                                          )
-                                        ],
-                                      ),
-                                    ),
                                     Expanded(
                                         child: Image.network(
                                       widget.products.image,

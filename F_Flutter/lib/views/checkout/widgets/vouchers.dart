@@ -97,11 +97,15 @@ class _VoucherListState extends State<VoucherList> {
                           msg: "Voucher hợp lệ",
                           textColor: Colors.white,
                           fontSize: 20);
+                    } else if (check == 202) {
+                      Fluttertoast.showToast(
+                          msg: "Không thể sử dụng",
+                          textColor: Colors.redAccent,
+                          fontSize: 25);
                     } else {
                       Fluttertoast.showToast(
                           msg: "Voucher không tồn tại",
                           textColor: Colors.redAccent,
-                          backgroundColor: Colors.transparent,
                           fontSize: 25);
                     }
                   },

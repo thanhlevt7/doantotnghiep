@@ -20,7 +20,7 @@ class VoucherController extends Controller
     }
     public function FormCreate()
     {
-        $data = DB::table('products')->get();
+        $data = DB::table('users')->where('type', 'user')->get();
         return view('admin.vouchers.create', compact('data'));
     }
 
@@ -38,6 +38,7 @@ class VoucherController extends Controller
             ->insert([
                 'code' => $radomCode,
                 'name' => $request->name,
+                'userID' => $request->userID,
                 'sale' => $request->sale,
                 'startDate' =>  Carbon::parse($request->startDate)->format('Y/m/d'),
                 'endDate' => Carbon::parse($request->endDate)->format('Y/m/d'),
@@ -58,7 +59,8 @@ class VoucherController extends Controller
     public function edit($id)
     {
         $voucher = Voucher::find($id);
-        return view('admin.vouchers.update', compact('voucher'));
+        $data = DB::table('users')->where('type', 'user')->get();
+        return view('admin.vouchers.update', compact('voucher','data'));
     }
 
     public function updateVoucher(Request $request, $id)

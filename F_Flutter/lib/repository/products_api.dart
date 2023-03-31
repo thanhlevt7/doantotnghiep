@@ -153,4 +153,26 @@ class RepositoryProduct {
     }
     return newProduct;
   }
+
+  static Future<List<Product>> filterProuct(String value,
+      {String maxPrice, String minPrice, String typeProduct}) async {
+    var client = http.Client();
+    List<Product> newProduct;
+    var response = await client.post(
+        Uri.parse(
+            'http://10.0.2.2:8000/api/products/result-filter/${RepositoryUser.info.id}'),
+        body: ({
+          'keyword': value,
+          'maxPrice': maxPrice ?? "",
+          'minPrice': minPrice ?? "",
+          'type': typeProduct ?? "",
+        }));
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      newProduct = productFromJson(jsonString);
+      products = newProduct;
+      return newProduct;
+    }
+    return newProduct;
+  }
 }

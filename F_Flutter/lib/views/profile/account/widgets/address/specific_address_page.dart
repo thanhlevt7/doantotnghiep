@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fluter_19pmd/function.dart';
 import 'package:fluter_19pmd/views/profile/account/widgets/address/google_map_address_page.dart';
 import 'package:flutter/material.dart';
 
@@ -27,10 +28,7 @@ class _SpecificAddressState extends State<SpecificAddress> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text("Địa chỉ mới"),
-        backgroundColor: Colors.teal,
-      ),
+      appBar: appbar("Địa chỉ mới", context),
       body: Form(
         key: _formKey,
         child: Padding(
@@ -174,7 +172,6 @@ class _SpecificAddressState extends State<SpecificAddress> {
           ),
         ),
       ),
-      
     );
   }
 

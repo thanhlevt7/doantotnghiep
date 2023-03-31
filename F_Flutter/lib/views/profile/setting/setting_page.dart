@@ -1,3 +1,4 @@
+import 'package:fluter_19pmd/function.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/views/forgot_password/change_password_page.dart';
 import 'package:flutter/material.dart';
@@ -17,37 +18,7 @@ class _settingPageState extends State<settingPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.teal, Colors.teal.shade200],
-                begin: Alignment.bottomLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-          ),
-          elevation: 0.5,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              size: 30,
-              color: Colors.white,
-            ),
-          ),
-          title: const Text(
-            "Cài đặt",
-            style: TextStyle(
-              fontFamily: "Pacifico",
-              fontSize: 24,
-              color: Colors.white,
-            ),
-          ),
-          backgroundColor: Colors.white,
-        ),
+        appBar: appbar("Cài đặt", context),
         body: Column(children: [
           const SizedBox(height: 12),
           InkWell(

@@ -42,7 +42,7 @@ Route::group(['prefix' => 'products'], function () {
 
     Route::get('/getBestSeller', [ProductController::class, 'getProductBestSeller']);
 
-    Route::post('/search-product/{userID}', [ProductController::class, 'Search']);
+    Route::post('/result-filter/{userID}', [ProductController::class, 'Filter']);
 });
 
 //user controller
@@ -70,6 +70,8 @@ Route::group(['prefix' => 'users'], function () {
 //invoices controller
 Route::group(['prefix' => 'invoices'], function () {
     Route::get('/getInvoiceForUser/{id}', [InvoiceController::class, 'getInvoiceForUser']);
+
+    Route::get('/review/{id}', [InvoiceController::class, 'review']);
 
     Route::post('/createInvoice', [InvoiceController::class, 'createInvoice']);
 
@@ -140,5 +142,5 @@ Route::group(['prefix' => 'reviews'], function () {
 });
 Route::group(['prefix' => 'vouchers'], function () {
 
-    Route::post('/check-voucher', [VoucherController::class, 'CheckVoucher']);
+    Route::post('/check-voucher/{userID}', [VoucherController::class, 'CheckVoucher']);
 });

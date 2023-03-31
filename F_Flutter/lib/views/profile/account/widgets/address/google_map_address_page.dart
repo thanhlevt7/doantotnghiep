@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:fluter_19pmd/function.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/views/home/home_page.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +36,7 @@ class GoogleMapAddressState extends State<GoogleMapAddress> {
     LatLng location = LatLng(widget.latitude, widget.longitude);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Sửa vị trí"),
-        backgroundColor: Colors.teal,
-      ),
+      appBar: appbar("Sửa vị trí", context),
       body: Stack(
         children: [
           GoogleMap(
@@ -171,10 +169,9 @@ class GoogleMapAddressState extends State<GoogleMapAddress> {
         "https://shopee.vn/api/v4/location/get_division_hierarchy_by_geo?lat=$latitude&lon=$longitude&useCase=shopee.account");
     var response = await https.get(url, headers: {
       'cookie':
-          "__LOCALE__null=VN; _gcl_au=1.1.483903268.1678507608; _fbp=fb.1.1678507608715.1543979970; csrftoken=etvoW0Mx9qyuETGoG51lRlkHIlvIa6dv; SPC_SI=GqzsYwAAAABhdHBwSkxpYtNkEwQAAAAAOUFkY1hNREM=; SPC_F=u8rqgPH4426sy6AaN4dUMiqwc52p50zT; REC_T_ID=27cf1f7a-bfc2-11ed-b3da-3c15fb7e9af8; _hjFirstSeen=1; _hjIncludedInSessionSample_868286=0; _hjSession_868286=eyJpZCI6ImU5ZmFmODRlLTZmYjAtNDA1ZC04YjI0LWI1ZGU5MDNkN2VhYiIsImNyZWF0ZWQiOjE2Nzg1MDc2MTI2NTMsImluU2FtcGxlIjpmYWxzZX0=; _hjAbsoluteSessionInProgress=1; AMP_TOKEN=%24NOT_FOUND; _gid=GA1.2.1385669630.1678507613; _QPWSDCXHZQA=19e90644-688f-43fa-c953-b24431ed9217; SPC_CLIENTID=dThycWdQSDQ0MjZzlnzdyrkgysadgwku; SPC_U=953323022; SPC_R_T_ID=oJHao9AhaBl3euEVjTJgCsa6B1fnd7wCGPabYOEjOybJEcY2E5ZTGcbrtuuMl6mYnuh/Zu89VlwuSAR26eMCbNTkly809/5NIgU6kj/SCDZmamFlblUo2/4phrCxQAYqcfzOn5FugVHbu9HqOzmt1vI5OUuD709D9eZ79rBOmTQ=; SPC_R_T_IV=QjZQbnpudGNzWnRzclpvVw==; SPC_T_ID=oJHao9AhaBl3euEVjTJgCsa6B1fnd7wCGPabYOEjOybJEcY2E5ZTGcbrtuuMl6mYnuh/Zu89VlwuSAR26eMCbNTkly809/5NIgU6kj/SCDZmamFlblUo2/4phrCxQAYqcfzOn5FugVHbu9HqOzmt1vI5OUuD709D9eZ79rBOmTQ=; SPC_T_IV=QjZQbnpudGNzWnRzclpvVw==; _hjSessionUser_868286=eyJpZCI6ImE3MDdhNTJiLWQ3ZDktNWYwMy1hODZiLTAxYjk1M2VlODc0OCIsImNyZWF0ZWQiOjE2Nzg1MDc2MTI2NDMsImV4aXN0aW5nIjp0cnVlfQ==; _ga=GA1.1.983914170.1678507613; _dc_gtm_UA-61914164-6=1; ds=1d5d1348d449ad71626ffaae801ab98f; shopee_webUnique_ccd=ZrU5yuDxj11t%2FaSTWF%2Fhuw%3D%3D%7CdJzAoCwllgyKpfeKgJ5uNAC0TLD1tot4zyoSqHWL5KbNXNshlCiqvipvvMEMvO6gUvy8juV05SL4TdebKZ9DlGuWv4eBXRRJQBE%3D%7Ck9m2sG2K1A8blEC2%7C06%7C3; SPC_ST=.NVdjNVRpUzFZalhUcWdtSESh4EpHw55K56SuQgWfHPyjAu7o0ZcIiV7R76FTr3xro97NPrYf71jl+RSx9xFwxHskNcFg5aVAlK9lG6kp3mGsENFpnhegxR0qoy+uliOYoMDtbP+wnB4V4HbDBBi8VAuEP24fzPM5jBvwUrc7lkJQt4It8VRJYugOEYNdXofyidXTdGH7hySUCOqqrVTGTw==; _ga_M32T05RVZT=GS1.1.1678507612.1.1.1678508134.53.0.0; SPC_EC=cEpmQWk2ZnNCNEhZMEN1Vi/g7KZM/au1Zv+myci0tERAVnUoqpGVnNUlIbe9olqhgHw87D/3MYYvvVy80sef9hJjKKjL6BLqBmtdEu6ijt1dU+fZcTEA+VVr4JL6OyL4AdoihFdgTCVXpwlTR8BY0kae7P0qT+YQvkD1fMLVBJE=; useragent=TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzExMC4wLjAuMCBTYWZhcmkvNTM3LjM2; _uafec=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F110.0.0.0%20Safari%2F537.36; "
+          "__LOCALE__null=VN; csrftoken=rokSn20kcKDw6jL3sHJCU439uy6yhpe9; SPC_SI=CH4aZAAAAABnU2FnaGM2NGI8jAAAAAAAbWRhYjBrZmw=; _gcl_au=1.1.1846303739.1679715281; SPC_F=ydisQwYQRa4ZftKPYUY5zzlE8E2S2uZq; REC_T_ID=faada272-cabd-11ed-9e66-347379171190; _fbp=fb.1.1679715281864.1059428231; _QPWSDCXHZQA=3844097f-bbc6-4917-ca57-7eedfb6379a0; _hjFirstSeen=1; _hjIncludedInSessionSample_868286=0; _hjSession_868286=eyJpZCI6IjUzNzQzZWJhLTJkOGYtNDVlMy05ODk1LTEzYjQ5NjEwYzBhZCIsImNyZWF0ZWQiOjE2Nzk3MTUyODM3NTIsImluU2FtcGxlIjpmYWxzZX0=; _hjAbsoluteSessionInProgress=0; AMP_TOKEN=%24NOT_FOUND; _gid=GA1.2.1807228285.1679715284; SPC_CLIENTID=eWRpc1F3WVFSYTRayskdruszzbcumcgs; SPC_U=953323022; SPC_R_T_IV=RGNTYUZSWGE1YVFNb3hacw==; SPC_T_ID=8t8NUizqdiBqxlD/Bb0RyUN+mKwswqk1+pkowyJJjo7fePPWsRk4oIoRIciOb8ibT7k3vlYasRi6BnRu6SXjyUXv/qnpOpiGF2Z7qjru7tCgt8lU2hjTODdkY0lueF7a9cqtY+fVoJzVWFZ4mMGIujwN+pjVcMVGF73Bbl5YWiw=; SPC_T_IV=RGNTYUZSWGE1YVFNb3hacw==; SPC_R_T_ID=8t8NUizqdiBqxlD/Bb0RyUN+mKwswqk1+pkowyJJjo7fePPWsRk4oIoRIciOb8ibT7k3vlYasRi6BnRu6SXjyUXv/qnpOpiGF2Z7qjru7tCgt8lU2hjTODdkY0lueF7a9cqtY+fVoJzVWFZ4mMGIujwN+pjVcMVGF73Bbl5YWiw=; _hjSessionUser_868286=eyJpZCI6IjkxMjJiNjY2LWVjYTItNWFhOS04OGM0LTQ0NmNmYzU0OTVkOCIsImNyZWF0ZWQiOjE2Nzk3MTUyODM3NDIsImV4aXN0aW5nIjp0cnVlfQ==; _dc_gtm_UA-61914164-6=1; ds=6d75ff932d91491888301723d3106010; shopee_webUnique_ccd=H2cVQMbpsddhqd1b%2FlshEw%3D%3D%7C%2FLPt%2Biaedhdy0J0m%2F4vaGYOYrx%2FlfKNcT7JPPfwYm9DyBM1ea29j8%2F0b8N1lkLRVhM3sEgnaAoQ%2BQxaW2S9KA6XjqJlEDtHo%2BA%3D%3D%7CfvfZWvp4PHVlxr2H%7C06%7C3; SPC_ST=.U1U3N05JWjNIS0Zkam9tNr8ZUqN+er0vPxo6ExWGRs2H1r/o5RJGL0pjgQ+0A/zPC4a17W3iCyNJHmOtgAknmvULpLKqdBBC61aUoazIkDyyj2r5Drtur5qNR8rdJO+JQyCRLTRQWV6ZAMYeYky8wGTqVdVs5coWoIdXYFmBpheB/azjxOX4q8sjfOLdRFC8taLSMq1qBa56pHVnuYn4hQ==; _ga_M32T05RVZT=GS1.1.1679715283.1.1.1679715443.48.0.0; _ga=GA1.1.1476749469.1679715284; SPC_EC=WGxMQkxFNFpQNHp0ZVRqZWSL6xpRKAy6713tID3/qDtL6WTTiqFE9cVEvkq/24hyv0NazU/acQ0tZYxr5stxQz71JnXZEls2HPTgkvagAyxrqnk/8bZSm725CMTfBoqu0fe7dzpionqNoHc+FgVq8RcCwQDMId2/N6nYsnBDJ/U=; useragent=TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzExMS4wLjAuMCBTYWZhcmkvNTM3LjM2; _uafec=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F111.0.0.0%20Safari%2F537.36; "
     });
     final json = jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
-    print(url);
     if (json['data'] == null) {
     } else {
       final data = json['data']['division_info_list'];
@@ -222,6 +219,8 @@ class GoogleMapAddressState extends State<GoogleMapAddress> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.teal),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

@@ -36,16 +36,17 @@ class NotificationController extends Controller
         if ($check) {
             $query = DB::table('notifications')
                 ->select('*')
+                ->where('endDate', '>', $currentDate)
                 ->where('userId', $userId)
                 ->orWhere('userId', 1)
-                ->where('endDate', '>=', $currentDate)
+
                 ->get();
             return json_encode($query);
         } else {
             $query = DB::table('notifications')
                 ->select('*')
                 ->where('userId', 1)
-                ->where('endDate', '>=', $currentDate)
+                ->where('endDate', '>', $currentDate)
                 ->get();
             return json_encode($query);
         }

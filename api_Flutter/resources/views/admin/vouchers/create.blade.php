@@ -25,6 +25,15 @@
         <label for="name" class="form-label">Tên khuyến mãi :</label>
         <input type="text" class="form-control" id="name" placeholder="Nhập tên" name="name" required>
       </div>
+      <div class="mb-3 mt-3">
+        <label for="userId" class="form-label">Đối tượng:</label>
+        <select class="form-select" id="userID" name="userID">
+          <option value="1">Cho tất cả người dùng</option>
+          @foreach($data as $item)
+          <option value="{{$item->id}}">{{$item->id}}-{{$item->email}}</option>
+          @endforeach
+        </select>
+      </div>
       <div class="mb-3">
         <label for="sale" class="form-label">Số tiền giảm:</label>
         <input type="number" class="form-control" id="sale" placeholder="Nhập số tiền giảm" name="sale" required>

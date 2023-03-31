@@ -32,6 +32,21 @@ class _BodyState extends State<Body> {
           ),
         ],
       );
+    } else if (widget.products.isEmpty) {
+      return Column(
+        children: [
+          SizedBox(height: size.height * 0.3),
+          const Center(
+            child: Text(
+              "Không có sản phẩm phù hợp",
+              style: TextStyle(
+                fontSize: 25,
+                color: Colors.teal,
+              ),
+            ),
+          ),
+        ],
+      );
     } else {
       return ListView.separated(
         separatorBuilder: (context, index) => const SizedBox(height: 10),
@@ -98,7 +113,6 @@ class _BodyState extends State<Body> {
                           child: _buildItemInfo(
                             text: "Giá bán:",
                             number: widget.products[index].price,
-                            unit: widget.products[index].unit,
                           )),
                     ],
                   )
@@ -111,7 +125,7 @@ class _BodyState extends State<Body> {
     }
   }
 
-  Widget _buildItemInfo({String text, int number, String unit}) => RichText(
+  Widget _buildItemInfo({String text, int number}) => RichText(
         text: TextSpan(
           children: [
             TextSpan(
@@ -123,14 +137,6 @@ class _BodyState extends State<Body> {
             ),
             TextSpan(
               text: '${convertToVND(number)}đ',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.red,
-              ),
-            ),
-            TextSpan(
-              text: '/$unit',
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

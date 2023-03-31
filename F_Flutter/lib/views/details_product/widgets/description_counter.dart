@@ -10,12 +10,16 @@ class DescriptionWidthCounter extends StatefulWidget {
     this.stock,
     this.price,
     this.sell,
+    this.name,
+    this.unit,
   }) : super(key: key);
 
   final String description;
   final int stock;
   final int price;
   final String sell;
+  final String name;
+  final String unit;
 
   @override
   State<DescriptionWidthCounter> createState() =>
@@ -39,33 +43,30 @@ class _DescriptionWidthCounterState extends State<DescriptionWidthCounter> {
         stream: _counterBloc.counterStream,
         builder: (context, value) {
           _counterBloc.totalSink.add(value.data * widget.price);
-
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Align(
-                  alignment: Alignment.topCenter,
-                  child: Text(
-                    "Thông tin sản phẩm",
-                    style: TextStyle(
-                      fontSize: 23,
-                      color: Colors.teal,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: SizedBox(
-                    width: size.width,
-                    child: Text(
-                      widget.description,
-                      style: TextStyle(
-                        fontSize: 20,
-                        letterSpacing: 1.5,
-                        color: Colors.grey.shade700,
-                      ),
+                Center(
+                  child: Card(
+                    child: Column(
+                      children: [
+                        Text(
+                          widget.name,
+                          style: TextStyle(
+                            fontSize: 24,
+                            letterSpacing: 1.5,
+                            color: Colors.grey.shade700,
+                          ),
+                          maxLines: 2,
+                        ),
+                        Text(
+                          '${convertToVND(widget.price)}đ/${widget.unit}',
+                          style:
+                              const TextStyle(color: Colors.red, fontSize: 20),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -124,6 +125,30 @@ class _DescriptionWidthCounterState extends State<DescriptionWidthCounter> {
                   ],
                 ),
                 const SizedBox(height: 20),
+                const Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    "Thông tin sản phẩm",
+                    style: TextStyle(
+                      fontSize: 23,
+                      color: Colors.teal,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: SizedBox(
+                    width: size.width,
+                    child: Text(
+                      widget.description,
+                      style: TextStyle(
+                        fontSize: 20,
+                        letterSpacing: 1.5,
+                        color: Colors.grey.shade700,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           );

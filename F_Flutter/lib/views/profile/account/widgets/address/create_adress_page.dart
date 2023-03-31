@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:fluter_19pmd/views/profile/account/widgets/address/google_map_address_page.dart';
+import 'package:fluter_19pmd/function.dart';
 import 'package:fluter_19pmd/views/profile/account/widgets/address/specific_address_page.dart';
 import 'package:http/http.dart' as https;
 import 'package:flutter/material.dart';
@@ -36,10 +36,7 @@ class _CreateAddressState extends State<CreateAddress> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.teal,
-        title: const Text("Khu vực"),
-      ),
+      appBar: appbar("Khu vực", context),
       body: Form(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         key: _formKey,

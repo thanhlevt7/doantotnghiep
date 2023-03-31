@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/views/register/otp_register_page.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as https;
 import 'package:fluter_19pmd/bloc/loading_bloc.dart';
 import 'package:fluter_19pmd/constant.dart';
 import 'package:fluter_19pmd/function.dart';
@@ -281,36 +279,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     _formKey.currentState.save();
     _isLoading.loadingSink.add(true);
-
-    await sendEmail(email);
-  }
-
-  Future sendEmail(String email) async {
-    final otp = random.nextInt(899999) + 100000;
-    RepositoryUser.otp = otp;
-    var client = https.Client();
-    var data = await client
-        .post(Uri.parse('http://10.0.2.2:8000/api/users/check/$email'));
-    const serviceId = 'service_yed4dhz';
-    const templateId = 'template_tmzua9o';
-    const userId = 'MsE9IzXWqJEcqdVgd';
-    if (data.statusCode == 201) {
-      final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
-      await https.post(url,
-          headers: {
-            'origin': 'http://localhost',
-            'Content-Type': 'application/json',
-          },
-          body: json.encode({
-            'service_id': serviceId,
-            'template_id': templateId,
-            'user_id': userId,
-            'template_params': {
-              'otp': otp,
-              'user_name': 'name',
-              'user_email': email,
-            },
-          }));
+    var data = await RepositoryUser.check(email);
+    if (data == 201) {
+      await RepositoryUser.sendEmail(email, RepositoryUser.templateRegister);
       await showDialog(
           context: context,
           builder: (context) {
@@ -319,7 +290,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               text: "Kiểm tra email của bạn.",
             );
           });
-
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -328,27 +298,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
             displayname: displayNameController.text,
             fullname: fullNameController.text,
             phone: phoneController.text,
-            otp: otp,
+            otp: RepositoryUser.otp,
             email: emailController.text,
           ),
         ),
       );
-    } else if (data.statusCode == 200) {
+    } else if (data == 200) {
       showDialog(
           context: context,
           builder: (context) {
             return AlertDiaLogCustom(
               json: "assets/error.json",
               text: "Email đã đăng ký.",
-            );
-          });
-    } else {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDiaLogCustom(
-              json: "assets/error.json",
-              text: "Đã xảy ra lỗi.",
             );
           });
     }

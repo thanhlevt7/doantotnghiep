@@ -1,5 +1,5 @@
 @extends('admin.app')
-@section('title') Tạo sản phẩm @endsection
+@section('title') Sửa khuyến mãi @endsection
 @section('content')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -17,6 +17,17 @@
         <input type="text" name="code" id="code" value="{{$voucher->code}}" class="form-control" required></br>
         <label>Tên khuyến mãi</label></br>
         <input type="text" name="name" id="name" value="{{$voucher->name}}" class="form-control" required></br>
+        <div class="form-group">
+            <label>Đối tượng</label>
+            <select class="form-select" id="userID" name="userID">
+                <option hidden value="1">@if($voucher->userID==1) <th>Cho tất cả người dùng</th> @endif
+                    @if($voucher->userID!=1) <th>{{$voucher->userID}}</th> @endif </option>
+                <option value="1">Cho tất cả người dùng</option>
+                @foreach($data as $item)
+                <option>{{$item ->id}}</option>
+                @endforeach
+            </select>
+        </div>
         <label>Số tiền giảm</label></br>
         <input type="number" name="sale" id="sale" value="{{$voucher->sale}}" class="form-control" required></br>
         <label>Ngày bắt đầu</label></br>
