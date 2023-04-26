@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/views/register/otp_register_page.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final fullNameController = TextEditingController();
   final phoneController = TextEditingController();
   final displayNameController = TextEditingController();
+  int tam = 0;
 
   @override
   void initState() {
@@ -46,14 +49,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          backgroundColor: Colors.white,
-          body: _form(size),
-        ),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.white,
+        body: _form(size),
       ),
     );
   }
@@ -190,7 +190,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       MaterialStateProperty.all(buttonColor),
                                 ),
                                 onPressed: () {
-                                  submit(context, emailController.text);
+                                  if (RepositoryUser.delay > 0) {
+                                    if (tam == 0) {
+                                      startTimer();
+                                    }
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            duration: const Duration(
+                                                milliseconds: 200),
+                                            content: Text(
+                                              "Vui lòng đợi sau ${RepositoryUser.delay} giây",
+                                              style:
+                                                  const TextStyle(fontSize: 20),
+                                            )));
+                                  } else {
+                                    submit(context, emailController.text);
+                                  }
                                 },
                                 child: const Text('Đăng ký',
                                     style: TextStyle(fontSize: 18)),
@@ -313,5 +328,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
             );
           });
     }
+  }
+
+  void startTimer() {
+    tam = 1;
+    const onsec = Duration(seconds: 1);
+    Timer timer = Timer.periodic(onsec, (timer) {
+      if (RepositoryUser.delay == 0) {
+        if (mounted) {
+          setState(() {
+            tam = 0;
+            timer.cancel();
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            RepositoryUser.delay--;
+          });
+        }
+      }
+    });
   }
 }

@@ -129,6 +129,7 @@ class CartController extends Controller
                 }
             }
         } else {
+            //thay id invoice thành 1 dãy số ngày (lấy max +1)
             $countInv =  DB::table('invoices')->count() + 1;
             $randomIDInvoice = 'HD' . Date('Ymd') .  $countInv;
             if (!empty($request->quantity)) {
@@ -187,7 +188,7 @@ class CartController extends Controller
         }
     }
 
-    public function updateQuantityIncrement(Request $request, $userID)
+    public function updateQuantityIncrement(Request $request)
     {
         $getDetails = DB::table('invoice_details')
             ->where('invoiceID', $request->invoiceID)
@@ -202,7 +203,7 @@ class CartController extends Controller
         return response()->json(["success " => "Đã tăng số lượng giỏ hàng"], 200);
     }
 
-    public function updateQuantityDecrement(Request $request, $userID)
+    public function updateQuantityDecrement(Request $request)
     {
         $getDetails = DB::table('invoice_details')
             ->where('invoiceID', $request->invoiceID)
@@ -215,6 +216,31 @@ class CartController extends Controller
                 'quantity' => $getDetails[0]->quantity - 1,
             ]);
         return response()->json(["success " => "Đã giảm số lượng giỏ hàng"], 200);
+    }
+
+    public function updateQuantity(Request $request)
+    {
+        $getDetails = DB::table('invoice_details')
+            ->join('products', 'invoice_details.productID', '=', 'products.id')
+            ->select('products.id', 'products.stock', 'quantity')
+            ->where('invoiceID', $request->invoiceID)
+            ->get();
+        foreach ($getDetails as $data) {
+            $getDetails = DB::table('invoice_details')
+                ->join('products', 'invoice_details.productID', '=', 'products.id')
+                ->select('products.id', 'products.stock', 'quantity')
+                ->where('invoiceID', $request->invoiceID)
+                ->where('productID', $data->id)
+                ->where('quantity', '>', $data->stock)
+                ->get();
+            foreach ($getDetails as $getDetail) {
+                DB::table('invoice_details')
+                    ->where('productID', $getDetail->id)
+                    ->update([
+                        'quantity' => $getDetail->stock,
+                    ]);
+            }
+        }
     }
 
     public function deleteProductCart(Request $request, $userID)

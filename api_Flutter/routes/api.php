@@ -61,6 +61,8 @@ Route::group(['prefix' => 'users'], function () {
 
     Route::post('/create-Address', [AddressController::class, 'createAddress']);
 
+    Route::get('/count-Address/{id}', [AddressController::class, 'countAddress']);
+
     Route::post('/check/{id}', [UserController::class, 'check']);
 
     Route::post('/login', [UserController::class, 'login']);
@@ -81,6 +83,8 @@ Route::group(['prefix' => 'invoices'], function () {
 
     Route::put('/payment/{id}', [InvoiceController::class, 'payment']);
 
+    Route::post('/buynow', [InvoiceController::class, 'buynow']);
+
     Route::get('/order-details/{id}', [InvoiceController::class, 'OrderDetails']);
 
     Route::delete('/CancelOrder/{id}', [InvoiceController::class, 'CancelOrder']);
@@ -91,9 +95,11 @@ Route::group(['prefix' => 'invoices'], function () {
 
     Route::delete('/DeleteProductCart/{id}', [CartController::class, 'deleteProductCart']);
 
-    Route::put('/UpdateQuantityIncrement/{id}', [CartController::class, 'updateQuantityIncrement']);
+    Route::put('/UpdateQuantityIncrement', [CartController::class, 'updateQuantityIncrement']);
 
-    Route::put('/UpdateQuantityDecrement/{id}', [CartController::class, 'UpdateQuantityDecrement']);
+    Route::put('/UpdateQuantityDecrement', [CartController::class, 'UpdateQuantityDecrement']);
+
+    Route::put('/UpdateQuantity', [CartController::class, 'UpdateQuantity']);
     //end cart
     Route::get('/getInvoiceSuccess/{id}', [InvoiceController::class, 'getInvoiceForUser']);
 

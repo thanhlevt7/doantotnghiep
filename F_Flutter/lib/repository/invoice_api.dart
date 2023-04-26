@@ -1,6 +1,7 @@
 import 'package:fluter_19pmd/models/invoices_models.dart';
 import 'package:fluter_19pmd/repository/cart_api.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
+import 'package:fluter_19pmd/repository/voucher_api.dart';
 import 'package:http/http.dart' as http;
 
 class RepositoryInvoice {
@@ -12,6 +13,10 @@ class RepositoryInvoice {
       dem += 0.11;
     }
     return dem;
+  }
+
+  static int total(int quantity, int price) {
+    return quantity * price + 20000 - RepositoryVoucher.sale;
   }
 
   static Future<dynamic> payment() async {
@@ -29,6 +34,29 @@ class RepositoryInvoice {
     if (response.statusCode == 200) {
       RepositoryCart.cartClient = [];
       return response.statusCode;
+    } else {
+      return response.statusCode;
+    }
+  }
+
+  static Future<dynamic> buynow(var total, var productId, var quantity) async {
+    var client = http.Client();
+
+    var response = await client.post(
+      Uri.parse('http://10.0.2.2:8000/api/invoices/buynow'),
+      body: ({
+        'total': total.toString(),
+        'shippingName': RepositoryUser.info.fullName,
+        'shippingPhone': RepositoryUser.info.phone,
+        'shippingAddress': getAddress,
+        'dateCreated': DateTime.now().toString(),
+        'productID': productId.toString(),
+        'quantity': quantity.toString(),
+        'userID': RepositoryUser.info.id.toString(),
+      }),
+    );
+    if (response.statusCode == 200) {
+      return 200;
     } else {
       return response.statusCode;
     }
@@ -127,8 +155,7 @@ class RepositoryInvoice {
     );
     if (response.statusCode == 200) {
       return 200;
-    }
-    else{
+    } else {
       return 201;
     }
   }

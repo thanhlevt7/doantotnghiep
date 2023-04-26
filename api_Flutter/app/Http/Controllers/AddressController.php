@@ -46,4 +46,14 @@ class AddressController extends Controller
             'success' => 'tạo thành công',
         ]);
     }
+
+    public function countAddress(Request $request, $id)
+    {
+        $count = Db::table('addresses')
+            ->addSelect(DB::raw('Count(id) as countAddressForUser'))
+            ->where('userId', $id)->get();
+        return response()->json(
+            $count[0]
+        );
+    }
 }

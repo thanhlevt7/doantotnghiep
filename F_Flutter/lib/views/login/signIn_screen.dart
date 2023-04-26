@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:fluter_19pmd/constant.dart';
 import 'package:fluter_19pmd/function.dart';
+import 'package:fluter_19pmd/models/user_models.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/views/forgot_password/forgot_page.dart';
 import 'package:fluter_19pmd/bloc/loading_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:fluter_19pmd/views/home/home_page.dart';
 import 'package:fluter_19pmd/views/register/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key key}) : super(key: key);
@@ -24,11 +26,56 @@ class _SignInPageState extends State<SignInPage> {
   final _stateStreamController = StreamController<bool>();
   StreamSink<bool> get chooseSink => _stateStreamController.sink;
   Stream<bool> get chooseStream => _stateStreamController.stream;
+  SharedPreferences logindata;
+  bool newuser;
+  String data;
+  User name;
+  int dem = 0;
+
+  void startTimer() {
+    const onsec = Duration(seconds: 1);
+    Timer timer = Timer.periodic(onsec, (timer) {
+      if (RepositoryUser.delay == 0) {
+        if (mounted) {
+          setState(() {
+            timer.cancel();
+            dem = 0;
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            RepositoryUser.delay--;
+          });
+        }
+      }
+    });
+  }
 
   @override
   void initState() {
     emailController.addListener(onListen);
+    checkUserLogin();
+    initial();
     super.initState();
+  }
+
+  void initial() async {
+    logindata = await SharedPreferences.getInstance();
+    setState(() {
+      if (logindata.getString('data') != null) {
+        RepositoryUser.info = userFromJson(logindata.getString('data'));
+      }
+    });
+  }
+
+  void checkUserLogin() async {
+    logindata = await SharedPreferences.getInstance();
+    newuser = (logindata.getBool('login') ?? true);
+    if (newuser == false) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
+    }
   }
 
   @override
@@ -54,6 +101,8 @@ class _SignInPageState extends State<SignInPage> {
     _formKey.currentState.save();
     var check = await RepositoryUser.login(email, password);
     if (check == 200) {
+      logindata.setBool('login', false);
+      logindata.setString('data', RepositoryUser.dataLogin);
       showDialog(
           context: context,
           builder: (context) {
@@ -70,6 +119,10 @@ class _SignInPageState extends State<SignInPage> {
         ),
       );
     } else {
+      //tăng dem
+      setState(() {
+        dem++;
+      });
       showDialog(
           context: context,
           builder: (context) {
@@ -332,8 +385,24 @@ class _SignInPageState extends State<SignInPage> {
   Widget _buttonLogin(BuildContext context, TextEditingController email,
           TextEditingController password) =>
       InkWell(
-        onTap: () {
-          _submit(context, email, password);
+        onTap: () async {
+          // khi login sai thì tăng dem
+          if (dem < 3) {
+            _submit(context, email, password);
+          } else {
+            if (RepositoryUser.delay == 0) {
+              setState(() {
+                RepositoryUser.delay = 30;
+              });
+              startTimer();
+            }
+
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+              "Vui lòng đợi sau ${RepositoryUser.delay} giây",
+              style: const TextStyle(fontSize: 20),
+            )));
+          }
         },
         child: Center(
           child: Container(

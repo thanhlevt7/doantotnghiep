@@ -5,7 +5,11 @@ import 'package:http/http.dart' as http;
 
 class RepositoryReview {
   static Future<dynamic> post(
-      {String starNumber, String content, var product, String id}) async {
+      {String starNumber,
+      String content,
+      var product,
+      String id,
+      String image}) async {
     var client = http.Client();
     var response = await client.post(
         Uri.parse('http://10.0.2.2:8000/api/reviews/post-comment'),
@@ -18,9 +22,9 @@ class RepositoryReview {
           'userID': RepositoryUser.info.id,
           'productID': product.toString(),
           'content': content,
+          'image': image,
           'quantity': starNumber,
         }));
-
     if (response.statusCode == 200) {
       return 200;
     } else if (response.statusCode == 201) {

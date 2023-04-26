@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:fluter_19pmd/constant.dart';
 import 'package:fluter_19pmd/function.dart';
@@ -5,7 +6,6 @@ import 'package:fluter_19pmd/bloc/loading_bloc.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/views/forgot_password/otp_page.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key key}) : super(key: key);
@@ -19,7 +19,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _isLoading = LoadingBloc();
   final emailController = TextEditingController();
   Random random = Random();
-
+  int tam = 0;
   @override
   void dispose() {
     super.dispose();
@@ -97,15 +97,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                         vertical: 20.0),
                                     child: _emailLogin(),
                                   ),
-                                  (!state.data)
-                                      ? _buttonLogin(
-                                          context, emailController.text)
-                                      : Center(
-                                          child: Lottie.asset(
-                                              "assets/loading.json",
-                                              width: 100,
-                                              height: 50),
-                                        ),
+                                  // (!state.data)
+                                  //     ? _buttonLogin(
+                                  //         context, emailController.text)
+                                  //     : Center(
+                                  //         child: Lottie.asset(
+                                  //           "assets/loading.json",
+                                  //           width: 100,
+                                  //           height: 50,
+                                  //         ),
+                                  //       ),
+                                  _buttonLogin(context, emailController.text),
                                   const SizedBox(
                                     height: 20,
                                   ),
@@ -189,7 +191,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               backgroundColor: MaterialStateProperty.all(buttonColor),
             ),
             onPressed: () {
-              _submit(context, email);
+              if (RepositoryUser.delay > 0) {
+                if (tam == 0) {
+                  startTimer();
+                }
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    duration: const Duration(milliseconds: 200),
+                    content: Text(
+                      "Vui lòng đợi sau ${RepositoryUser.delay} giây",
+                      style: const TextStyle(fontSize: 20),
+                    )));
+              } else {
+                _submit(context, email);
+              }
             },
             child: const Text('Gửi email', style: TextStyle(fontSize: 18)),
           ),
@@ -231,9 +245,30 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           builder: (context) {
             return AlertDiaLogCustom(
               json: "assets/error.json",
-              text: "Email của bạn chưa có trong hệ thống.",
+              text: "Email không tồn tại.",
             );
           });
     }
+  }
+
+  void startTimer() {
+    tam = 1;
+    const onsec = Duration(seconds: 1);
+    Timer timer = Timer.periodic(onsec, (timer) {
+      if (RepositoryUser.delay == 0) {
+        if (mounted) {
+          setState(() {
+            timer.cancel();
+            tam = 0;
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            RepositoryUser.delay--;
+          });
+        }
+      }
+    });
   }
 }

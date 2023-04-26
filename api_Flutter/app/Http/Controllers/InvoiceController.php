@@ -11,6 +11,37 @@ use App\Models\Product;
 
 class InvoiceController extends Controller
 {
+    //note 
+    // tạo 1 function để mua hàng ngay (thêm số lượng , sản phẩm )
+    // khi đặt hàng thì mới tạo hóa cthd , hd
+    //cần làm
+    function buynow(Request $request)
+    {
+        $countInv =  DB::table('invoices')->count() + 1;
+        $randomIDInvoice = 'HD' . Date('Ymd') .  $countInv;
+        DB::table('invoices')
+            ->insert([
+                'id'   =>   $randomIDInvoice,
+                'userID' => $request->userID,
+                'shippingName' => $request->shippingName,
+                'shippingAddress' => $request->shippingAddress,
+                'shippingPhone' => $request->shippingPhone,
+                'dateCreated' => $request->dateCreated,
+                'total' =>    $request->total,
+                'isPaid' => 0,
+                'status' => 1,
+            ]);
+        DB::table('invoice_details')    
+            ->insert([
+                'invoiceID' => $randomIDInvoice,
+                'productID' => $request->productID,
+                'quantity' => $request->quantity,
+                'status' => 1
+            ]);
+        return response()->json([
+            "Message" => "Đặt hàng thành công"
+        ], 200);
+    }
     function payment(Request $request, $invoiceID)
     {
         DB::table('invoices')->where('id', $invoiceID)

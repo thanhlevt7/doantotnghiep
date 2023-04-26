@@ -16,7 +16,7 @@ class HomeController extends Controller
 
         $countInv = Invoice::where('status', -1)->count();
         $countUser = DB::table('users')
-            ->where('type', 'LIKE', '%NV%')->count();
+            ->where('type', '=', 'user')->count();
         $sales = DB::table('invoices')
             ->where('status', -1)
             ->select(DB::raw('SUM(invoices.total) as sales'))

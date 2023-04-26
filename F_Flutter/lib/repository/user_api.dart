@@ -1,23 +1,27 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:math';
 import 'package:fluter_19pmd/models/user_models.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class RepositoryUser {
   static User info;
+  static List<String> image = [];
+  static String dataLogin;
   static String address;
   static String province;
   static String district;
   static String ward;
   static int otp;
+  static int delay;
+  static int countAddress;
   static String serviceId = 'service_yed4dhz';
   static String templateRegister = 'template_tmzua9o';
   static String templateForgot = 'template_zirzlbc';
   static String userId = 'MsE9IzXWqJEcqdVgd';
+  static String cookie =
+      "__LOCALE__null=VN; csrftoken=Pm5L1NDxla1hd6p1AP6PqOMdt1FO8eSp; SPC_SI=u0k+ZAAAAABDWmE3T0VJS5cUowEAAAAAT1RSb3lDYmc=; _gcl_au=1.1.874773339.1682322138; SPC_F=r5MqTFiu8W2y8vb5cpfpT9g4ykkNyzke; REC_T_ID=89f290ad-e273-11ed-be9c-9440c93e45e8; _fbp=fb.1.1682322138380.121315920; _QPWSDCXHZQA=a363ce13-b7e0-4515-e1c0-d3810432d207; _hjFirstSeen=1; _hjIncludedInSessionSample_868286=0; _hjSession_868286=eyJpZCI6ImYzOWFlZGE3LWE4YjUtNDUzYy1hNGE0LWRjMTcxZjRkOTM4MSIsImNyZWF0ZWQiOjE2ODIzMjIxNDAyNTEsImluU2FtcGxlIjpmYWxzZX0=; _hjAbsoluteSessionInProgress=0; AMP_TOKEN=%24NOT_FOUND; _gid=GA1.2.1793482190.1682322141; _dc_gtm_UA-61914164-6=1; SPC_CLIENTID=cjVNcVRGaXU4VzJ5imjkavkkjuvjwixd; SPC_ST=.THFlamliS3g5U0JGdXB1Vgt5rnZPRYC83AcLZN0bm6dw09YsR3hNQIh50Dd7WxSLluGzYjEqcXhuFonKNSU3zOFv7IYrqY6hU/ogzo3nHV3ur72AGcRZX/XVmmDMJH4vf3nhz4/lDTybLwAA3KkrhkxFj9ePlPdxXuKhHX4A4surcDS/tmjm0lmJOXgiOYIjUrzIlWXDIDYOZsZnVXSp7Q==; SPC_U=953323022; SPC_R_T_ID=BgCEgqdHbeozTEAwcHPcDuUXK4QyPF8AaaXGmGYLmBFYwUaygxasJf68FEaZlxDycSJ/NlZFgEt56Ikx++MxA3HmVdFR+qpNQgpHzuuC2MppXChVyTSlzx6Dgxiu6YDtbezWrweQzk7LO8F0E+GKiUsG8k1tjZBsHy9nzk6xWWw=; SPC_R_T_IV=RXpJN053ZjJhbEtVbmxYWA==; SPC_T_ID=BgCEgqdHbeozTEAwcHPcDuUXK4QyPF8AaaXGmGYLmBFYwUaygxasJf68FEaZlxDycSJ/NlZFgEt56Ikx++MxA3HmVdFR+qpNQgpHzuuC2MppXChVyTSlzx6Dgxiu6YDtbezWrweQzk7LO8F0E+GKiUsG8k1tjZBsHy9nzk6xWWw=; SPC_T_IV=RXpJN053ZjJhbEtVbmxYWA==; shopee_webUnique_ccd=dpGkFHtLfmgZ6u7fzWrX9w%3D%3D%7Ce3sXtWfNP0cSmie%2FQLDPSXojvu9cSdUc25m5soWLeyw9qMEHEET%2Fh2j3Tu4A4h7IR4mUlZdpLvH4XK%2Fm3nEQ%2FFVWLCl3md2IiQ%3D%3D%7CL9Rd3LJ56qVKvA%2Bx%7C06%7C3; ds=30c7f6dc886eedd20857096b796ae57a; _ga_M32T05RVZT=GS1.1.1682322140.1.1.1682322181.19.0.0; _ga=GA1.1.782243779.1682322140; _hjSessionUser_868286=eyJpZCI6ImQyOTc2N2E3LTU2YzEtNWU0OC1iZmI5LWU5MDc0OTljM2FlOSIsImNyZWF0ZWQiOjE2ODIzMjIxNDAyNDQsImV4aXN0aW5nIjp0cnVlfQ==; SPC_EC=clU4b255d1N6bUN0djBqS+avQL0urX/wleSkZhfBR14MFtSmyuL4o3V6iyJoPDgPf5RbBKtvPh71DZ8d0Qs8Etq0tvkIghltaH9MrY7Mfti+jeflgJPR5h+CHcsjHy9olLdcYkdAxEMEqjLLuqd5AnYFsQ54oxTl8MWwEV9rlT4=; useragent=TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzExMi4wLjAuMCBTYWZhcmkvNTM3LjM2; _uafec=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F112.0.0.0%20Safari%2F537.36; ";
   static double getHeightAddress() {
     double dem = 0;
     for (var i = 0; i < info.address.length; i++) {
@@ -51,10 +55,8 @@ class RepositoryUser {
               'password': password.text,
             }));
     if (response.statusCode == 200) {
+      dataLogin = response.body;
       info = userFromJson(response.body);
-      if (info.fullName.isEmpty) {
-        info.fullName = "1";
-      }
       return 200;
     } else if (response.statusCode == 201) {
       return 201;
@@ -68,7 +70,6 @@ class RepositoryUser {
     var response =
         await client.get(Uri.parse('http://10.0.2.2:8000/api/users/logout'));
     if (response.statusCode == 200) {
-      await Future.delayed(const Duration(seconds: 2));
       info = User();
       return response.statusCode;
     } else {
@@ -207,9 +208,10 @@ class RepositoryUser {
       'file': 'data:image/png;base64,' + base64Encode(image.readAsBytesSync()),
       'upload_preset': "amdyfjvl",
     });
+
     final json = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      RepositoryUser.updateImage(json['secure_url']);
+      RepositoryUser.image.add(json['secure_url']);
     }
   }
 
@@ -239,6 +241,18 @@ class RepositoryUser {
       return 201;
     } else {
       return 404;
+    }
+  }
+
+  static Future countAddressForUser(int id) async {
+    var client = http.Client();
+
+    var response = await client.get(
+      Uri.parse('http://10.0.2.2:8000/api/users/count-Address/$id'),
+    );
+    final json = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      RepositoryUser.countAddress = (json['countAddressForUser']);
     }
   }
 }

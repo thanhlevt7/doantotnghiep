@@ -18,6 +18,8 @@ class CounterBloc {
         await RepositoryCart.updateQuantityIncrement();
       } else if (event == CounterEvent.decrement) {
         await RepositoryCart.updateQuantityDecrement();
+      } else if (event == CounterEvent.update) {
+        await RepositoryCart.updateQuantity();
       }
     });
   }

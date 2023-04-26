@@ -15,9 +15,6 @@ class OtpPage extends StatefulWidget {
 }
 
 class _OtpPageState extends State<OtpPage> {
-  int start = 30;
-  bool wait = false;
-  var temp = 0;
   Random random = Random();
   final otpController = TextEditingController();
   @override
@@ -116,34 +113,36 @@ class _OtpPageState extends State<OtpPage> {
                   style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
                 InkWell(
-                  onTap: wait
-                      ? null
-                      : () {
-                          RepositoryUser.sendEmail(
-                              widget.email, RepositoryUser.templateForgot);
-                          startTimer();
-                          if (mounted) {
-                            setState(() {
-                              start = 30;
-                              wait = true;
-                            });
-                          }
-                        },
-                  child: Text(
+                  onTap: () {
+                    if (RepositoryUser.delay > 0) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          duration: const Duration(milliseconds: 200),
+                          content: Text(
+                            "Vui lòng đợi sau ${RepositoryUser.delay} giây",
+                            style: const TextStyle(fontSize: 20),
+                          )));
+                    } else {
+                      RepositoryUser.sendEmail(
+                          widget.email, RepositoryUser.templateForgot);
+                      RepositoryUser.delay = 30;
+                      Fluttertoast.showToast(
+                          msg: "Đã gửi otp",
+                          textColor: Colors.black,
+                          backgroundColor: Colors.white,
+                          fontSize: 20);
+                      startTimer();
+                    }
+                  },
+                  child: const Text(
                     "Gửi lại OTP",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: wait ? Colors.grey : Colors.red,
+                      color: Colors.red,
                     ),
                   ),
                 ),
               ],
-            ),
-            Text(
-              "$start giây",
-              style: TextStyle(
-                  fontSize: 18, color: wait ? Colors.red : Colors.white),
             ),
             const SizedBox(
               height: 15,
@@ -204,17 +203,16 @@ class _OtpPageState extends State<OtpPage> {
   void startTimer() {
     const onsec = Duration(seconds: 1);
     Timer timer = Timer.periodic(onsec, (timer) {
-      if (start == 0) {
+      if (RepositoryUser.delay == 0) {
         if (mounted) {
           setState(() {
             timer.cancel();
-            wait = false;
           });
         }
       } else {
         if (mounted) {
           setState(() {
-            start--;
+            RepositoryUser.delay--;
           });
         }
       }

@@ -20,6 +20,7 @@ class _BodyState extends State<Body> {
   final _cartBloc = CartBloc();
   @override
   void initState() {
+    _counterBloc.eventSink.add(CounterEvent.update);
     _cartBloc.eventSink.add(CartEvent.fetchCart);
     super.initState();
   }
@@ -37,7 +38,7 @@ class _BodyState extends State<Body> {
     return Column(
       children: [
         StreamBuilder<List<Cart>>(
-            initialData: [],
+            initialData: const [],
             stream: _cartBloc.cartStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -206,6 +207,13 @@ class _BodyState extends State<Body> {
                       RepositoryCart.getID = productID;
                       _counterBloc.eventSink.add(CounterEvent.decrement);
                       _cartBloc.eventSink.add(CartEvent.fetchCart);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          duration: Duration(milliseconds: 200),
+                          content: Text(
+                            "Số lượng phải lớn hơn 1",
+                            style: TextStyle(fontSize: 20),
+                          )));
                     }
                   },
                   icon: const Icon(Icons.remove),
@@ -234,6 +242,13 @@ class _BodyState extends State<Body> {
                     RepositoryCart.getID = productID;
                     _counterBloc.eventSink.add(CounterEvent.increment);
                     _cartBloc.eventSink.add(CartEvent.fetchCart);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        duration: Duration(milliseconds: 200),
+                        content: Text(
+                          "Số lượng tồn kho không đủ",
+                          style: TextStyle(fontSize: 20),
+                        )));
                   }
                 },
                 icon: const Icon(Icons.add),

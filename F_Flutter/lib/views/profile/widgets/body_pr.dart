@@ -39,6 +39,7 @@ class BodyProfile extends StatefulWidget {
     {'icon': "assets/images/icons-png/user.png", 'text': "Tài khoản"},
     {'icon': "assets/images/icons-png/delivery.png", 'text': "Đơn hàng"},
     {'icon': "assets/images/icons-png/collection.png", 'text': "Bộ yêu thích"},
+     {'icon': "assets/images/icons-png/delivery.png", 'text': "Đánh giá"},
     {'icon': "assets/images/icons-png/settings.png", 'text': "Cài đặt"},
     {'icon': "assets/images/icons-png/Logout.png", 'text': "Đăng xuất"},
   ]);

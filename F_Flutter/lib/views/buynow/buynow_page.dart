@@ -1,18 +1,26 @@
 import 'package:fluter_19pmd/constant.dart';
 import 'package:fluter_19pmd/function.dart';
-import 'package:fluter_19pmd/repository/cart_api.dart';
-import 'package:fluter_19pmd/repository/invoice_api.dart';
 import 'package:fluter_19pmd/repository/voucher_api.dart';
-import 'package:fluter_19pmd/views/checkout/widgets/body.dart';
+import 'package:fluter_19pmd/views/buynow/widgets/body.dart';
 import 'package:flutter/material.dart';
+import '../../models/product_models.dart';
+import '../../repository/invoice_api.dart';
 
-class CheckOutPage extends StatefulWidget {
-  const CheckOutPage({Key key}) : super(key: key);
+class BuyNowPage extends StatefulWidget {
+  const BuyNowPage({Key key, this.products, this.quantity}) : super(key: key);
+  final Product products;
+  final int quantity;
+
   @override
-  _CheckOutPageState createState() => _CheckOutPageState();
+  _BuyNowPageState createState() => _BuyNowPageState();
 }
 
-class _CheckOutPageState extends State<CheckOutPage> {
+class _BuyNowPageState extends State<BuyNowPage> {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -48,7 +56,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
           ),
           backgroundColor: Colors.white,
         ),
-        body: const Body(),
+        body: BodyBuyNow(
+          product: widget.products,
+          quantity: widget.quantity,
+        ),
         bottomNavigationBar: _buildBottomNav(size),
       ),
     );
@@ -91,7 +102,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      "${convertToVND(RepositoryCart.totalCart())}đ",
+                      "${convertToVND(RepositoryInvoice.total(widget.quantity, widget.products.price))} đ",
                       style: TextStyle(
                         fontSize: 22,
                         color: Colors.grey.shade800,
@@ -110,9 +121,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       ),
                     ),
                     onPressed: () async {
-                      var code = await RepositoryInvoice.payment();
+                      var response = await RepositoryInvoice.buynow(
+                          RepositoryInvoice.total(
+                              widget.quantity, widget.products.price),
+                          widget.products.id,
+                          widget.quantity);
                       RepositoryVoucher.sale = 0;
-                      if (code == 200) {
+                      if (response == 200) {
                         await showDialog(
                             context: context,
                             builder: (context) {

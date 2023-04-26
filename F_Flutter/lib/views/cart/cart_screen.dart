@@ -120,7 +120,10 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ),
                       // ignore: void_checks
-                      onPressed: () {
+                      onPressed: () async {
+                        await RepositoryUser.countAddressForUser(
+                            RepositoryUser.info.id);
+
                         if (RepositoryCart.cartClient.isEmpty) {
                           showDialog(
                               context: context,
@@ -131,7 +134,7 @@ class _CartPageState extends State<CartPage> {
                                 );
                               });
                         } else {
-                          if (RepositoryUser.info.address.isEmpty) {
+                          if (RepositoryUser.countAddress == 0) {
                             showDialog<void>(
                               context: context,
                               barrierDismissible:

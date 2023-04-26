@@ -82,7 +82,7 @@ class _OrderHistoryState extends State<OrderHistory> {
           } else {
             return const Center(
               child: Text(
-                "Bạn chưa mua sản phẩm",
+                "Chưa có đơn hàng",
                 style: TextStyle(
                   fontSize: 25,
                   color: Colors.grey,

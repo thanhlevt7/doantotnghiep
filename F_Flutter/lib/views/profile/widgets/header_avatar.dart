@@ -1,16 +1,10 @@
-import 'dart:convert';
-
 import 'package:fluter_19pmd/constant.dart';
 import 'package:fluter_19pmd/models/user_models.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:io';
-import 'package:http/http.dart' as https;
-
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:image_picker/image_picker.dart';
-
-enum DialogsAction { yes, cancel }
 
 // ignore: must_be_immutable
 class HeaderWithAvatar extends StatefulWidget {
@@ -22,18 +16,17 @@ class HeaderWithAvatar extends StatefulWidget {
 }
 
 class _HeaderWithAvatarState extends State<HeaderWithAvatar> {
-  File _image;
-
+  final cloudinary = CloudinaryPublic('thanhlevt7', 'amdyfjvl', cache: false);
   Future getImage(ImageSource source) async {
     var image = await ImagePicker().pickImage(source: source);
     if (image != null) {
-      setState(() {
-        _image = File(image.path);
-      });
-      RepositoryUser.uploadFile(_image);
-      Fluttertoast.showToast(msg: "Đã cập nhật", fontSize: 22);
       Navigator.of(context, rootNavigator: true).pop();
-      setState(() {});
+      CloudinaryResponse response = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(image.path,
+            resourceType: CloudinaryResourceType.Image),
+      );
+      RepositoryUser.updateImage(response.secureUrl);
+      Fluttertoast.showToast(msg: "Đã cập nhật", fontSize: 22);
     }
   }
 

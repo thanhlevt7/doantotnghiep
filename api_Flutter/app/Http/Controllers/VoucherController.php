@@ -13,7 +13,7 @@ class VoucherController extends Controller
     {
         $currentDate = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
         $vouchers = DB::table('vouchers')
-            ->where('code', $request->code)
+            ->where(DB::raw('BINARY `code`'), $request->code)
             ->where('limit', '>', 0)
             ->whereDate('endDate', '>', $currentDate)
             ->exists();

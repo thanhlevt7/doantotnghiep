@@ -34,7 +34,7 @@
                 </div>
                 <div class="form-group">
                     <label>ảnh</label>
-                    <input type="file" class="form-control" id="image"  name="image" required>
+                    <input type="file" class="form-control" id="image"  name="image" required multiple="mutiple">
                 </div>
                 <div class="form-group">
                     <label>Mô tả</label>

@@ -228,7 +228,10 @@ class _SearchPageState extends State<SearchPage> {
         ),
       );
   Widget typeProduct(text, value) => ListTile(
-        title: Text(text),
+        title: Text(
+          text,
+          style: const TextStyle(fontSize: 20),
+        ),
         leading: Radio(
             value: value,
             groupValue: type,

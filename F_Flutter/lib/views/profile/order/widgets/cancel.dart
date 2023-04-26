@@ -68,7 +68,7 @@ class _CancelState extends State<Cancel> {
           } else {
             return const Center(
               child: Text(
-                "Bạn chưa hủy đơn hàng",
+                "Chưa có đơn hàng",
                 style: TextStyle(
                   fontSize: 25,
                   color: Colors.grey,

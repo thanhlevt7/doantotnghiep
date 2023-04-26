@@ -62,7 +62,7 @@ class _WaitingToAcceptState extends State<WaitingToAccept> {
           } else {
             return const Center(
               child: Text(
-                "Bạn không có đơn xác nhận",
+                "Chưa có đơn hàng",
                 style: TextStyle(
                   fontSize: 25,
                   color: Colors.grey,

@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:io';
 import 'package:fluter_19pmd/bloc/loading_bloc.dart';
 import 'package:fluter_19pmd/constant.dart';
 import 'package:fluter_19pmd/models/product_models.dart';
@@ -7,8 +7,9 @@ import 'package:fluter_19pmd/repository/review_api.dart';
 import 'package:fluter_19pmd/services/invoiceForUser/invoice_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:motion_toast/motion_toast.dart';
-
+import '../../repository/user_api.dart';
 import '../home/home_page.dart';
 
 // ignore: must_be_immutable
@@ -22,6 +23,7 @@ class ReviewPage extends StatefulWidget {
 }
 
 class _ReviewPageState extends State<ReviewPage> {
+  List image;
   final _invoiceSuccess = InvoiceBloc();
   final _isLoading = LoadingBloc();
   final _formKey = GlobalKey<FormState>();
@@ -33,6 +35,17 @@ class _ReviewPageState extends State<ReviewPage> {
   StreamSink<List<Product>> get productSink => _productStreamController.sink;
   Stream<List<Product>> get productStream => _productStreamController.stream;
   String rating = "5";
+
+  Future getImage() async {
+    var image = await ImagePicker().pickMultiImage();
+    if (image != null) {
+      for (int i = 0; i < image.length; i++) {
+        setState(() {
+          RepositoryUser.uploadFile(File(image[i].path));
+        });
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -100,6 +113,48 @@ class _ReviewPageState extends State<ReviewPage> {
                   ),
                 ],
               ),
+              InkWell(
+                onTap: () {
+                  getImage();
+                },
+                child: const Text(
+                  "Thêm hình ảnh",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              RepositoryUser.image != null
+                  ? SizedBox(
+                      height: 200,
+                      width: 500,
+                      child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 5,
+                        ),
+                        itemCount: RepositoryUser.image.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Card(
+                            elevation: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                        child: Image.network(
+                                            RepositoryUser.image[index])),
+                                  ]),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : Text("Don't have data"),
+              const Text(
+                "Thêm video",
+                style: TextStyle(fontSize: 20),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -158,6 +213,7 @@ class _ReviewPageState extends State<ReviewPage> {
                         starNumber: rating,
                         content: _commentController.text,
                         product: widget.inv,
+                        image: RepositoryUser.image.toString(),
                       );
 
                       if (data == 200) {
@@ -175,6 +231,8 @@ class _ReviewPageState extends State<ReviewPage> {
                       } else {}
                     }),
               ),
+
+              // Text(RepositoryUser.image.toString()),
             ],
           ),
         ));

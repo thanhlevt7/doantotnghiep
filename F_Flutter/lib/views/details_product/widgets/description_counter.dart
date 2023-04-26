@@ -94,6 +94,7 @@ class _DescriptionWidthCounterState extends State<DescriptionWidthCounter> {
                         initialData: widget.price,
                         stream: _counterBloc.totalStream,
                         builder: (context, snapshot) {
+                          print(snapshot);
                           return Text(
                             "${convertToVND(snapshot.data)}đ",
                             style: TextStyle(
@@ -122,6 +123,20 @@ class _DescriptionWidthCounterState extends State<DescriptionWidthCounter> {
                             style: TextStyle(
                                 fontSize: 22, color: Colors.grey.shade600),
                           )
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Tồn kho: ",
+                      style:
+                          TextStyle(fontSize: 22, color: Colors.grey.shade600),
+                    ),
+                    Text(widget.stock.toString(),
+                        style: TextStyle(
+                            fontSize: 22, color: Colors.grey.shade600)),
                   ],
                 ),
                 const SizedBox(height: 20),

@@ -56,7 +56,7 @@ class _PickingUpGoodsState extends State<PickingUpGoods> {
           } else {
             return const Center(
               child: Text(
-                "Bạn không có đơn đã xác nhận",
+                "Chưa có đơn hàng",
                 style: TextStyle(
                   fontSize: 25,
                   color: Colors.grey,

@@ -64,7 +64,7 @@
     <div class="widget-small warning coloured-icon">
       <i class="icon fa fa-users fa-3x"></i>
       <div class="info">
-        <h4>Nhân sự</h4>
+        <h4>Người dùng</h4>
         <p><b>{{$countUser}}</b></p>
       </div>
     </div>

@@ -117,9 +117,10 @@ class UserController extends Controller
             DB::table('users')
                 ->where('email', $request->email)
                 ->update([
-                    // 'remember_token' =>  $token,
+                    'remember_token' =>  $token,
                     'status' => 1,
                 ]);
+           
             $users = DB::table('users')
                 ->where('email', $request->email)
                 ->select('users.*')

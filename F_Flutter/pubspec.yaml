@@ -55,6 +55,9 @@ dependencies:
   image_network: ^2.5.1
   pin_code_text_field: ^1.8.0
   image_picker: null
+  shared_preferences: ^2.0.17
+  cloudinary_public: ^0.20.0
+  
 
  
 dev_dependencies:

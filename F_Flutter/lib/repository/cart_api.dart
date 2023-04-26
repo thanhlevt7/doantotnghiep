@@ -123,7 +123,7 @@ class RepositoryCart {
     var client = http.Client();
     var response = await client.put(
       Uri.parse(
-        'http://10.0.2.2:8000/api/invoices/UpdateQuantityDecrement/${RepositoryUser.info.id}',
+        'http://10.0.2.2:8000/api/invoices/UpdateQuantityDecrement',
       ),
       body: ({
         'productID': getID.toString(),
@@ -140,7 +140,7 @@ class RepositoryCart {
     var client = http.Client();
     var response = await client.put(
       Uri.parse(
-        'http://10.0.2.2:8000/api/invoices/UpdateQuantityIncrement/${RepositoryUser.info.id}',
+        'http://10.0.2.2:8000/api/invoices/UpdateQuantityIncrement',
       ),
       body: ({
         'productID': getID.toString(),
@@ -151,5 +151,19 @@ class RepositoryCart {
     } else {
       throw Exception("update Cart lỗi");
     }
+  }
+
+  static Future<void> updateQuantity() async {
+    var client = http.Client();
+    var response = await client.put(
+      Uri.parse(
+        'http://10.0.2.2:8000/api/invoices/UpdateQuantity',
+      ),
+      body: ({
+        'invoiceID': cartClient[0].id,
+      }),
+    );
+    if (response.statusCode == 200) {
+    } else if (response.statusCode == 201) {}
   }
 }

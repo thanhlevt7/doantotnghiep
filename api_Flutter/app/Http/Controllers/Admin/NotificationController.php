@@ -13,6 +13,7 @@ class NotificationController extends Controller
 {
     public function Index()
     {
+       
         $currentDate = Carbon::now('Asia/Ho_Chi_Minh');
         $loadData = DB::table('notifications')
             ->paginate(8);
@@ -27,6 +28,7 @@ class NotificationController extends Controller
 
     public function CreateNotification(Request $request)
     {
+       
         $uploadedFileUrl = Cloudinary::uploadFile($request->file('image')->getRealPath())->getSecurePath();
         DB::table('notifications')
             ->insert([
@@ -55,6 +57,8 @@ class NotificationController extends Controller
 
     public function updateNotification(Request $request, $id)
     {
+
+
         $notification = Notification::find($id);
         $notification->title = $request->title;
         $notification->userID = $request->userID;

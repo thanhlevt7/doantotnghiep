@@ -1,13 +1,16 @@
 import 'package:fluter_19pmd/bloc/loading_bloc.dart';
 import 'package:fluter_19pmd/constant.dart';
-import 'package:fluter_19pmd/function.dart';
 import 'package:fluter_19pmd/models/product_models.dart';
 import 'package:fluter_19pmd/repository/cart_api.dart';
 import 'package:fluter_19pmd/repository/products_api.dart';
+import 'package:fluter_19pmd/views/buynow/buynow_page.dart';
 import 'package:fluter_19pmd/views/cart/cart_screen.dart';
 import 'package:fluter_19pmd/views/details_product/widgets/body.dart';
 
 import 'package:flutter/material.dart';
+
+import '../../repository/user_api.dart';
+import '../profile/account/widgets/address/create_adress_page.dart';
 
 class DetailsProductScreen extends StatefulWidget {
   const DetailsProductScreen({Key key, this.products}) : super(key: key);
@@ -129,7 +132,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
           )
         ],
       ),
-      child: Column(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           StreamBuilder<bool>(
@@ -146,18 +149,41 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                       ),
                     ),
                     onPressed: () async {
-                      _isLoading.loadingSink.add(true);
+                      if (widget.products.stock == 0) {
+                        showDialog<void>(
+                          context: context,
+                          // barrierDismissible: false, // user must tap button!
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              scrollable: true,
+                              content: Center(
+                                child: Column(
+                                  children: const [
+                                    Text(
+                                      "Đã hết sản phẩm",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.red),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        _isLoading.loadingSink.add(true);
 
-                      var data = await RepositoryCart.addToCartDetails(
-                          RepositoryProduct.getID);
-                      if (data == 200) {
-                        _isLoading.loadingSink.add(false);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const CartPage(),
-                            ));
-                      } else {}
+                        var data = await RepositoryCart.addToCartDetails(
+                            RepositoryProduct.getID);
+                        if (data == 200) {
+                          _isLoading.loadingSink.add(false);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CartPage(),
+                              ));
+                        }
+                      }
                     },
                     child: (state.data)
                         ? Row(
@@ -189,6 +215,123 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                   ),
                 );
               }),
+          const SizedBox(
+            width: 5,
+          ),
+          SizedBox(
+            width: size.width * 0.4,
+            height: size.height * 0.08,
+            child: ElevatedButton(
+              onPressed: () async {
+                if (widget.products.stock == 0) {
+                  showDialog<void>(
+                    context: context,
+                    // barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        scrollable: true,
+                        content: Center(
+                          child: Column(
+                            children: const [
+                              Text(
+                                "Đã hết sản phẩm",
+                                style:
+                                    TextStyle(fontSize: 18, color: Colors.red),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  await RepositoryUser.countAddressForUser(
+                      RepositoryUser.info.id);
+                  if (RepositoryUser.countAddress == 0) {
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false, // user must tap button!
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          scrollable: true,
+                          content: Center(
+                            child: Column(
+                              children: const [
+                                Text(
+                                  "Bạn chưa có địa chỉ vui lòng thêm địa chỉ giao hàng",
+                                  style: TextStyle(fontSize: 18),
+                                )
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                  child: const Text(
+                                    'Quay lại',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.teal,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text(
+                                    'Tạo mới',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.teal,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const CreateAddress()));
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BuyNowPage(
+                                  products: widget.products,
+                                  quantity: RepositoryCart.getQuantity,
+                                )));
+                  }
+                }
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  buttonColor,
+                ),
+              ),
+              child: Row(
+                children: const [
+                  Icon(Icons.card_travel),
+                  Text(
+                    "Mua ngay",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

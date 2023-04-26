@@ -25,6 +25,7 @@ class UserReview extends Controller
                     'productID' => $request->productID,
                     'content' => $request->content,
                     'quantity' => $request->quantity,
+                    'image' => $request->image,
                     'postedDate' => Carbon::now('Asia/Ho_Chi_Minh'),
                     'status' => 1,
                 ]);

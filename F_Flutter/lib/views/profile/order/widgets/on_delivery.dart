@@ -64,7 +64,7 @@ class _OnDeliveryState extends State<OnDelivery> {
           } else {
             return const Center(
               child: Text(
-                "Bạn không có đơn đang vận chuyển",
+                "Chưa có đơn hàng",
                 style: TextStyle(
                   fontSize: 25,
                   color: Colors.grey,

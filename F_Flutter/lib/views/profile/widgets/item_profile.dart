@@ -7,9 +7,10 @@ import 'package:fluter_19pmd/views/profile/collections/collection_page.dart';
 import 'package:fluter_19pmd/views/profile/order/order_page.dart';
 import 'package:fluter_19pmd/views/profile/setting/setting_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
-class ItemProfile extends StatelessWidget {
+class ItemProfile extends StatefulWidget {
   int index;
   // ignore: prefer_typing_uninitialized_variables
   var profiles;
@@ -19,21 +20,42 @@ class ItemProfile extends StatelessWidget {
     this.index,
   }) : super(key: key);
 
+  @override
+  State<ItemProfile> createState() => _ItemProfileState();
+}
+
+class _ItemProfileState extends State<ItemProfile> {
+  SharedPreferences logindata;
+
   final pages = [
     const AccountPage(),
     const OrderPage(),
     const CollectionPage(),
     const settingPage(),
+    const settingPage(),
     const SignInPage(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    logindata = await SharedPreferences.getInstance();
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        if (profiles[index]['text'] == 'Đăng xuất') {
+        if (widget.profiles[widget.index]['text'] == 'Đăng xuất') {
           var code = await RepositoryUser.logout(context);
           if (code == 200) {
+            setState(() {
+              logindata.setBool('login', true);
+            });
             await showDialog(
                 context: context,
                 builder: (context) {
@@ -45,7 +67,7 @@ class ItemProfile extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => pages[index],
+                builder: (context) => pages[widget.index],
               ),
             );
           }
@@ -53,7 +75,7 @@ class ItemProfile extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => pages[index],
+              builder: (context) => pages[widget.index],
             ),
           );
         }
@@ -76,9 +98,10 @@ class ItemProfile extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset(profiles[index]['icon'], width: 60, height: 60),
+                  Image.asset(widget.profiles[widget.index]['icon'],
+                      width: 60, height: 60),
                   Text(
-                    profiles[index]['text'],
+                    widget.profiles[widget.index]['text'],
                     style: const TextStyle(
                       fontSize: 20,
                       color: textColor,

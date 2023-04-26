@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     public function getAllProduct($userID)
     {
+
         $data = DB::table('products')
             ->where('status', 1)
             ->select('products.*')
-            ->where('products.stock', '>', 0)
+            // ->where('products.stock', '>', 0)
             ->orderBy('products.id', 'asc')
             ->addSelect(DB::raw('null as checkFavorite,null as reviews', 'null as total', 'null as countReviews'))
             ->get();
@@ -57,7 +59,7 @@ class ProductController extends Controller
         $getAll = DB::table('products')
             ->where('status', 1)
             ->select('products.*')
-            ->where('products.stock', '>', 0)
+            // ->where('products.stock', '>', 0)
             ->get();
         $data = null;
         foreach ($getAll as $item) {
@@ -324,7 +326,7 @@ class ProductController extends Controller
                     ->where('type', $request->type)
                     ->whereBetween('price', [$request->minPrice, $request->maxPrice])
                     ->select('products.*')
-                    ->where('products.stock', '>', 0)
+                    // ->where('products.stock', '>', 0)
                     ->get();
             } else if ($request->minPrice != null) {
                 $data = DB::table('products')
@@ -332,7 +334,7 @@ class ProductController extends Controller
                     ->where('type', $request->type)
                     ->where('price', '>=', $request->minPrice)
                     ->select('products.*')
-                    ->where('products.stock', '>', 0)
+                    // ->where('products.stock', '>', 0)
                     ->get();
             } else if ($request->maxPrice != null) {
                 $data = DB::table('products')
@@ -340,14 +342,14 @@ class ProductController extends Controller
                     ->where('type', $request->type)
                     ->where('price', '<=', $request->maxPrice)
                     ->select('products.*')
-                    ->where('products.stock', '>', 0)
+                    // ->where('products.stock', '>', 0)
                     ->get();
             } else {
                 $data = DB::table('products')
                     ->where('name', 'LIKE', '%' . $request->keyword . '%')
                     ->where('type', $request->type)
                     ->select('products.*')
-                    ->where('products.stock', '>', 0)
+                    // ->where('products.stock', '>', 0)
                     ->get();
             }
         } else {
@@ -356,27 +358,27 @@ class ProductController extends Controller
                     ->where('name', 'LIKE', '%' . $request->keyword . '%')
                     ->whereBetween('price', [$request->minPrice, $request->maxPrice])
                     ->select('products.*')
-                    ->where('products.stock', '>', 0)
+                    // ->where('products.stock', '>', 0)
                     ->get();
             } else if (!empty($request->minPrice)) {
                 $data = DB::table('products')
                     ->where('name', 'LIKE', '%' . $request->keyword . '%')
                     ->where('price', '>=', $request->minPrice)
                     ->select('products.*')
-                    ->where('products.stock', '>', 0)
+                    // ->where('products.stock', '>', 0)
                     ->get();
             } else if (!empty($request->maxPrice)) {
                 $data = DB::table('products')
                     ->where('name', 'LIKE', '%' . $request->keyword . '%')
                     ->where('price', '<=', $request->maxPrice)
                     ->select('products.*')
-                    ->where('products.stock', '>', 0)
+                    // ->where('products.stock', '>', 0)
                     ->get();
             } else {
                 $data = DB::table('products')
                     ->select('products.*')
                     ->where('name', 'LIKE', '%' . $request->keyword . '%')
-                    ->where('products.stock', '>', 0)
+                    // ->where('products.stock', '>', 0)
                     ->orderBy("products.price")
                     ->get();
             }

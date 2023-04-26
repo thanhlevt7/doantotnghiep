@@ -29,7 +29,7 @@
       </div>
       <div class="mb-3">
         <label for="image" class="form-label">Hình ảnh:</label>
-        <input type="file" class="form-control" id="image" placeholder="Nhập link ảnh" name="image" required>
+        <input type="file" class="form-control" id="image" placeholder="Nhập link ảnh" name="image" required multiple="multiple">
       </div>
     </div>
     <div class="col">

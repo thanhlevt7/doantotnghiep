@@ -121,7 +121,7 @@ class _AddressManagementState extends State<AddressManagement> {
                       _profileBloc.eventSink.add(UserEvent.fetchAddress);
                     }
                     if (check == 201) {
-                      checkOut('Ít nhất tồn tại một địa chỉ');
+                      checkOut('Không thể xóa');
                     }
                   },
                   child: Image.asset(
@@ -149,13 +149,6 @@ class _AddressManagementState extends State<AddressManagement> {
           ),
         ),
         duration: const Duration(seconds: 3),
-        action: SnackBarAction(
-          textColor: Colors.white,
-          label: 'Đã hiểu',
-          onPressed: () async {
-            Navigator.of(context).pop();
-          },
-        ), // SnackBarAction
       ));
   }
 }
