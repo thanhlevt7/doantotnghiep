@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:fluter_19pmd/constant.dart';
 import 'package:fluter_19pmd/models/user_models.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,6 +18,13 @@ class HeaderWithAvatar extends StatefulWidget {
 }
 
 class _HeaderWithAvatarState extends State<HeaderWithAvatar> {
+  final loadAvatar = AvatarAccount();
+  @override
+  void initState() {
+    loadAvatar.avatarSink.add(RepositoryUser.info.avatar);
+    super.initState();
+  }
+
   final cloudinary = CloudinaryPublic('thanhlevt7', 'amdyfjvl', cache: false);
   Future getImage(ImageSource source) async {
     var image = await ImagePicker().pickImage(source: source);
@@ -25,8 +34,9 @@ class _HeaderWithAvatarState extends State<HeaderWithAvatar> {
         CloudinaryFile.fromFile(image.path,
             resourceType: CloudinaryResourceType.Image),
       );
+      loadAvatar.avatarSink.add(response.secureUrl);
       RepositoryUser.updateImage(response.secureUrl);
-      Fluttertoast.showToast(msg: "Đã cập nhật", fontSize: 22);
+      EasyLoading.showSuccess('Đã câp nhật ');
     }
   }
 
@@ -71,22 +81,27 @@ class _HeaderWithAvatarState extends State<HeaderWithAvatar> {
     return Stack(
       children: [
         Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(70),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(70),
+              ),
             ),
-          ),
-          height: size.height * 0.2,
-          width: size.width * 0.37,
-          child: (avatar == null || avatar.isEmpty)
-              ? const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://res.cloudinary.com/thanhlevt7/image/upload/v1678943288/image_flutter/u2swpnxwfv3s15on7ngo.png"),
-                )
-              : CircleAvatar(
-                  backgroundImage: NetworkImage(avatar),
-                ),
-        ),
+            height: size.height * 0.2,
+            width: size.width * 0.37,
+            child: StreamBuilder<String>(
+                initialData: avatar,
+                stream: loadAvatar.avatarStream,
+                builder: (context, snapshot) {
+                  if (snapshot.data.isNotEmpty) {
+                    return CircleAvatar(
+                      backgroundImage: NetworkImage(snapshot.data),
+                    );
+                  } else {
+                    return const CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            "https://res.cloudinary.com/thanhlevt7/image/upload/v1682571666/image_flutter/nlfptupmdv1bh4xwkptw.jpg"));
+                  }
+                })),
         Positioned(
           right: 0,
           bottom: 0,
@@ -198,5 +213,15 @@ class _HeaderWithAvatarState extends State<HeaderWithAvatar> {
         ),
       ),
     );
+  }
+}
+
+class AvatarAccount {
+  final _stateStreamController = StreamController<String>();
+  StreamSink<String> get avatarSink => _stateStreamController.sink;
+  Stream<String> get avatarStream => _stateStreamController.stream;
+
+  void dispose() {
+    _stateStreamController.close();
   }
 }

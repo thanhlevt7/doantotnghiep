@@ -5,7 +5,7 @@ import 'package:fluter_19pmd/function.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/views/home/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as https;
 
@@ -129,9 +129,8 @@ class GoogleMapAddressState extends State<GoogleMapAddress> {
                                 if (RepositoryUser.ward == (province[2])) {
                                   RepositoryUser.createAddress(
                                       RepositoryUser.address);
-                                  Fluttertoast.showToast(
-                                      msg: "Tạo địa chỉ thành công",
-                                      fontSize: 20);
+                                  EasyLoading.showSuccess(
+                                      'Tạo địa chỉ thành công');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

@@ -19,6 +19,7 @@ class ProductsHome extends StatefulWidget {
 }
 
 class _ProductsHomeState extends State<ProductsHome> {
+  List<String> image;
   final productBloc = ProductBloc();
   @override
   void initState() {
@@ -58,6 +59,8 @@ class _ProductsHomeState extends State<ProductsHome> {
                       ),
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        final images = snapshot.data[index].image;
+                        image = images.split(",");
                         return InkWell(
                           onTap: () {
                             RepositoryProduct.getID = snapshot.data[index].id;
@@ -75,17 +78,15 @@ class _ProductsHomeState extends State<ProductsHome> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Center(
-                                    child: SizedBox(
-                                        height: 150,
-                                        child: Image.network(
-                                            snapshot.data[index].image)),
-                                  ),
-                                  _contentCard(snapshot, index, context),
-                                ]
-                              ),
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: SizedBox(
+                                          height: 150,
+                                          child: Image.network(image[0])),
+                                    ),
+                                    _contentCard(snapshot, index, context),
+                                  ]),
                             ),
                           ),
                         );

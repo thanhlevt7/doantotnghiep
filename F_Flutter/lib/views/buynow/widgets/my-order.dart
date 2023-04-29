@@ -2,7 +2,6 @@ import 'package:fluter_19pmd/function.dart';
 import 'package:fluter_19pmd/models/product_models.dart';
 import 'package:flutter/material.dart';
 
-
 class MyOrderBuyNow extends StatefulWidget {
   const MyOrderBuyNow({Key key, this.product, this.quantity}) : super(key: key);
   final Product product;
@@ -13,8 +12,11 @@ class MyOrderBuyNow extends StatefulWidget {
 }
 
 class _MyOrderBuyNowState extends State<MyOrderBuyNow> {
+  List<String> image;
   @override
   Widget build(BuildContext context) {
+    final images = widget.product.image;
+    image = images.split(",");
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -38,7 +40,7 @@ class _MyOrderBuyNowState extends State<MyOrderBuyNow> {
                         SizedBox(
                           height: 60,
                           width: 80,
-                          child: Image.network(widget.product.image),
+                          child: Image.network(image[0]),
                         ),
                         const SizedBox(width: 5),
                         Text(

@@ -6,7 +6,7 @@ import 'package:fluter_19pmd/services/invoiceForUser/invoice_bloc.dart';
 import 'package:fluter_19pmd/services/invoiceForUser/invoice_event.dart';
 import 'package:fluter_19pmd/views/profile/order/details/order_details.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class PickingUpGoods extends StatefulWidget {
   const PickingUpGoods({Key key}) : super(key: key);
@@ -211,14 +211,13 @@ class _PickingUpGoodsState extends State<PickingUpGoods> {
                     var reponse = await RepositoryInvoice.cancelOrder(id);
                     if (reponse == 200) {
                       Navigator.of(context).pop();
-                      Fluttertoast.showToast(msg: "Đã hủy đơn hàng");
+                      EasyLoading.showSuccess('Đã hủy đơn hàng');
                       _invoiceSuccess.eventSink
                           .add(InvoiceEvent.fetchWaitingToAccept);
                     } else {
                       Navigator.of(context).pop();
-                      Fluttertoast.showToast(
-                          msg: "Đơn hàng đang vận chuyển không thể hủy",
-                          fontSize: 15);
+                      EasyLoading.showError(
+                          'Đơn hàng đang vận chuyển không thể hủy');
                     }
                   },
                 ),

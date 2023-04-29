@@ -17,20 +17,19 @@ class AllPage extends StatefulWidget {
 }
 
 class _AllPageState extends State<AllPage> {
- 
+  List<String> image;
+
   final cateBloc = CategoryBloc();
   final _favoriteBloc = ProfileBloc();
   @override
   void initState() {
-   
     cateBloc.eventSink.add(CategoryEvent.fetchAll);
-       _favoriteBloc.dispose();
+    _favoriteBloc.dispose();
     super.initState();
   }
 
   @override
   void dispose() {
- 
     cateBloc.dispose();
     _favoriteBloc.dispose();
     super.dispose();
@@ -58,6 +57,8 @@ class _AllPageState extends State<AllPage> {
                       ),
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        final images = snapshot.data[index].image;
+                        image = images.split(",");
                         return InkWell(
                           onTap: () {
                             RepositoryProduct.getID = snapshot.data[index].id;
@@ -80,8 +81,7 @@ class _AllPageState extends State<AllPage> {
                                   Center(
                                     child: SizedBox(
                                       height: 150,
-                                      child: Image.network(
-                                          snapshot.data[index].image),
+                                      child: Image.network(image[0]),
                                     ),
                                   ),
                                   _contentCard(snapshot, index, context),

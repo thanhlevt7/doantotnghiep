@@ -18,6 +18,7 @@ class _BodyState extends State<Body> {
       child: Column(
         children: [
           DescriptionWidthCounter(
+            product: widget.details,
             description: widget.details.description,
             stock: widget.details.stock,
             price: widget.details.price,

@@ -17,6 +17,7 @@ class FruitPage extends StatefulWidget {
 
 class _FruitPageState extends State<FruitPage> {
   final cateBloc = CategoryBloc();
+  List<String> image;
 
   @override
   void initState() {
@@ -53,6 +54,8 @@ class _FruitPageState extends State<FruitPage> {
                       ),
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        final images = snapshot.data[index].image;
+                        image = images.split(",");
                         return InkWell(
                           onTap: () {
                             RepositoryProduct.getID = snapshot.data[index].id;
@@ -75,8 +78,7 @@ class _FruitPageState extends State<FruitPage> {
                                   Center(
                                     child: SizedBox(
                                       height: 150,
-                                      child: Image.network(
-                                          snapshot.data[index].image),
+                                      child: Image.network(image[0]),
                                     ),
                                   ),
                                   _contentCard(snapshot, index, context),

@@ -3,8 +3,7 @@ import 'package:fluter_19pmd/views/buynow/widgets/my-order.dart';
 import 'package:fluter_19pmd/views/checkout/checkout_bloc.dart';
 import 'package:fluter_19pmd/views/checkout/widgets/address.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../../function.dart';
 import '../../../repository/invoice_api.dart';
 import '../../../repository/voucher_api.dart';
@@ -217,20 +216,11 @@ class _BodyBuyNowState extends State<BodyBuyNow> {
                     if (check == 200) {
                       getValueVoucher.getSink.add(RepositoryVoucher.sale);
                       Navigator.of(context).pop();
-                      Fluttertoast.showToast(
-                          msg: "Voucher hợp lệ",
-                          textColor: Colors.white,
-                          fontSize: 20);
+                      EasyLoading.showSuccess('Voucher hợp lệ! ');
                     } else if (check == 202) {
-                      Fluttertoast.showToast(
-                          msg: "Không thể sử dụng",
-                          textColor: Colors.red,
-                          fontSize: 25);
+                      EasyLoading.showSuccess('KHông thể sử dụng! ');
                     } else {
-                      Fluttertoast.showToast(
-                          msg: "Voucher không tồn tại",
-                          textColor: Colors.red,
-                          fontSize: 25);
+                      EasyLoading.showError('Voucher không hợp lệ! ');
                     }
                   },
                 ),

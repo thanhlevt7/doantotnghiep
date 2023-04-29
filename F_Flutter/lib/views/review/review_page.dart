@@ -2,15 +2,16 @@ import 'dart:async';
 import 'dart:io';
 import 'package:fluter_19pmd/bloc/loading_bloc.dart';
 import 'package:fluter_19pmd/constant.dart';
-import 'package:fluter_19pmd/models/product_models.dart';
 import 'package:fluter_19pmd/repository/review_api.dart';
 import 'package:fluter_19pmd/services/invoiceForUser/invoice_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:motion_toast/motion_toast.dart';
 import '../../repository/user_api.dart';
 import '../home/home_page.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 
 // ignore: must_be_immutable
 class ReviewPage extends StatefulWidget {
@@ -24,25 +25,34 @@ class ReviewPage extends StatefulWidget {
 
 class _ReviewPageState extends State<ReviewPage> {
   List image;
+  final loadImage = LoadImage();
   final _invoiceSuccess = InvoiceBloc();
   final _isLoading = LoadingBloc();
   final _formKey = GlobalKey<FormState>();
   final _commentController = TextEditingController();
   final _stateStreamController = StreamController<int>();
-  StreamSink<int> get selectedSink => _stateStreamController.sink;
-  Stream<int> get selectedStream => _stateStreamController.stream;
-  final _productStreamController = StreamController<List<Product>>();
-  StreamSink<List<Product>> get productSink => _productStreamController.sink;
-  Stream<List<Product>> get productStream => _productStreamController.stream;
   String rating = "5";
+  List<String> strarray;
 
   Future getImage() async {
     var image = await ImagePicker().pickMultiImage();
     if (image != null) {
-      for (int i = 0; i < image.length; i++) {
-        setState(() {
-          RepositoryUser.uploadFile(File(image[i].path));
-        });
+      if (image.length > 5) {
+        for (int i = 0; i < 5; i++) {
+          var index = i + 1;
+          EasyLoading.show(status: 'Đang tải ảnh $index');
+          await RepositoryUser.uploadFile(File(image[i].path));
+          EasyLoading.showSuccess('Hoàn tất! ');
+        }
+        loadImage.getSink.add(RepositoryUser.image.join(","));
+      } else {
+        for (int i = 0; i < image.length; i++) {
+          var index = i + 1;
+          EasyLoading.show(status: 'Đang tải ảnh $index');
+          await RepositoryUser.uploadFile(File(image[i].path));
+          EasyLoading.showSuccess('Hoàn tất! ');
+        }
+        loadImage.getSink.add(RepositoryUser.image.toString());
       }
     }
   }
@@ -54,7 +64,6 @@ class _ReviewPageState extends State<ReviewPage> {
     _isLoading.dispose();
     _stateStreamController.close();
     _commentController.dispose();
-    _productStreamController.close();
   }
 
   @override
@@ -75,6 +84,18 @@ class _ReviewPageState extends State<ReviewPage> {
                 begin: Alignment.bottomLeft,
                 end: Alignment.bottomRight,
               ),
+            ),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              RepositoryUser.image.clear();
+              Navigator.pop(context);
+            },
+            icon: SvgPicture.asset(
+              'assets/icons/arrow_back.svg',
+              color: Colors.white,
+              width: 30,
+              height: 30,
             ),
           ),
         ),
@@ -113,48 +134,82 @@ class _ReviewPageState extends State<ReviewPage> {
                   ),
                 ],
               ),
-              InkWell(
-                onTap: () {
-                  getImage();
-                },
-                child: const Text(
-                  "Thêm hình ảnh",
-                  style: TextStyle(fontSize: 20),
+              const SizedBox(height: 30),
+              SizedBox(
+                // height: 200,
+                child: StreamBuilder(
+                  initialData: [],
+                  stream: loadImage.getStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.data.isNotEmpty &&
+                        snapshot.connectionState == ConnectionState.active &&
+                        RepositoryUser.image.isNotEmpty) {
+                      final image = RepositoryUser.image.join(",");
+                      strarray = image.split(",");
+                      return SizedBox(
+                        height: 100,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: strarray.length,
+                            itemBuilder: (context, snapshot) {
+                              return Column(
+                                children: [
+                                  Stack(children: [
+                                    FullScreenWidget(
+                                      backgroundIsTransparent: false,
+                                      disposeLevel: DisposeLevel.High,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(16),
+                                        child: Image.network(
+                                          strarray[snapshot],
+                                          width: 100,
+                                          height: 100,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                        right: 0,
+                                        child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                RepositoryUser.image
+                                                    .removeAt(snapshot);
+                                                loadImage.getSink.add(
+                                                    RepositoryUser.image
+                                                        .toString());
+                                              });
+                                            },
+                                            child: const Icon(Icons.close)))
+                                  ]),
+                                ],
+                              );
+                            }),
+                      );
+                    } else {
+                      return Row(
+                        children: [
+                          const SizedBox(width: 35),
+                          InkWell(
+                            onTap: () {
+                              getImage();
+                            },
+                            child: const Text(
+                              "Thêm hình ảnh",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.blue),
+                            ),
+                          ),
+                          const Text(
+                            "  (Chỉ chọn được 5 ảnh)",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      );
+                    }
+                  },
                 ),
               ),
-              RepositoryUser.image != null
-                  ? SizedBox(
-                      height: 200,
-                      width: 500,
-                      child: GridView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 5,
-                        ),
-                        itemCount: RepositoryUser.image.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            elevation: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Center(
-                                        child: Image.network(
-                                            RepositoryUser.image[index])),
-                                  ]),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  : Text("Don't have data"),
-              const Text(
-                "Thêm video",
-                style: TextStyle(fontSize: 20),
-              ),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -213,9 +268,8 @@ class _ReviewPageState extends State<ReviewPage> {
                         starNumber: rating,
                         content: _commentController.text,
                         product: widget.inv,
-                        image: RepositoryUser.image.toString(),
+                        image: RepositoryUser.image.join(","),
                       );
-
                       if (data == 200) {
                         Navigator.push(
                           context,
@@ -223,16 +277,10 @@ class _ReviewPageState extends State<ReviewPage> {
                             builder: (context) => const HomePage(),
                           ),
                         );
-                        MotionToast.success(
-                            description: const Text(
-                          'Đã bình luận',
-                          style: TextStyle(fontSize: 22, color: Colors.teal),
-                        )).show(context);
-                      } else {}
+                        EasyLoading.showSuccess('Hoàn tất! ');
+                      }
                     }),
               ),
-
-              // Text(RepositoryUser.image.toString()),
             ],
           ),
         ));
@@ -261,4 +309,14 @@ class _ReviewPageState extends State<ReviewPage> {
           ),
         ),
       );
+}
+
+class LoadImage {
+  final _stateStreamController = StreamController<String>();
+  StreamSink<String> get getSink => _stateStreamController.sink;
+  Stream<String> get getStream => _stateStreamController.stream;
+
+  void dispose() {
+    _stateStreamController.close();
+  }
 }

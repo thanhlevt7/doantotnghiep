@@ -16,11 +16,11 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  List<String> image;
   final _counterBloc = CounterBloc();
   final _cartBloc = CartBloc();
   @override
   void initState() {
-    _counterBloc.eventSink.add(CounterEvent.update);
     _cartBloc.eventSink.add(CartEvent.fetchCart);
     super.initState();
   }
@@ -79,6 +79,8 @@ class _BodyState extends State<Body> {
           child: ListView.separated(
         itemCount: snapshot.data.length,
         itemBuilder: (BuildContext context, int index) {
+          final images = snapshot.data[index].image;
+          image = images.split(",");
           return Card(
             margin: const EdgeInsets.all(15.0),
             elevation: 5,
@@ -115,7 +117,7 @@ class _BodyState extends State<Body> {
                   SizedBox(
                     width: 130,
                     height: 130,
-                    child: Image.network(snapshot.data[index].image),
+                    child: Image.network(image[0]),
                   ),
                   const SizedBox(width: 30),
                   Column(
@@ -185,76 +187,80 @@ class _BodyState extends State<Body> {
         ),
       );
 
-  Widget _counter({Size size, int quantity, int productID, int stock}) =>
-      SizedBox(
-        width: 150,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: textColor.withOpacity(0.1),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(30),
-                ),
-              ),
-              child: Center(
-                child: IconButton(
-                  onPressed: () {
-                    if (quantity > 1) {
-                      RepositoryCart.getID = productID;
-                      _counterBloc.eventSink.add(CounterEvent.decrement);
-                      _cartBloc.eventSink.add(CartEvent.fetchCart);
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          duration: Duration(milliseconds: 200),
-                          content: Text(
-                            "Số lượng phải lớn hơn 1",
-                            style: TextStyle(fontSize: 20),
-                          )));
-                    }
-                  },
-                  icon: const Icon(Icons.remove),
-                ),
+  Widget _counter({Size size, int quantity, int productID, int stock}) {
+    if (quantity > stock) {
+      _counterBloc.eventSink.add(CounterEvent.update);
+    }
+    return SizedBox(
+      width: 150,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: textColor.withOpacity(0.1),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(30),
               ),
             ),
-            Text(
-              quantity.toString(),
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: textColor.withOpacity(0.1),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(30),
-                ),
-              ),
+            child: Center(
               child: IconButton(
                 onPressed: () {
-                  if (quantity < stock) {
+                  if (quantity > 1) {
                     RepositoryCart.getID = productID;
-                    _counterBloc.eventSink.add(CounterEvent.increment);
+                    _counterBloc.eventSink.add(CounterEvent.decrement);
                     _cartBloc.eventSink.add(CartEvent.fetchCart);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         duration: Duration(milliseconds: 200),
                         content: Text(
-                          "Số lượng tồn kho không đủ",
+                          "Số lượng phải lớn hơn 1",
                           style: TextStyle(fontSize: 20),
                         )));
                   }
                 },
-                icon: const Icon(Icons.add),
+                icon: const Icon(Icons.remove),
               ),
             ),
-          ],
-        ),
-      );
+          ),
+          Text(
+            quantity.toString(),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: textColor.withOpacity(0.1),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(30),
+              ),
+            ),
+            child: IconButton(
+              onPressed: () {
+                if (quantity < stock) {
+                  RepositoryCart.getID = productID;
+                  _counterBloc.eventSink.add(CounterEvent.increment);
+                  _cartBloc.eventSink.add(CartEvent.fetchCart);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      duration: Duration(milliseconds: 200),
+                      content: Text(
+                        "Số lượng tồn kho không đủ",
+                        style: TextStyle(fontSize: 20),
+                      )));
+                }
+              },
+              icon: const Icon(Icons.add),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -14,7 +14,7 @@ class RepositoryUser {
   static String district;
   static String ward;
   static int otp;
-  static int delay;
+  static int delay = 0;
   static int countAddress;
   static String serviceId = 'service_yed4dhz';
   static String templateRegister = 'template_tmzua9o';
@@ -212,6 +212,7 @@ class RepositoryUser {
     final json = jsonDecode(response.body);
     if (response.statusCode == 200) {
       RepositoryUser.image.add(json['secure_url']);
+      print(RepositoryUser.image);
     }
   }
 

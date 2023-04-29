@@ -214,6 +214,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
+  flutter_easyloading:
+    dependency: "direct main"
+    description:
+      name: flutter_easyloading
+      sha256: ba21a3c883544e582f9cc455a4a0907556714e1e9cf0eababfcb600da191d17c
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.5"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -246,6 +254,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.1"
+  flutter_spinkit:
+    dependency: transitive
+    description:
+      name: flutter_spinkit
+      sha256: "77a2117c0517ff909221f3160b8eb20052ab5216107581168af574ac1f05dff8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -280,14 +296,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  fluttertoast:
+  full_screen_image:
     dependency: "direct main"
     description:
-      name: fluttertoast
-      sha256: "774fa28b07f3a82c93596bc137be33189fec578ed3447a93a5a11c93435de394"
+      name: full_screen_image
+      sha256: "97831b00d07b17c674ba3a4eddcee306dbd0d7c66851f1b67856e12daeb9b3aa"
       url: "https://pub.dev"
     source: hosted
-    version: "8.1.3"
+    version: "2.0.0"
   get:
     dependency: "direct main"
     description:

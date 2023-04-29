@@ -38,7 +38,7 @@
         </div>
 
         <label>Ảnh</label>
-        <input type="file" class="form-control" id="image" name="image" ></br>
+        <input type="file" class="form-control" id="image" name="image[]" multiple></br>
         <label>Mô tả</label></br>
         <input type="text" name="description" id="description" value="{{$product->description}}" height=300 class="form-control"></br>
         <button type="submit" class="btn btn-success">Cập nhật </br>

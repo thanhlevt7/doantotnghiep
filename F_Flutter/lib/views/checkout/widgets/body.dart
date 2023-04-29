@@ -5,8 +5,7 @@ import 'package:fluter_19pmd/services/cart/cart_event.dart';
 import 'package:fluter_19pmd/views/checkout/widgets/address.dart';
 import 'package:fluter_19pmd/views/checkout/widgets/my-order.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../../function.dart';
 import '../../../repository/cart_api.dart';
 import '../checkout_bloc.dart';
@@ -122,6 +121,7 @@ class _BodyState extends State<Body> {
                               initialData: 0,
                               stream: getValue.getStream,
                               builder: (context, value) {
+                                print(value);
                                 if (value.data != 0) {
                                   return Row(
                                     mainAxisAlignment:
@@ -197,7 +197,6 @@ class _BodyState extends State<Body> {
               key: _formKey,
               child: Column(
                 children: [
-                  Text(RepositoryVoucher.sale.toString()),
                   TextFormField(
                     controller: voucherController,
                     decoration:
@@ -248,20 +247,11 @@ class _BodyState extends State<Body> {
                     if (check == 200) {
                       getValue.getSink.add(RepositoryVoucher.sale);
                       Navigator.of(context).pop();
-                      Fluttertoast.showToast(
-                          msg: "Voucher hợp lệ",
-                          textColor: Colors.white,
-                          fontSize: 20);
+                      EasyLoading.showSuccess('Voucher hợp lệ! ');
                     } else if (check == 202) {
-                      Fluttertoast.showToast(
-                          msg: "Không thể sử dụng",
-                          textColor: Colors.red,
-                          fontSize: 25);
+                      EasyLoading.showSuccess('KHông thể sử dụng! ');
                     } else {
-                      Fluttertoast.showToast(
-                          msg: "Voucher không tồn tại",
-                          textColor: Colors.red,
-                          fontSize: 25);
+                      EasyLoading.showError('Voucher không hợp lệ! ');
                     }
                   },
                 ),

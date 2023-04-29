@@ -10,7 +10,7 @@ class RepositoryProduct {
   static double getHeightForUserReview(var length) {
     double dem = 0;
     for (var i = 1; i <= length; i++) {
-      dem += 0.3;
+      dem += 0.5;
     }
     return dem;
   }

@@ -3,6 +3,8 @@ import 'package:fluter_19pmd/function.dart';
 import 'package:fluter_19pmd/views/details_product/counter_bloc.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/product_models.dart';
+
 class DescriptionWidthCounter extends StatefulWidget {
   const DescriptionWidthCounter({
     Key key,
@@ -12,6 +14,7 @@ class DescriptionWidthCounter extends StatefulWidget {
     this.sell,
     this.name,
     this.unit,
+    this.product,
   }) : super(key: key);
 
   final String description;
@@ -20,6 +23,7 @@ class DescriptionWidthCounter extends StatefulWidget {
   final String sell;
   final String name;
   final String unit;
+  final Product product;
 
   @override
   State<DescriptionWidthCounter> createState() =>
@@ -94,7 +98,6 @@ class _DescriptionWidthCounterState extends State<DescriptionWidthCounter> {
                         initialData: widget.price,
                         stream: _counterBloc.totalStream,
                         builder: (context, snapshot) {
-                          print(snapshot);
                           return Text(
                             "${convertToVND(snapshot.data)}đ",
                             style: TextStyle(

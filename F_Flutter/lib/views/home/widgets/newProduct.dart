@@ -16,6 +16,7 @@ class newProductPage extends StatefulWidget {
 
 // ignore: camel_case_types
 class _newProductPageState extends State<newProductPage> {
+  List<String> image;
   final _newProduct = NewProductBloc();
 
   @override
@@ -66,6 +67,8 @@ class _newProductPageState extends State<newProductPage> {
                         final createDate = DateTime.parse(
                             snapshot.data[index].createDate.toString());
                         final results = currentTime.difference(createDate);
+                        final images = snapshot.data[index].image;
+                        image = images.split(",");
                         return Card(
                           color: Colors.white,
                           shadowColor: Colors.teal,
@@ -112,8 +115,7 @@ class _newProductPageState extends State<newProductPage> {
                                       SizedBox(
                                         height: 130,
                                         width: 130,
-                                        child: Image.network(
-                                            snapshot.data[index].image),
+                                        child: Image.network(image[0]),
                                       ),
                                       const SizedBox(
                                         width: 20,

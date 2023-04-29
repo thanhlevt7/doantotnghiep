@@ -8,6 +8,7 @@ import 'package:fluter_19pmd/views/cart/cart_screen.dart';
 import 'package:fluter_19pmd/views/details_product/widgets/body.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 import '../../repository/user_api.dart';
 import '../profile/account/widgets/address/create_adress_page.dart';
@@ -21,6 +22,7 @@ class DetailsProductScreen extends StatefulWidget {
 
 class _DetailsProductScreenState extends State<DetailsProductScreen> {
   final _isLoading = LoadingBloc();
+  List<String> image;
 
   @override
   void dispose() {
@@ -30,6 +32,8 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final listImage = widget.products.image;
+    image = listImage.split(",");
     Size size = MediaQuery.of(context).size;
 
     return SafeArea(
@@ -91,20 +95,17 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                           pinned: true,
                           expandedHeight: 280,
                           flexibleSpace: FlexibleSpaceBar(
-                            background: Stack(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Expanded(
-                                        child: Image.network(
-                                      widget.products.image,
-                                      fit: BoxFit.cover,
-                                    )),
-                                  ],
-                                ),
-                              ],
+                            background: Swiper(
+                              autoplay: true,
+                              viewportFraction: 0.95,
+                              scale: 0.8,
+                              pagination: const SwiperPagination(alignment: Alignment.bottomRight),
+                              itemCount: image.length,
+                              control: const SwiperControl(
+                                  color: Colors.black, size: 15),
+                              itemBuilder: (context, index) {
+                                return Image.network(image[index]);
+                              },
                             ),
                           ),
                         ),

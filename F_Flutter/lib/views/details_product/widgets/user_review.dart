@@ -16,8 +16,8 @@ class UserReview extends StatefulWidget {
 class _UserReviewState extends State<UserReview> {
   @override
   Widget build(BuildContext context) {
+    List<String> strarray;
     Size size = MediaQuery.of(context).size;
-
     return Padding(
       padding: const EdgeInsets.only(top: 40.0),
       child: Column(
@@ -122,10 +122,18 @@ class _UserReviewState extends State<UserReview> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: widget.userReview.length,
                       itemBuilder: (context, index) {
+                        if (widget.userReview[index].image != null) {
+                          final image = widget.userReview[index].image;
+                          strarray = image.split(",");
+                        } else {
+                          strarray = null;
+                        }
+
                         final currentTime = DateTime.now();
                         final orderDate = DateTime.parse(
                             widget.userReview[index].postedDate.toString());
                         final results = currentTime.difference(orderDate);
+
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 10.0),
@@ -208,11 +216,34 @@ class _UserReviewState extends State<UserReview> {
                                   ),
                                 ],
                               ),
+                              const SizedBox(height: 10),
+                              strarray != null
+                                  ? SizedBox(
+                                      height: 100,
+                                      child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: strarray.length,
+                                          itemBuilder: (context, snapshot) {
+                                            return Column(
+                                              children: [
+                                                Image.network(
+                                                  strarray[snapshot],
+                                                  width: 100,
+                                                  height: 100,
+                                                ),
+                                              ],
+                                            );
+                                          }),
+                                    )
+                                  : Container(
+                                      height: 0,
+                                    )
                             ],
                           ),
                         );
                       }),
                 ),
+          // ),
         ],
       ),
     );

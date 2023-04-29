@@ -17,18 +17,16 @@ class VegetablePage extends StatefulWidget {
 
 class _VegetablePageState extends State<VegetablePage> {
   final cateBloc = CategoryBloc();
-
+  List<String> image;
 
   @override
   void initState() {
-  
     cateBloc.eventSink.add(CategoryEvent.fetchVegetable);
     super.initState();
   }
 
   @override
   void dispose() {
-    
     cateBloc.dispose();
     super.dispose();
   }
@@ -56,6 +54,8 @@ class _VegetablePageState extends State<VegetablePage> {
                       ),
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        final images = snapshot.data[index].image;
+                        image = images.split(",");
                         return InkWell(
                           onTap: () {
                             RepositoryProduct.getID = snapshot.data[index].id;
@@ -78,8 +78,7 @@ class _VegetablePageState extends State<VegetablePage> {
                                   Center(
                                     child: SizedBox(
                                       height: 150,
-                                      child: Image.network(
-                                          snapshot.data[index].image),
+                                      child: Image.network(image[0]),
                                     ),
                                   ),
                                   _contentCard(snapshot, index, context),

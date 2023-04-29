@@ -43,7 +43,7 @@
                         <th> Loại sản phẩm </th>
                         <th> Giá </th>
                         <th> Mô tả </th>
-                        <th> Ảnh minh họa</th>
+                        <!-- <th> Ảnh minh họa</th> -->
                         <th> Đơn vị tính</th>
                         <th>Ngày tạo </th>
                         <th>Trạng thái </th>
@@ -60,8 +60,8 @@
                             <td> {{ number_format( $item->price) }}đ</td>
                             <td> <span>{{ $item->description }}</span></td>
 
-                            <td> <img src="{{$item->image}}"
-                                    class="rounded" alt="Ảnh" width="70" height="70"> </td>
+                            <!-- <td> <img src="{{$item->image}}"
+                                    class="rounded" alt="Ảnh" width="70" height="70"> </td> -->
                             <td> {{ $item->unit }}</td>
                             <td>  {{\Carbon\Carbon::parse($item->createDate)->format('d-m-Y H:i:s') }} </td>
                             <td> {{ $item->status }}</td>

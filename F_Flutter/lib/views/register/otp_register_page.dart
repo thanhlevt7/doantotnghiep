@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/views/login/signIn_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'dart:math';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
@@ -134,11 +134,7 @@ class _OtpRegisterPageState extends State<OtpRegisterPage> {
                       RepositoryUser.delay = 30;
                       RepositoryUser.sendEmail(
                           widget.email, RepositoryUser.templateRegister);
-                      Fluttertoast.showToast(
-                          msg: "Đã gửi otp",
-                          textColor: Colors.black,
-                          backgroundColor: Colors.white,
-                          fontSize: 20);
+                      EasyLoading.showSuccess('Đã gửi otp');
                       startTimer();
                     }
                   },
@@ -204,11 +200,7 @@ class _OtpRegisterPageState extends State<OtpRegisterPage> {
       _submit(context, widget.email, widget.pass, widget.displayname,
           widget.fullname, widget.phone);
     } else {
-      Fluttertoast.showToast(
-          msg: "Mã otp không hợp lệ",
-          textColor: Colors.red,
-          backgroundColor: Colors.white,
-          fontSize: 20);
+     EasyLoading.showError('Mã otp không hợp lệ');
     }
   }
 

@@ -38,7 +38,7 @@ class UserController extends Controller
             'username' => $request->username,
             'fullName' => $request->fullname,
             'email' => $request->email,
-            'avatar' => "a.png",
+            'avatar' => "",
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'type' => 'user',
@@ -120,7 +120,7 @@ class UserController extends Controller
                     'remember_token' =>  $token,
                     'status' => 1,
                 ]);
-           
+
             $users = DB::table('users')
                 ->where('email', $request->email)
                 ->select('users.*')

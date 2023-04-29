@@ -18,7 +18,7 @@ class DrinkPage extends StatefulWidget {
 
 class _DrinkPageState extends State<DrinkPage> {
   final cateBloc = CategoryBloc();
-
+  List<String> image;
   @override
   void initState() {
     cateBloc.eventSink.add(CategoryEvent.fetchDrink);
@@ -38,7 +38,7 @@ class _DrinkPageState extends State<DrinkPage> {
         Expanded(
           child: StreamBuilder<List<Product>>(
               stream: cateBloc.categoryStream,
-              initialData: const[],
+              initialData: const [],
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   return const Center(
@@ -54,6 +54,8 @@ class _DrinkPageState extends State<DrinkPage> {
                       ),
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        final images = snapshot.data[index].image;
+                        image = images.split(",");
                         return InkWell(
                           onTap: () {
                             RepositoryProduct.getID = snapshot.data[index].id;
@@ -76,8 +78,7 @@ class _DrinkPageState extends State<DrinkPage> {
                                   Center(
                                     child: SizedBox(
                                       height: 150,
-                                      child: Image.network(
-                                          snapshot.data[index].image),
+                                      child: Image.network(image[0]),
                                     ),
                                   ),
                                   _contentCard(snapshot, index, context),

@@ -8,8 +8,9 @@ use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Response;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Arr;
+
 
 class ProductController extends Controller
 {
@@ -53,21 +54,27 @@ class ProductController extends Controller
 
     public function createProduct(Request $request)
     {
-        dd($request->image);
-        $uploadedFileUrl = Cloudinary::uploadFile($request->file('image')->getRealPath())->getSecurePath();
-        $currentDate = Carbon::now('Asia/Ho_Chi_Minh');
-        DB::table('products')->insert([
-            'name' => $request->name,
-            'price' => $request->price,
-            'stock' => $request->stock,
-            'image' => $uploadedFileUrl,
-            'type' => $request->type,
-            'unit' => $request->unit,
-            'description' => $request->description,
-            'createDate' => $currentDate,
-            'status' => 1,
-        ]);
-        return redirect('admin/products')->with('success', 'Tạo mới thành công');
+        $image = collect([]);
+        if ($request->hasFile("image")) {
+            $files = $request->file("image");
+            foreach ($files as $file) {
+                $uploadedFileUrl = Cloudinary::uploadFile($file->getRealPath())->getSecurePath();
+                $image->push($uploadedFileUrl);
+            }
+            $currentDate = Carbon::now('Asia/Ho_Chi_Minh');
+            DB::table('products')->insert([
+                'name' => $request->name,
+                'price' => $request->price,
+                'stock' => $request->stock,
+                'image' => $image->join(','),
+                'type' => $request->type,
+                'unit' => $request->unit,
+                'description' => $request->description,
+                'createDate' => $currentDate,
+                'status' => 1,
+            ]);
+            return redirect('admin/products')->with('success', 'Tạo mới thành công');
+        }
     }
 
     public function edit($id)
@@ -81,6 +88,7 @@ class ProductController extends Controller
 
     public function updateProduct(Request $request, $id)
     {
+        $image = collect([]);
         $products = Product::find($id);
         $products->name = $request->name;
         $products->price = $request->price;
@@ -89,8 +97,12 @@ class ProductController extends Controller
         $products->unit = $request->unit;
         $products->description = $request->description;
         if ($request->file('image') != null) {
-            $uploadedFileUrl = Cloudinary::uploadFile($request->file('image')->getRealPath())->getSecurePath();
-            $products->image = $uploadedFileUrl;
+            $files = $request->file("image");
+            foreach ($files as $file) {
+                $uploadedFileUrl = Cloudinary::uploadFile($file->getRealPath())->getSecurePath();
+                $image->push($uploadedFileUrl);
+            }
+            $products->image = $image->join(',');
         }
         $products->update();
         return redirect('admin/products')->with('success', 'Cập nhật thành công');

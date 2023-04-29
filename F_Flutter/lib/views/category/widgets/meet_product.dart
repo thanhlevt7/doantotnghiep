@@ -5,7 +5,6 @@ import 'package:fluter_19pmd/repository/cart_api.dart';
 import 'package:fluter_19pmd/repository/favorites_api.dart';
 import 'package:fluter_19pmd/repository/products_api.dart';
 import 'package:fluter_19pmd/services/catetogory/cate_bloc.dart';
-import 'package:fluter_19pmd/views/cart/cart_screen.dart';
 import 'package:fluter_19pmd/views/details_product/details_product.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +17,7 @@ class MeetPage extends StatefulWidget {
 
 class _MeetPageState extends State<MeetPage> {
   final cateBloc = CategoryBloc();
-
+  List<String> image;
   @override
   void initState() {
     cateBloc.eventSink.add(CategoryEvent.fetchMeet);
@@ -54,6 +53,8 @@ class _MeetPageState extends State<MeetPage> {
                       ),
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        final images = snapshot.data[index].image;
+                        image = images.split(",");
                         return InkWell(
                           onTap: () {
                             RepositoryProduct.getID = snapshot.data[index].id;
@@ -76,8 +77,7 @@ class _MeetPageState extends State<MeetPage> {
                                   Center(
                                     child: SizedBox(
                                       height: 150,
-                                      child: Image.network(
-                                          snapshot.data[index].image),
+                                      child: Image.network(image[0]),
                                     ),
                                   ),
                                   _contentCard(snapshot, index, context),

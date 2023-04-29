@@ -14,6 +14,7 @@ class MyOrder extends StatefulWidget {
 }
 
 class _MyOrderState extends State<MyOrder> {
+  List<String> image;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -37,6 +38,8 @@ class _MyOrderState extends State<MyOrder> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: widget.carts.length,
                   itemBuilder: (context, index) {
+                    final images = widget.carts[index].image;
+                    image = images.split(",");
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: Row(
@@ -47,7 +50,7 @@ class _MyOrderState extends State<MyOrder> {
                               SizedBox(
                                 height: 60,
                                 width: 80,
-                                child: Image.network(widget.carts[index].image),
+                                child: Image.network(image[0]),
                               ),
                               const SizedBox(width: 5),
                               Text(

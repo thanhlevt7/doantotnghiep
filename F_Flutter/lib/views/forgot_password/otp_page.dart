@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/views/forgot_password/change_password_page.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'dart:math';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
@@ -125,11 +125,7 @@ class _OtpPageState extends State<OtpPage> {
                       RepositoryUser.sendEmail(
                           widget.email, RepositoryUser.templateForgot);
                       RepositoryUser.delay = 30;
-                      Fluttertoast.showToast(
-                          msg: "Đã gửi otp",
-                          textColor: Colors.black,
-                          backgroundColor: Colors.white,
-                          fontSize: 20);
+                      EasyLoading.showSuccess('Đã gửi otp');
                       startTimer();
                     }
                   },
@@ -183,6 +179,7 @@ class _OtpPageState extends State<OtpPage> {
 
   void checkOtp(otp) {
     if (RepositoryUser.otp.toString() == otp) {
+      EasyLoading.showSuccess('Mã otp hợp lệ ');
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -192,11 +189,7 @@ class _OtpPageState extends State<OtpPage> {
         ),
       );
     } else {
-      Fluttertoast.showToast(
-          msg: "Mã otp không hợp lệ",
-          textColor: Colors.red,
-          backgroundColor: Colors.white,
-          fontSize: 20);
+      EasyLoading.showError('Mã otp không hợp lệ ');
     }
   }
 
