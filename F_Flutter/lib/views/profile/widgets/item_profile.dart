@@ -6,6 +6,7 @@ import 'package:fluter_19pmd/views/profile/account/account_page.dart';
 import 'package:fluter_19pmd/views/profile/collections/collection_page.dart';
 import 'package:fluter_19pmd/views/profile/order/order_page.dart';
 import 'package:fluter_19pmd/views/profile/setting/setting_page.dart';
+import 'package:fluter_19pmd/views/review/reviews.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +32,7 @@ class _ItemProfileState extends State<ItemProfile> {
     const AccountPage(),
     const OrderPage(),
     const CollectionPage(),
-    const settingPage(),
+    const ReviewsPage(),
     const settingPage(),
     const SignInPage(),
   ];

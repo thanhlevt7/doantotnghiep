@@ -14,6 +14,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  List<String> image;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -52,6 +53,8 @@ class _BodyState extends State<Body> {
         separatorBuilder: (context, index) => const SizedBox(height: 10),
         itemCount: widget.products.length,
         itemBuilder: (context, index) {
+          var images = widget.products[index].image;
+          image = images.split(",");
           return InkWell(
             onTap: () {
               RepositoryProduct.getID = widget.products[index].id;
@@ -71,7 +74,7 @@ class _BodyState extends State<Body> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Image.network(
-                    widget.products[index].image,
+                    image[0],
                     width: 150,
                     height: 150,
                   ),

@@ -20,7 +20,6 @@ class _SpecificAddressState extends State<SpecificAddress> {
   String components = "country%3Avn";
   String state;
   final _formKey = GlobalKey<FormState>();
-
   String placeid;
   double latitude;
   double longitude;
@@ -54,7 +53,7 @@ class _SpecificAddressState extends State<SpecificAddress> {
 
                       return GestureDetector(
                         onTap: () {
-                          FocusScope.of(context).unfocus();
+                          FocusManager.instance.primaryFocus?.unfocus();
                           onSelected(option.toString());
                           RepositoryUser.address =
                               suggest[index]["description"];
@@ -76,10 +75,9 @@ class _SpecificAddressState extends State<SpecificAddress> {
                               child: Text(
                                 option.toString(),
                                 style: const TextStyle(
-                                    fontSize: 16,
-                                    decoration: TextDecoration.none,
+                                    fontSize: 18,
                                     color: Colors.black,
-                                    fontWeight: FontWeight.w100),
+                                   ),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),

@@ -37,6 +37,15 @@ class InvoiceBloc {
       } else if (event == InvoiceEvent.orderDetails) {
         var invoice = await RepositoryInvoice.orderDetails();
         _detailsSink.add(invoice);
+      } else if (event == InvoiceEvent.fetchNotYetRated) {
+        var invoiceSuccess = await RepositoryInvoice.notYetRated();
+
+        if (invoiceSuccess != null) {
+          await Future.delayed(const Duration(seconds: 1));
+          _invoiceSink.add(invoiceSuccess);
+        } else {
+          _invoiceSink.addError('get products don\'t completed');
+        }
       }
     });
   }

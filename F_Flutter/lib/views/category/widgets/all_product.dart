@@ -41,7 +41,7 @@ class _AllPageState extends State<AllPage> {
       children: [
         Expanded(
           child: StreamBuilder<List<Product>>(
-              initialData: [],
+              initialData: const [],
               stream: cateBloc.categoryStream,
               builder: (context, snapshot) {
                 if (snapshot.data == null) {

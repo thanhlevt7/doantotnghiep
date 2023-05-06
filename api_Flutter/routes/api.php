@@ -43,6 +43,7 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/getBestSeller', [ProductController::class, 'getProductBestSeller']);
 
     Route::post('/result-filter/{userID}', [ProductController::class, 'Filter']);
+
 });
 
 //user controller
@@ -88,6 +89,8 @@ Route::group(['prefix' => 'invoices'], function () {
     Route::get('/order-details/{id}', [InvoiceController::class, 'OrderDetails']);
 
     Route::delete('/CancelOrder/{id}', [InvoiceController::class, 'CancelOrder']);
+
+    Route::get('/notYetRated/{id}', [InvoiceController::class, 'notYetRated']);
     //cart
     Route::get('/getCart/{id}', [CartController::class, 'getCartForUser']);
 
@@ -143,7 +146,7 @@ Route::group(['prefix' => 'favorites'], function () {
     Route::post('/delete-product', [FavoriteController::class, 'DeleteProduct']);
 });
 Route::group(['prefix' => 'reviews'], function () {
-
+    Route::get('/getReviewsForUser/{userId}', [UserReview::class, 'getReviewsForUser']);
     Route::post('/post-comment', [UserReview::class, 'Post']);
 });
 Route::group(['prefix' => 'vouchers'], function () {

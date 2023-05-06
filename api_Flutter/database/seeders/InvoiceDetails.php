@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
 class InvoiceDetails extends Seeder
 {
     /**
@@ -20,22 +21,19 @@ class InvoiceDetails extends Seeder
                 'invoiceID' => 'HD202203161',
                 'productID' => 2,
                 'quantity' => 5,
-                'status' => 1
             ],
             [
                 'id' => 2,
                 'invoiceID' => 'HD202203161',
                 'productID' => 3,
                 'quantity' => 5,
-                'status' => 1
             ],
             [
                 'id' => 3,
                 'invoiceID' => 'HD202203162',
                 'productID' => 4,
                 'quantity' => 6,
-                 'status' => 1
             ],
-            ]);
+        ]);
     }
 }

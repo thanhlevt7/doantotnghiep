@@ -14,7 +14,6 @@ class Vouchers {
   Vouchers({
     this.id,
     this.code,
-    this.employeeId,
     this.productId,
     this.name,
     this.sale,
@@ -28,7 +27,6 @@ class Vouchers {
 
   int id;
   String code;
-  int employeeId;
   int productId;
   String name;
   int sale;
@@ -42,7 +40,6 @@ class Vouchers {
   factory Vouchers.fromJson(Map<String, dynamic> json) => Vouchers(
         id: json["id"],
         code: json["code"],
-        employeeId: json["employeeID"],
         productId: json["productID"],
         name: json["name"],
         sale: json["sale"],
@@ -57,7 +54,6 @@ class Vouchers {
   Map<String, dynamic> toJson() => {
         "id": id,
         "code": code,
-        "employeeID": employeeId,
         "productID": productId,
         "name": name,
         "sale": sale,

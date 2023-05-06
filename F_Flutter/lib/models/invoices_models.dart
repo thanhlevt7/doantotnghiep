@@ -18,7 +18,6 @@ class Invoices {
   Invoices({
     this.id,
     this.userId,
-    this.employeeId,
     this.shippingName,
     this.shippingAddress,
     this.shippingPhone,
@@ -48,7 +47,6 @@ class Invoices {
   factory Invoices.fromJson(Map<String, dynamic> json) => Invoices(
         id: json["id"],
         userId: json["userID"],
-        employeeId: json["employeeID"],
         shippingName: json["shippingName"],
         shippingAddress: json["shippingAddress"],
         shippingPhone: json["shippingPhone"],
@@ -65,7 +63,6 @@ class Invoices {
   Map<String, dynamic> toJson() => {
         "id": id,
         "userID": userId,
-        "employeeID": employeeId,
         "shippingName": shippingName,
         "shippingAddress": shippingAddress,
         "shippingPhone": shippingPhone,

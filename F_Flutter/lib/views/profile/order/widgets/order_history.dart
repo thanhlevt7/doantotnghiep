@@ -1,13 +1,11 @@
-import 'dart:async';
-import 'package:fluter_19pmd/bloc/loading_bloc.dart';
 import 'package:fluter_19pmd/function.dart';
 import 'package:fluter_19pmd/models/invoices_models.dart';
-import 'package:fluter_19pmd/models/product_models.dart';
 import 'package:fluter_19pmd/repository/invoice_api.dart';
 import 'package:fluter_19pmd/services/invoiceForUser/invoice_bloc.dart';
 import 'package:fluter_19pmd/services/invoiceForUser/invoice_event.dart';
-import 'package:fluter_19pmd/views/profile/order/details/history/order_details.dart';
 import 'package:flutter/material.dart';
+
+import '../details/order_details.dart';
 
 class OrderHistory extends StatefulWidget {
   const OrderHistory({
@@ -20,14 +18,9 @@ class OrderHistory extends StatefulWidget {
 
 class _OrderHistoryState extends State<OrderHistory> {
   final _invoiceSuccess = InvoiceBloc();
-  final _isLoading = LoadingBloc();
+
   final _commentController = TextEditingController();
-  final _stateStreamController = StreamController<int>();
-  StreamSink<int> get selectedSink => _stateStreamController.sink;
-  Stream<int> get selectedStream => _stateStreamController.stream;
-  final _productStreamController = StreamController<List<Product>>();
-  StreamSink<List<Product>> get productSink => _productStreamController.sink;
-  Stream<List<Product>> get productStream => _productStreamController.stream;
+
   @override
   void initState() {
     super.initState();
@@ -39,10 +32,7 @@ class _OrderHistoryState extends State<OrderHistory> {
   void dispose() {
     super.dispose();
     _invoiceSuccess.dispose();
-    _isLoading.dispose();
-    _stateStreamController.close();
     _commentController.dispose();
-    _productStreamController.close();
   }
 
   @override
@@ -100,7 +90,7 @@ class _OrderHistoryState extends State<OrderHistory> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OrderDetailsHistory(
+              builder: (context) => OrderDetails(
                 invoices: snapshot.data[index],
               ),
             ),

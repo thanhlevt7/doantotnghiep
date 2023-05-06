@@ -108,8 +108,7 @@ class CartController extends Controller
                         ->insert([
                             'invoiceID' => $invoices[0]->id,
                             'productID' => $request->productID,
-                            'quantity' => 1,
-                            'status' => 1
+                            'quantity' => 1
                         ]);
                     return response()->json([
                         "create-details-quantity-1" => true,
@@ -120,8 +119,7 @@ class CartController extends Controller
                         ->insert([
                             'invoiceID' => $invoices[0]->id,
                             'productID' => $request->productID,
-                            'quantity' => $request->quantity,
-                            'status' => 1
+                            'quantity' => $request->quantity
                         ]);
                     return response()->json([
                         "create-details-quantity-request" => true,
@@ -152,8 +150,7 @@ class CartController extends Controller
                     ->insert([
                         'invoiceID' => $randomIDInvoice,
                         'productID' => $request->productID,
-                        'quantity' => $request->quantity,
-                        'status' => 1
+                        'quantity' => $request->quantity
                     ]);
                 return response()->json([
                     "create-cart- have quantity" => true,
@@ -178,8 +175,7 @@ class CartController extends Controller
                     ->insert([
                         'invoiceID' => $randomIDInvoice,
                         'productID' => $request->productID,
-                        'quantity' => 1,
-                        'status' => 1
+                        'quantity' => 1
                     ]);
                 return response()->json([
                     "create-cart-not have quantity" => true,

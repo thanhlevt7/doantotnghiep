@@ -60,8 +60,8 @@
                             <td> {{ number_format( $item->price) }}đ</td>
                             <td> <span>{{ $item->description }}</span></td>
 
-                            <!-- <td> <img src="{{$item->image}}"
-                                    class="rounded" alt="Ảnh" width="70" height="70"> </td> -->
+                                <!-- <td> <img src="{{$item->image}}"
+                                        class="rounded" alt="Ảnh" width="70" height="70"> </td> -->
                             <td> {{ $item->unit }}</td>
                             <td>  {{\Carbon\Carbon::parse($item->createDate)->format('d-m-Y H:i:s') }} </td>
                             <td> {{ $item->status }}</td>

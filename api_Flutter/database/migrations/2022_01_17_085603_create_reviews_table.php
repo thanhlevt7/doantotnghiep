@@ -18,7 +18,7 @@ class CreateReviewsTable extends Migration
             $table->bigInteger('userID')->unsigned();
             $table->bigInteger('productID')->unsigned();
             $table->longText('image')->nullable();
-            $table->string('content');
+            $table->string('content')->nullable();
             $table->integer('quantity');
             $table->dateTime('postedDate');
             $table->integer('status');

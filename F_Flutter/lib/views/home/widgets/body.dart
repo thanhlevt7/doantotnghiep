@@ -68,7 +68,7 @@ class _BodyState extends State<Body> {
   }
 
   Widget loadBestSeller({Size size}) => StreamBuilder<List<Product>>(
-      initialData: [],
+      initialData: const [],
       stream: _bestSeller.bestSellerStream,
       builder: (context, snapshot) {
         if (snapshot.data.isEmpty) {
@@ -139,7 +139,7 @@ class _BodyState extends State<Body> {
                                     Image.network(snapshot.data[index].image),
                               ),
                               const SizedBox(
-                                width: 50,
+                                width: 20,
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,6 +150,7 @@ class _BodyState extends State<Body> {
                                       fontSize: 26,
                                       color: Colors.grey.shade500,
                                     ),
+                                    maxLines: 2,
                                   ),
                                   RichText(
                                     text: TextSpan(
@@ -217,9 +218,7 @@ class _BodyState extends State<Body> {
                                             color: Colors.grey[500]),
                                       ),
                                       Text(
-                                        "${snapshot.data[index].total}"
-                                            .substring(9)
-                                            .replaceAll(RegExp('}]'), ''),
+                                        snapshot.data[index].total,
                                         style: TextStyle(
                                             fontSize: 20,
                                             color: Colors.grey[500]),

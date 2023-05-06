@@ -18,7 +18,6 @@ class CreateInvoiceDetailsTable extends Migration
             $table->string('invoiceID');
             $table->bigInteger('productID')->unsigned();
             $table->integer('quantity');
-            $table->integer('status');
             $table->timestamps();
         });
     }

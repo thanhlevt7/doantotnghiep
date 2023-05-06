@@ -5,7 +5,6 @@ import 'package:http/http.dart' as https;
 import 'package:flutter/material.dart';
 import '../../../../../repository/user_api.dart';
 
-// ignore: camel_case_types
 class CreateAddress extends StatefulWidget {
   const CreateAddress({Key key}) : super(key: key);
 
@@ -13,7 +12,6 @@ class CreateAddress extends StatefulWidget {
   State<CreateAddress> createState() => _CreateAddressState();
 }
 
-// ignore: camel_case_types
 class _CreateAddressState extends State<CreateAddress> {
   int current = 0;
   List<dynamic> provinces = [];

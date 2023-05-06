@@ -37,7 +37,7 @@ class _MeetPageState extends State<MeetPage> {
         Expanded(
           child: StreamBuilder<List<Product>>(
               stream: cateBloc.categoryStream,
-              initialData: [],
+              initialData: const [],
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   return const Center(

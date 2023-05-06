@@ -24,19 +24,19 @@ class ProductController extends Controller
                 ->join('invoice_details', 'invoices.id', '=', 'invoice_details.invoiceID')
                 ->addSelect(DB::raw('SUM(invoice_details.quantity) as total'))
                 ->where('invoice_details.productID', $item->id)
-                ->where('invoices.status', -1)
+                ->whereIn('invoices.status', [-1, -2])
                 ->groupBy('invoice_details.productID')
-                ->get();
+                ->get()->implode('total', ', ');
             $item->countReviews = DB::table('reviews')
                 ->addSelect(DB::raw('Count(reviews.productId) as countReviews'))
                 ->where('reviews.productID', $item->id)
                 ->groupBy('reviews.productId')
-                ->get();
+                ->get()->implode('countReviews', ', ');
             $item->rating = DB::table('reviews')
                 ->addSelect(DB::raw('Sum(quantity)/ Count(productId) as rating'))
                 ->where('reviews.productID', $item->id)
                 ->groupBy('reviews.productId')
-                ->get();
+                ->get()->implode('rating', ', ');
             $item->checkFavorite = DB::table('favorites')
                 ->join('favorite_details', 'favorites.id', 'favorite_details.favoriteID')
                 ->where('favorites.userID', $userID)
@@ -46,7 +46,7 @@ class ProductController extends Controller
                 ->where('reviews.status', 1)
                 ->where('reviews.productID', $item->id)
                 ->orderBy('reviews.postedDate', 'desc')
-                ->select('reviews.*', 'users.fullName', 'users.avatar')
+                ->select('reviews.*', 'users.userName', 'users.avatar')
                 ->get();
         }
         return json_encode(
@@ -73,19 +73,19 @@ class ProductController extends Controller
                     ->join('invoice_details', 'invoices.id', '=', 'invoice_details.invoiceID')
                     ->addSelect(DB::raw('SUM(invoice_details.quantity) as total'))
                     ->where('invoice_details.productID', $item->id)
-                    ->where('invoices.status', -1)
+                    ->whereIn('invoices.status', [-1, -2])
                     ->groupBy('invoice_details.productID')
-                    ->get();
+                    ->get()->implode('total', ', ');
                 $item->countReviews = DB::table('reviews')
                     ->addSelect(DB::raw('Count(reviews.productId) as countReviews'))
                     ->where('reviews.productID', $item->id)
                     ->groupBy('reviews.productId')
-                    ->get();
+                    ->get()->implode('countReviews', ', ');
                 $item->rating = DB::table('reviews')
                     ->addSelect(DB::raw('Sum(quantity)/ Count(productId) as rating'))
                     ->where('reviews.productID', $item->id)
                     ->groupBy('reviews.productId')
-                    ->get();
+                    ->get()->implode('rating', ', ');
                 $item->checkFavorite = DB::table('favorites')
                     ->join('favorite_details', 'favorites.id', 'favorite_details.favoriteID')
                     ->where('favorites.userID', $userID)
@@ -95,7 +95,7 @@ class ProductController extends Controller
                     ->where('reviews.status', 1)
                     ->where('reviews.productID', $item->id)
                     ->orderBy('reviews.postedDate', 'desc')
-                    ->select('reviews.*', 'users.fullName', 'users.avatar')
+                    ->select('reviews.*', 'users.userName', 'users.avatar')
                     ->get();
             }
         }
@@ -115,28 +115,29 @@ class ProductController extends Controller
                 ->join('invoice_details', 'invoices.id', '=', 'invoice_details.invoiceID')
                 ->addSelect(DB::raw('SUM(invoice_details.quantity) as total'))
                 ->where('invoice_details.productID', $item->id)
-                ->where('invoices.status', -1)
+                ->whereIn('invoices.status', [-1, -2])
                 ->groupBy('invoice_details.productID')
-                ->get();
+                ->get()->implode('total', ', ');
             $item->countReviews = DB::table('reviews')
                 ->addSelect(DB::raw('Count(reviews.productId) as countReviews'))
                 ->where('reviews.productID', $item->id)
                 ->groupBy('reviews.productId')
-                ->get();
+                ->get()->implode('countReviews', ', ');
             $item->rating = DB::table('reviews')
                 ->addSelect(DB::raw('Sum(quantity)/ Count(productId) as rating'))
                 ->where('reviews.productID', $item->id)
                 ->groupBy('reviews.productId')
-                ->get();
+                ->get()->implode('rating', ', ');
             $item->checkFavorite = DB::table('favorites')
                 ->join('favorite_details', 'favorites.id', 'favorite_details.favoriteID')
                 ->where('favorites.userID', $userID)
                 ->where('favorite_details.productID', $item->id)->exists();
             $item->reviews = DB::table('reviews')
-                ->join('users', 'reviews.userID', '=', 'users.id')
+                ->join('users', 'reviews.userID', 'users.id')
+                ->where('reviews.status', 1)
                 ->where('reviews.productID', $item->id)
                 ->orderBy('reviews.postedDate', 'desc')
-                ->select('reviews.*', 'users.fullName', 'users.avatar')
+                ->select('reviews.*', 'users.userName', 'users.avatar')
                 ->get();
         }
         if ($products != null) {
@@ -155,28 +156,29 @@ class ProductController extends Controller
                 ->join('invoice_details', 'invoices.id', '=', 'invoice_details.invoiceID')
                 ->addSelect(DB::raw('SUM(invoice_details.quantity) as total'))
                 ->where('invoice_details.productID', $item->id)
-                ->where('invoices.status', -1)
+                ->whereIn('invoices.status', [-1, -2])
                 ->groupBy('invoice_details.productID')
-                ->get();
+                ->get()->implode('total', ', ');
             $item->countReviews = DB::table('reviews')
                 ->addSelect(DB::raw('Count(reviews.productId) as countReviews'))
                 ->where('reviews.productID', $item->id)
                 ->groupBy('reviews.productId')
-                ->get();
+                ->get()->implode('countReviews', ', ');
             $item->rating = DB::table('reviews')
                 ->addSelect(DB::raw('Sum(quantity)/ Count(productId) as rating'))
                 ->where('reviews.productID', $item->id)
                 ->groupBy('reviews.productId')
-                ->get();
+                ->get()->implode('rating', ', ');
             $item->checkFavorite = DB::table('favorites')
                 ->join('favorite_details', 'favorites.id', 'favorite_details.favoriteID')
                 ->where('favorites.userID', $userID)
                 ->where('favorite_details.productID', $item->id)->exists();
             $item->reviews = DB::table('reviews')
-                ->join('users', 'reviews.userID', '=', 'users.id')
+                ->join('users', 'reviews.userID', 'users.id')
+                ->where('reviews.status', 1)
                 ->where('reviews.productID', $item->id)
                 ->orderBy('reviews.postedDate', 'desc')
-                ->select('reviews.*', 'users.fullName', 'users.avatar')
+                ->select('reviews.*', 'users.userName', 'users.avatar')
                 ->get();
         }
         if ($products != null) {
@@ -195,28 +197,29 @@ class ProductController extends Controller
                 ->join('invoice_details', 'invoices.id', '=', 'invoice_details.invoiceID')
                 ->addSelect(DB::raw('SUM(invoice_details.quantity) as total'))
                 ->where('invoice_details.productID', $item->id)
-                ->where('invoices.status', -1)
+                ->whereIn('invoices.status', [-1, -2])
                 ->groupBy('invoice_details.productID')
-                ->get();
+                ->get()->implode('total', ', ');
             $item->countReviews = DB::table('reviews')
                 ->addSelect(DB::raw('Count(reviews.productId) as countReviews'))
                 ->where('reviews.productID', $item->id)
                 ->groupBy('reviews.productId')
-                ->get();
+                ->get()->implode('countReviews', ', ');
             $item->rating = DB::table('reviews')
                 ->addSelect(DB::raw('Sum(quantity)/ Count(productId) as rating'))
                 ->where('reviews.productID', $item->id)
                 ->groupBy('reviews.productId')
-                ->get();
+                ->get()->implode('rating', ', ');
             $item->checkFavorite = DB::table('favorites')
                 ->join('favorite_details', 'favorites.id', 'favorite_details.favoriteID')
                 ->where('favorites.userID', $userID)
                 ->where('favorite_details.productID', $item->id)->exists();
             $item->reviews = DB::table('reviews')
-                ->join('users', 'reviews.userID', '=', 'users.id')
+                ->join('users', 'reviews.userID', 'users.id')
+                ->where('reviews.status', 1)
                 ->where('reviews.productID', $item->id)
                 ->orderBy('reviews.postedDate', 'desc')
-                ->select('reviews.*', 'users.fullName', 'users.avatar')
+                ->select('reviews.*', 'users.userName', 'users.avatar')
                 ->get();
         }
         if ($products != null) {
@@ -235,28 +238,29 @@ class ProductController extends Controller
                 ->join('invoice_details', 'invoices.id', '=', 'invoice_details.invoiceID')
                 ->addSelect(DB::raw('SUM(invoice_details.quantity) as total'))
                 ->where('invoice_details.productID', $item->id)
-                ->where('invoices.status', -1)
+                ->whereIn('invoices.status', [-1, -2])
                 ->groupBy('invoice_details.productID')
-                ->get();
+                ->get()->implode('total', ', ');
             $item->countReviews = DB::table('reviews')
                 ->addSelect(DB::raw('Count(reviews.productId) as countReviews'))
                 ->where('reviews.productID', $item->id)
                 ->groupBy('reviews.productId')
-                ->get();
+                ->get()->implode('countReviews', ', ');
             $item->rating = DB::table('reviews')
                 ->addSelect(DB::raw('Sum(quantity)/ Count(productId) as rating'))
                 ->where('reviews.productID', $item->id)
                 ->groupBy('reviews.productId')
-                ->get();
+                ->get()->implode('rating', ', ');
             $item->checkFavorite = DB::table('favorites')
                 ->join('favorite_details', 'favorites.id', 'favorite_details.favoriteID')
                 ->where('favorites.userID', $userID)
                 ->where('favorite_details.productID', $item->id)->exists();
             $item->reviews = DB::table('reviews')
-                ->join('users', 'reviews.userID', '=', 'users.id')
+                ->join('users', 'reviews.userID', 'users.id')
+                ->where('reviews.status', 1)
                 ->where('reviews.productID', $item->id)
                 ->orderBy('reviews.postedDate', 'desc')
-                ->select('reviews.*', 'users.fullName', 'users.avatar')
+                ->select('reviews.*', 'users.userName', 'users.avatar')
                 ->get();
         }
         if ($products != null) {
@@ -271,7 +275,7 @@ class ProductController extends Controller
             ->join('invoice_details', 'invoices.id', '=', 'invoice_details.invoiceID')
             ->join('products', 'invoice_details.productID', '=', 'products.id')
             ->groupBy('invoice_details.productID')
-            ->where('invoices.status', -1)
+            ->whereIn('invoices.status', [-1, -2])
             ->select('invoice_details.productID')
             ->addSelect(DB::raw('SUM(invoice_details.quantity) as total'))
             ->orderBy('total', 'desc')
@@ -288,19 +292,19 @@ class ProductController extends Controller
                     ->join('invoice_details', 'invoices.id', '=', 'invoice_details.invoiceID')
                     ->addSelect(DB::raw('SUM(invoice_details.quantity) as total'))
                     ->where('invoice_details.productID', $key->id)
-                    ->where('invoices.status', -1)
+                    ->whereIn('invoices.status', [-1, -2])
                     ->groupBy('invoice_details.productID')
-                    ->get();
+                    ->get()->implode('total', ', ');
                 $key->countReviews = DB::table('reviews')
                     ->addSelect(DB::raw('Count(reviews.productId) as countReviews'))
                     ->where('reviews.productID', $key->id)
                     ->groupBy('reviews.productId')
-                    ->get();
+                    ->get()->implode('countReviews', ', ');
                 $key->rating = DB::table('reviews')
                     ->addSelect(DB::raw('Sum(quantity)/ Count(productId) as rating'))
                     ->where('reviews.productID', $key->id)
                     ->groupBy('reviews.productId')
-                    ->get();
+                    ->get()->implode('rating', ', ');
                 $key->checkFavorite = DB::table('favorites')
                     ->join('favorite_details', 'favorites.id', 'favorite_details.favoriteID')
                     ->where('favorite_details.productID', $key->id)->exists();
@@ -308,7 +312,7 @@ class ProductController extends Controller
                     ->join('users', 'reviews.userID', '=', 'users.id')
                     ->where('reviews.productID', $key->id)
                     ->orderBy('reviews.postedDate', 'desc')
-                    ->select('reviews.*', 'users.fullName', 'users.avatar')
+                    ->select('reviews.*', 'users.userName', 'users.avatar')
                     ->get();
             }
         }
@@ -326,7 +330,6 @@ class ProductController extends Controller
                     ->where('type', $request->type)
                     ->whereBetween('price', [$request->minPrice, $request->maxPrice])
                     ->select('products.*')
-                    // ->where('products.stock', '>', 0)
                     ->get();
             } else if ($request->minPrice != null) {
                 $data = DB::table('products')
@@ -334,7 +337,6 @@ class ProductController extends Controller
                     ->where('type', $request->type)
                     ->where('price', '>=', $request->minPrice)
                     ->select('products.*')
-                    // ->where('products.stock', '>', 0)
                     ->get();
             } else if ($request->maxPrice != null) {
                 $data = DB::table('products')
@@ -342,14 +344,12 @@ class ProductController extends Controller
                     ->where('type', $request->type)
                     ->where('price', '<=', $request->maxPrice)
                     ->select('products.*')
-                    // ->where('products.stock', '>', 0)
                     ->get();
             } else {
                 $data = DB::table('products')
                     ->where('name', 'LIKE', '%' . $request->keyword . '%')
                     ->where('type', $request->type)
                     ->select('products.*')
-                    // ->where('products.stock', '>', 0)
                     ->get();
             }
         } else {
@@ -358,27 +358,23 @@ class ProductController extends Controller
                     ->where('name', 'LIKE', '%' . $request->keyword . '%')
                     ->whereBetween('price', [$request->minPrice, $request->maxPrice])
                     ->select('products.*')
-                    // ->where('products.stock', '>', 0)
                     ->get();
             } else if (!empty($request->minPrice)) {
                 $data = DB::table('products')
                     ->where('name', 'LIKE', '%' . $request->keyword . '%')
                     ->where('price', '>=', $request->minPrice)
                     ->select('products.*')
-                    // ->where('products.stock', '>', 0)
                     ->get();
             } else if (!empty($request->maxPrice)) {
                 $data = DB::table('products')
                     ->where('name', 'LIKE', '%' . $request->keyword . '%')
                     ->where('price', '<=', $request->maxPrice)
                     ->select('products.*')
-                    // ->where('products.stock', '>', 0)
                     ->get();
             } else {
                 $data = DB::table('products')
                     ->select('products.*')
                     ->where('name', 'LIKE', '%' . $request->keyword . '%')
-                    // ->where('products.stock', '>', 0)
                     ->orderBy("products.price")
                     ->get();
             }
@@ -389,19 +385,19 @@ class ProductController extends Controller
                 ->join('invoice_details', 'invoices.id', '=', 'invoice_details.invoiceID')
                 ->addSelect(DB::raw('SUM(invoice_details.quantity) as total'))
                 ->where('invoice_details.productID', $item->id)
-                ->where('invoices.status', -1)
+                ->whereIn('invoices.status', [-1, -2])
                 ->groupBy('invoice_details.productID')
-                ->get();
+                ->get()->implode('total', ', ');
             $item->countReviews = DB::table('reviews')
                 ->addSelect(DB::raw('Count(reviews.productId) as countReviews'))
                 ->where('reviews.productID', $item->id)
                 ->groupBy('reviews.productId')
-                ->get();
+                ->get()->implode('countReviews', ', ');
             $item->rating = DB::table('reviews')
                 ->addSelect(DB::raw('Sum(quantity)/ Count(productId) as rating'))
                 ->where('reviews.productID', $item->id)
                 ->groupBy('reviews.productId')
-                ->get();
+                ->get()->implode('rating', ', ');
             $item->checkFavorite = DB::table('favorites')
                 ->join('favorite_details', 'favorites.id', 'favorite_details.favoriteID')
                 ->where('favorites.userID', $userID)
@@ -411,7 +407,7 @@ class ProductController extends Controller
                 ->where('reviews.status', 1)
                 ->where('reviews.productID', $item->id)
                 ->orderBy('reviews.postedDate', 'desc')
-                ->select('reviews.*', 'users.fullName', 'users.avatar')
+                ->select('reviews.*', 'users.userName', 'users.avatar')
                 ->get();
         }
         return json_encode(

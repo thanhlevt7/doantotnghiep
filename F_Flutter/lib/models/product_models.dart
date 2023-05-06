@@ -45,9 +45,9 @@ class Product {
   int status;
   dynamic createdAt;
   dynamic updatedAt;
-  List total;
-  List countReviews;
-  List rating;
+  String total;
+  String countReviews;
+  String rating;
   bool checkFavorite;
   List<Review> reviews;
 

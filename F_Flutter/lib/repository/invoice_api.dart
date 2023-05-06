@@ -96,6 +96,25 @@ class RepositoryInvoice {
     }
   }
 
+  
+
+  static Future<List<Invoices>> notYetRated() async {
+    var client = http.Client();
+    List<Invoices> invoices;
+
+    var response = await client.get(
+      Uri.parse(
+          'http://10.0.2.2:8000/api/invoices/notYetRated/${RepositoryUser.info.id}'),
+    );
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      invoices = invoicesFromJson(jsonString);
+
+      return invoices;
+    }
+    return null;
+  }
+
   static Future<List<Invoices>> pickingUpGoods() async {
     var client = http.Client();
     List<Invoices> invoices;

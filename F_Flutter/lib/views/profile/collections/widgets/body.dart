@@ -107,6 +107,7 @@ class _BodyState extends State<Body> {
                                 child: ListView.separated(
                                     physics:
                                         const NeverScrollableScrollPhysics(),
+                                    // ignore: avoid_types_as_parameter_names
                                     separatorBuilder: (context, int) =>
                                         const SizedBox(height: 5),
                                     itemCount:

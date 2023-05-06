@@ -121,7 +121,6 @@ class _BodyState extends State<Body> {
                               initialData: 0,
                               stream: getValue.getStream,
                               builder: (context, value) {
-                                print(value);
                                 if (value.data != 0) {
                                   return Row(
                                     mainAxisAlignment:
@@ -248,6 +247,7 @@ class _BodyState extends State<Body> {
                       getValue.getSink.add(RepositoryVoucher.sale);
                       Navigator.of(context).pop();
                       EasyLoading.showSuccess('Voucher hợp lệ! ');
+                      setState(() {});
                     } else if (check == 202) {
                       EasyLoading.showSuccess('KHông thể sử dụng! ');
                     } else {

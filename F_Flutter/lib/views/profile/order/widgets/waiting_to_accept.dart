@@ -7,7 +7,6 @@ import 'package:fluter_19pmd/repository/invoice_api.dart';
 import 'package:fluter_19pmd/services/invoiceForUser/invoice_bloc.dart';
 import 'package:fluter_19pmd/services/invoiceForUser/invoice_event.dart';
 import 'package:fluter_19pmd/views/profile/order/details/order_details.dart';
-import 'package:fluter_19pmd/bloc/loading_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -19,9 +18,6 @@ class WaitingToAccept extends StatefulWidget {
 }
 
 class _WaitingToAcceptState extends State<WaitingToAccept> {
-  final _stateStreamController = StreamController<int>();
-  Stream<int> get selectedStream => _stateStreamController.stream;
-  final _isLoading = LoadingBloc();
   final _invoiceSuccess = InvoiceBloc();
   @override
   void initState() {

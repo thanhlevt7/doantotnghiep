@@ -1,3 +1,11 @@
+import 'dart:convert';
+
+List<Review> reviewFromJson(String str) =>
+    List<Review>.from(json.decode(str).map((x) => Review.fromJson(x)));
+
+String reviewToJson(List<Review> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 class Review {
   Review({
     this.id,
@@ -10,7 +18,9 @@ class Review {
     this.status,
     this.createdAt,
     this.updatedAt,
-    this.fullName,
+    this.imageProduct,
+    this.nameProduct,
+    this.userName,
     this.avatar,
   });
 
@@ -24,7 +34,9 @@ class Review {
   int status;
   dynamic createdAt;
   dynamic updatedAt;
-  String fullName;
+  String imageProduct;
+  String nameProduct;
+  String userName;
   String avatar;
 
   factory Review.fromJson(Map<String, dynamic> json) => Review(
@@ -38,7 +50,9 @@ class Review {
         status: json["status"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
-        fullName: json["fullName"],
+        imageProduct: json["imageProduct"],
+        nameProduct: json["nameProduct"],
+        userName: json["userName"],
         avatar: json["avatar"],
       );
 
@@ -53,7 +67,9 @@ class Review {
         "status": status,
         "created_at": createdAt,
         "updated_at": updatedAt,
-        "fullName": fullName,
+        "imageProduct": imageProduct,
+        "nameProduct": nameProduct,
+        "userName": userName,
         "avatar": avatar,
       };
   @override

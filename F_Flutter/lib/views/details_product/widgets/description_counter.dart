@@ -110,19 +110,15 @@ class _DescriptionWidthCounterState extends State<DescriptionWidthCounter> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Đã bán:",
+                    Text("Đã bán: ",
                         style: TextStyle(
                             fontSize: 22, color: Colors.grey.shade600)),
-                    widget.sell.length < 5
-                        ? Text(
-                            "0",
+                    widget.sell.isNotEmpty
+                        ? Text(widget.sell.toString(),
                             style: TextStyle(
-                                fontSize: 22, color: Colors.grey.shade600),
-                          )
+                                fontSize: 22, color: Colors.grey.shade600))
                         : Text(
-                            widget.sell
-                                .substring(9)
-                                .replaceAll(RegExp('}]'), ''),
+                            "0",
                             style: TextStyle(
                                 fontSize: 22, color: Colors.grey.shade600),
                           )

@@ -1,6 +1,7 @@
 import 'package:fluter_19pmd/models/reviews_models.dart';
 import 'package:fluter_19pmd/repository/products_api.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class UserReview extends StatefulWidget {
   const UserReview({Key key, this.userReview, this.rating, this.countReviews})
@@ -24,7 +25,7 @@ class _UserReviewState extends State<UserReview> {
         children: [
           _header(size),
           const SizedBox(height: 20),
-          widget.rating.toString().length < 5
+          widget.rating.isEmpty
               ? Column(
                   children: [
                     Row(
@@ -58,10 +59,7 @@ class _UserReviewState extends State<UserReview> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                            widget.rating
-                                .substring(10)
-                                .replaceRange(3, null, ""),
+                        Text(widget.rating,
                             style: const TextStyle(
                                 fontSize: 25, color: Colors.red)),
                         const Text(
@@ -75,9 +73,7 @@ class _UserReviewState extends State<UserReview> {
                               fontSize: 20, color: Colors.grey.shade600),
                         ),
                         Text(
-                          widget.countReviews
-                              .substring(15)
-                              .replaceAll(RegExp('}]'), ''),
+                          widget.countReviews,
                           style: TextStyle(
                               fontSize: 22, color: Colors.grey.shade600),
                         ),
@@ -91,9 +87,8 @@ class _UserReviewState extends State<UserReview> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _star(widget.rating
-                            .substring(10)
-                            .replaceRange(1, null, "")),
+                        _star(
+                            widget.rating.toString().replaceRange(1, null, ""))
                       ],
                     ),
                   ],
@@ -117,54 +112,59 @@ class _UserReviewState extends State<UserReview> {
                   height: size.height *
                       RepositoryProduct.getHeightForUserReview(
                           widget.userReview.length) *
-                      0.6,
+                      0.8,
                   child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: widget.userReview.length,
                       itemBuilder: (context, index) {
+                        DateFormat dateFormat =
+                            DateFormat("dd-MM-yyyy HH:mm:ss");
+                        String string = dateFormat
+                            .format(widget.userReview[index].postedDate);
                         if (widget.userReview[index].image != null) {
                           final image = widget.userReview[index].image;
                           strarray = image.split(",");
                         } else {
                           strarray = null;
                         }
-
                         final currentTime = DateTime.now();
                         final orderDate = DateTime.parse(
                             widget.userReview[index].postedDate.toString());
                         final results = currentTime.difference(orderDate);
-
                         return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 10.0),
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 children: [
-                                  Container(
-                                    height: 60,
-                                    width: 60,
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(30),
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(30),
+                                        ),
                                       ),
+                                      child: (widget.userReview[index].avatar ==
+                                                  null ||
+                                              widget.userReview[index].avatar
+                                                  .isEmpty)
+                                          ? const CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                  "https://res.cloudinary.com/thanhlevt7/image/upload/v1678943288/image_flutter/u2swpnxwfv3s15on7ngo.png"),
+                                            )
+                                          : CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                  widget.userReview[index]
+                                                      .avatar),
+                                            ),
                                     ),
-                                    child: (widget.userReview[index].avatar ==
-                                                null ||
-                                            widget.userReview[index].avatar
-                                                .isEmpty)
-                                        ? const CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                                "https://res.cloudinary.com/thanhlevt7/image/upload/v1678943288/image_flutter/u2swpnxwfv3s15on7ngo.png"),
-                                          )
-                                        : CircleAvatar(
-                                            backgroundImage: NetworkImage(widget
-                                                .userReview[index].avatar),
-                                          ),
                                   ),
                                   const SizedBox(
-                                    width: 15,
+                                    width: 10,
                                   ),
                                   Column(
                                     crossAxisAlignment:
@@ -173,7 +173,7 @@ class _UserReviewState extends State<UserReview> {
                                       Row(
                                         children: [
                                           Text(
-                                            widget.userReview[index].fullName,
+                                            widget.userReview[index].userName,
                                             style: const TextStyle(
                                               fontSize: 18,
                                             ),
@@ -184,60 +184,70 @@ class _UserReviewState extends State<UserReview> {
                                           _timeComment(results)
                                         ],
                                       ),
+                                      const SizedBox(height: 10),
                                       _star(widget.userReview[index].quantity
                                           .toString()),
                                     ],
                                   ),
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 280,
-                                    padding: const EdgeInsets.all(8.0),
-                                    margin: const EdgeInsets.only(left: 75.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade200,
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(16),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      widget.userReview[index].content,
-                                      style: TextStyle(
-                                        fontSize: 17,
-                                        color: Colors.teal.shade700,
-                                        letterSpacing: 1.0,
-                                        fontWeight: FontWeight.bold,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      maxLines: 3,
-                                    ),
-                                  ),
-                                ],
-                              ),
                               const SizedBox(height: 10),
+                              widget.userReview[index].content != null
+                                  ? Container(
+                                      width: 280,
+                                      padding: const EdgeInsets.all(8.0),
+                                      margin: const EdgeInsets.only(left: 40.0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade200,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(16),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        widget.userReview[index].content,
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          color: Colors.teal.shade700,
+                                          letterSpacing: 1.0,
+                                          fontWeight: FontWeight.bold,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        maxLines: 3,
+                                      ),
+                                    )
+                                  : const SizedBox(height: 0),
                               strarray != null
-                                  ? SizedBox(
-                                      height: 100,
-                                      child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: strarray.length,
-                                          itemBuilder: (context, snapshot) {
-                                            return Column(
-                                              children: [
-                                                Image.network(
+                                  ? Container(
+                                      margin: const EdgeInsets.only(left: 40.0),
+                                      child: SizedBox(
+                                        height: 100,
+                                        child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: strarray.length,
+                                            itemBuilder: (context, snapshot) {
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4),
+                                                child: Image.network(
                                                   strarray[snapshot],
-                                                  width: 100,
+                                                  width: 80,
                                                   height: 100,
                                                 ),
-                                              ],
-                                            );
-                                          }),
+                                              );
+                                            }),
+                                      ),
                                     )
                                   : Container(
                                       height: 0,
-                                    )
+                                    ),
+                              const SizedBox(height: 5),
+                              Container(
+                                  margin: const EdgeInsets.only(left: 45.0),
+                                  child: Text(
+                                    string,
+                                    style: const TextStyle(fontSize: 15),
+                                  )),
                             ],
                           ),
                         );

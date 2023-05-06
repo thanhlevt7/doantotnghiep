@@ -1,7 +1,8 @@
 import 'package:fluter_19pmd/function.dart';
 import 'package:fluter_19pmd/models/invoices_models.dart';
-import 'package:fluter_19pmd/views/profile/order/details/history/bodyhistory.dart';
 import 'package:flutter/material.dart';
+
+import 'detailProducts.dart';
 
 class OrderDetailsHistory extends StatelessWidget {
   const OrderDetailsHistory({Key key, this.invoices}) : super(key: key);
@@ -12,7 +13,7 @@ class OrderDetailsHistory extends StatelessWidget {
       child: DefaultTabController(
         length: 5,
         child: Scaffold(
-            body: BodyHistory(
+            body: DetailProducts(
               invoice: invoices,
             ),
             backgroundColor: Colors.grey.shade100,

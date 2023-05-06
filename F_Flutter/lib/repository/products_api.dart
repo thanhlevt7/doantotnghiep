@@ -127,6 +127,7 @@ class RepositoryProduct {
     var response = await client.get(
       Uri.parse('http://10.0.2.2:8000/api/products/getBestSeller'),
     );
+    print(response.body);
     if (response.statusCode == 200) {
       var jsonString = response.body;
       newProduct = productFromJson(jsonString);
@@ -134,24 +135,6 @@ class RepositoryProduct {
       return newProduct;
     }
     return null;
-  }
-
-  static Future<List<Product>> resultSearch(String value) async {
-    var client = http.Client();
-    List<Product> newProduct;
-    var response = await client.post(
-        Uri.parse(
-            'http://10.0.2.2:8000/api/products/search-product/${RepositoryUser.info.id}'),
-        body: ({
-          'keyword': value,
-        }));
-    if (response.statusCode == 200) {
-      var jsonString = response.body;
-      newProduct = productFromJson(jsonString);
-      products = newProduct;
-      return newProduct;
-    }
-    return newProduct;
   }
 
   static Future<List<Product>> filterProuct(String value,

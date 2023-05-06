@@ -36,7 +36,7 @@ class _BodyState extends State<Body> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           StreamBuilder<List<Notifications>>(
-              initialData: [],
+              initialData: const [],
               stream: notificationBloc.notificationStream,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {

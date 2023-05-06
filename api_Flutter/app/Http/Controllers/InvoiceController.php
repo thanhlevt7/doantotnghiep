@@ -11,10 +11,6 @@ use App\Models\Product;
 
 class InvoiceController extends Controller
 {
-    //note 
-    // tạo 1 function để mua hàng ngay (thêm số lượng , sản phẩm )
-    // khi đặt hàng thì mới tạo hóa cthd , hd
-    //cần làm
     function buynow(Request $request)
     {
         $countInv =  DB::table('invoices')->count() + 1;
@@ -31,7 +27,7 @@ class InvoiceController extends Controller
                 'isPaid' => 0,
                 'status' => 1,
             ]);
-        DB::table('invoice_details')    
+        DB::table('invoice_details')
             ->insert([
                 'invoiceID' => $randomIDInvoice,
                 'productID' => $request->productID,
@@ -70,7 +66,7 @@ class InvoiceController extends Controller
     {
         $checkInvoice = DB::table('invoices')
             ->where('invoices.userID', $userID)
-            ->Where('invoices.status', '=', -1)
+            ->whereIn('status', [-1, -2])
             ->exists();
         $query = null;
         if ($checkInvoice) {
@@ -78,14 +74,14 @@ class InvoiceController extends Controller
                 ->join('users', 'invoices.userID', '=', 'users.id')
                 ->select('invoices.*')
                 ->where('invoices.userID', $userID)
-                ->Where('invoices.status', '=', -1)
+                ->whereIn('invoices.status', [-1, -2])
                 ->addSelect(DB::raw("null as products"))->get();
 
             foreach ($query  as $item) {
                 $listProduct = DB::table('invoice_details')
                     ->join('products', 'invoice_details.productID', '=', 'products.id')
                     ->where('invoiceID', $item->id)
-                    ->select('products.*', 'invoice_details.status', 'invoice_details.quantity')->get();
+                    ->select('products.*', 'invoice_details.quantity')->get();
                 $item->products = $listProduct;
             }
         }
@@ -159,6 +155,41 @@ class InvoiceController extends Controller
             }
         }
 
+        if ($query != null) {
+            return json_encode(
+                $query,
+            );
+        } else {
+            return response()->json([
+                "message" => false
+            ], 201);
+        }
+    }
+
+    function notYetRated($userID)
+    {
+        $checkInvoice = DB::table('invoices')
+            ->where('invoices.userID', $userID)
+            ->Where('invoices.status', '=', -1)
+            ->exists();
+
+        $query = null;
+        if ($checkInvoice) {
+            $query = DB::table('invoices')
+                ->join('users', 'invoices.userID', '=', 'users.id')
+                ->select('invoices.*')
+                ->where('invoices.userID', $userID)
+                ->Where('invoices.status', '=', -1)
+                ->addSelect(DB::raw("null as products"))->get();
+
+            foreach ($query  as $item) {
+                $listProduct = DB::table('invoice_details')
+                    ->join('products', 'invoice_details.productID', '=', 'products.id')
+                    ->where('invoiceID', $item->id)
+                    ->select('products.*', 'invoice_details.quantity')->get();
+                $item->products = $listProduct;
+            }
+        }
         if ($query != null) {
             return json_encode(
                 $query,
@@ -300,8 +331,7 @@ class InvoiceController extends Controller
                 $listProduct = DB::table('invoice_details')
                     ->join('products', 'invoice_details.productID', '=', 'products.id')
                     ->where('invoiceID', $item->id)
-                    ->where('invoice_details.status', 1)
-                    ->select('products.*', 'invoice_details.status', 'invoice_details.quantity')->get();
+                    ->select('products.*',  'invoice_details.quantity')->get();
                 $item->products = $listProduct;
             }
         }

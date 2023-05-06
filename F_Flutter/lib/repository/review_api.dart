@@ -1,15 +1,12 @@
 import 'dart:convert';
 
+import 'package:fluter_19pmd/models/reviews_models.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:http/http.dart' as http;
 
 class RepositoryReview {
-  static Future<dynamic> post(
-      {String starNumber,
-      String content,
-      var product,
-      String id,
-      String image}) async {
+  static Future<dynamic> post(String id, String product, String content,
+      String image, String starNumber) async {
     var client = http.Client();
     var response = await client.post(
         Uri.parse('http://10.0.2.2:8000/api/reviews/post-comment'),
@@ -32,5 +29,20 @@ class RepositoryReview {
     } else {
       return 404;
     }
+  }
+
+  static Future<List<Review>> getReviewsForUser() async {
+    List<Review> review;
+    var client = http.Client();
+    var response = await client.get(
+      Uri.parse(
+          'http://10.0.2.2:8000/api/reviews/getReviewsForUser/${RepositoryUser.info.id}'),
+    );
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      review = reviewFromJson(jsonString);
+      return review;
+    }
+    return null;
   }
 }

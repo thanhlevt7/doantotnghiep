@@ -1,18 +1,20 @@
-import 'package:fluter_19pmd/views/profile/order/widgets/cancel.dart';
-import 'package:fluter_19pmd/views/profile/order/widgets/on_delivery.dart';
-import 'package:fluter_19pmd/views/profile/order/widgets/order_history.dart';
-import 'package:fluter_19pmd/views/profile/order/widgets/picking_up_goods.dart';
-import 'package:fluter_19pmd/views/profile/order/widgets/waiting_to_accept.dart';
+import 'package:fluter_19pmd/views/review/widgets/haveEvaluated.dart';
+import 'package:fluter_19pmd/views/review/widgets/not_yet_rated.dart';
 import 'package:flutter/material.dart';
 
-class OrderPage extends StatelessWidget {
-  const OrderPage({Key key}) : super(key: key);
+class ReviewsPage extends StatefulWidget {
+  const ReviewsPage({Key key}) : super(key: key);
 
+  @override
+  State<ReviewsPage> createState() => _ReviewsPageState();
+}
+
+class _ReviewsPageState extends State<ReviewsPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: DefaultTabController(
-        length: 5,
+        length: 2,
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -36,7 +38,7 @@ class OrderPage extends StatelessWidget {
               ),
             ),
             title: const Text(
-              "Xem đơn hàng",
+              "Đánh giá của tôi",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.normal,
@@ -50,15 +52,11 @@ class OrderPage extends StatelessWidget {
     );
   }
 
-  Widget bodyTabbar() => const TabBarView(
-        children: [
-          WaitingToAccept(),
-          PickingUpGoods(),
-          OnDelivery(),
-          OrderHistory(),
-          Cancel(),
-        ],
-      );
+  Widget bodyTabbar() => const TabBarView(children: [
+        NotYetRated(),
+        HaveEvaluated(),
+      ]);
+
   Widget buildTabbar() => const TabBar(
         indicatorColor: Colors.white,
         indicatorWeight: 3,
@@ -66,7 +64,7 @@ class OrderPage extends StatelessWidget {
         tabs: [
           Tab(
             child: Text(
-              "Chờ xác nhận",
+              "Chưa đánh giá",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.normal,
@@ -76,37 +74,7 @@ class OrderPage extends StatelessWidget {
           ),
           Tab(
             child: Text(
-              "Đã xác nhận",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.normal,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Tab(
-            child: Text(
-              "Đang vận chuyển",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.normal,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Tab(
-            child: Text(
-              "Lịch sử mua",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.normal,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Tab(
-            child: Text(
-              "Đã hủy",
+              "Đã đánh giá",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.normal,

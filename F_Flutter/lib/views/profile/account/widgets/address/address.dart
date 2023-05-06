@@ -5,8 +5,6 @@ import 'package:fluter_19pmd/services/profile/profile_bloc.dart';
 import 'package:fluter_19pmd/views/profile/account/widgets/address/create_adress_page.dart';
 import 'package:flutter/material.dart';
 
-import 'create_adress_page.dart';
-
 class AddressManagement extends StatefulWidget {
   const AddressManagement({Key key, this.addresses}) : super(key: key);
   final List<Address> addresses;
