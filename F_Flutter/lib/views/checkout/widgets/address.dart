@@ -97,7 +97,7 @@ class _AddressInPaymentState extends State<AddressInPayment> {
                                 child: Text(
                                   (state.data) ? "Đóng" : "Thay đổi",
                                   style: const TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: buttonColor,
                                   ),

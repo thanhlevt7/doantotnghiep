@@ -4,7 +4,7 @@ import 'package:fluter_19pmd/repository/invoice_api.dart';
 import 'package:fluter_19pmd/services/invoiceForUser/invoice_bloc.dart';
 import 'package:fluter_19pmd/services/invoiceForUser/invoice_event.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 import '../details/order_details.dart';
 
 class OrderHistory extends StatefulWidget {
@@ -57,12 +57,17 @@ class _OrderHistoryState extends State<OrderHistory> {
                           physics: const BouncingScrollPhysics(),
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
+                            DateFormat dateFormat =
+                                DateFormat("dd-MM-yyyy HH:mm:ss");
+                            String date = dateFormat
+                                .format(snapshot.data[index].dateCreated);
                             final currentTime = DateTime.now();
                             final orderDate = DateTime.parse(
                                 snapshot.data[index].dateCreated.toString());
                             final results = currentTime.difference(orderDate);
 
-                            return itemCart(size, index, snapshot, results);
+                            return itemCart(
+                                size, index, snapshot, results, date);
                           }),
                     ),
                   ],
@@ -84,7 +89,7 @@ class _OrderHistoryState extends State<OrderHistory> {
         });
   }
 
-  Widget itemCart(size, index, snapshot, results) => InkWell(
+  Widget itemCart(size, index, snapshot, results, date) => InkWell(
         onTap: () {
           RepositoryInvoice.getInvoiceID = snapshot.data[index].id;
           Navigator.push(
@@ -118,7 +123,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                     const SizedBox(
                       width: 40,
                     ),
-                    _contentCardRight(snapshot, index, size, results),
+                    _contentCardRight(snapshot, index, size, results, date),
                   ],
                 ),
               ],
@@ -127,7 +132,7 @@ class _OrderHistoryState extends State<OrderHistory> {
         ),
       );
 
-  Widget _contentCardRight(snapshot, index, size, a) {
+  Widget _contentCardRight(snapshot, index, size, a, date) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -150,6 +155,11 @@ class _OrderHistoryState extends State<OrderHistory> {
             color: Color(0xFF717171),
             fontWeight: FontWeight.bold,
           ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          date,
+          style: const TextStyle(fontSize: 16),
         ),
       ],
     );

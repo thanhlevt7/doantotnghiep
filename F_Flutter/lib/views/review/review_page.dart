@@ -34,28 +34,17 @@ class _ReviewPageState extends State<ReviewPage> {
     var image = await ImagePicker().pickMultiImage();
     if (image != null) {
       if (image.length > 5) {
-        for (int i = 0; i < 5; i++) {
-          var index = i + 1;
-          EasyLoading.show(status: 'Đang tải ảnh $index', dismissOnTap: true);
-          await RepositoryUser.uploadFile(File(image[i].path));
-          EasyLoading.showSuccess('Hoàn tất! ');
-          changeValue(RepositoryUser.image.join(","), "image", value);
-          changeValue(
-              RepositoryUser.image.length.toString(), "countImage", value);
-          setState(() {});
-        }
-      } else {
-        for (int i = 0; i < image.length; i++) {
-          var index = i + 1;
-          EasyLoading.show(status: 'Đang tải ảnh $index', dismissOnTap: true);
-          await RepositoryUser.uploadFile(File(image[i].path));
-          EasyLoading.showSuccess('Hoàn tất! ');
-        }
-        changeValue(RepositoryUser.image.join(","), "image", value);
-        changeValue(
-            RepositoryUser.image.length.toString(), "countImage", value);
-        setState(() {});
+        image.length = 5;
       }
+      for (int i = 0; i < image.length; i++) {
+        var index = i + 1;
+        EasyLoading.show(status: 'Đang tải ảnh $index', dismissOnTap: true);
+        await RepositoryUser.uploadFile(File(image[i].path));
+        EasyLoading.showSuccess('Hoàn tất! ');
+      }
+      changeValue(RepositoryUser.image.join(","), "image", value);
+      changeValue(RepositoryUser.image.length.toString(), "countImage", value);
+      setState(() {});
     }
   }
 
@@ -89,6 +78,7 @@ class _ReviewPageState extends State<ReviewPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(dataReviews);
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(

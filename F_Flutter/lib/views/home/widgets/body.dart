@@ -18,6 +18,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   final _bestSeller = BestSellerBloc();
+  List<String> image;
 
   @override
   void initState() {
@@ -91,149 +92,155 @@ class _BodyState extends State<Body> {
               SizedBox(
                 height: size.height * 0.35,
                 child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) => Card(
-                    color: Colors.white,
-                    shadowColor: Colors.teal,
-                    elevation: 10,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    margin: const EdgeInsets.all(12),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      var images = snapshot.data[index].image;
+                      image = images.split(",");
+                      return Card(
+                        color: Colors.white,
+                        shadowColor: Colors.teal,
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        margin: const EdgeInsets.all(12),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                snapshot.data[index].type,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.grey.shade600,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(
-                                width: size.width * 0.5,
-                              ),
-                              SizedBox(
-                                height: 45,
-                                width: 45,
-                                child: Image.asset(
-                                  'assets/images/icons-png/best_seller.png',
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                height: 130,
-                                width: 130,
-                                child:
-                                    Image.network(snapshot.data[index].image),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    snapshot.data[index].name,
+                                    snapshot.data[index].type,
                                     style: TextStyle(
-                                      fontSize: 26,
-                                      color: Colors.grey.shade500,
-                                    ),
-                                    maxLines: 2,
-                                  ),
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text:
-                                              "${convertToVND(snapshot.data[index].price)}đ",
-                                          style: TextStyle(
-                                            fontSize: 19,
-                                            color: Colors.grey.shade500,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: "\\",
-                                          style: TextStyle(
-                                            fontSize: 19,
-                                            color: Colors.grey.shade500,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: " ${snapshot.data[index].unit}",
-                                          style: TextStyle(
-                                            fontSize: 19,
-                                            color: Colors.grey.shade500,
-                                          ),
-                                        ),
-                                      ],
+                                      fontSize: 20,
+                                      color: Colors.grey.shade600,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 130,
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                buttonColor),
-                                      ),
-                                      onPressed: () {
-                                        RepositoryProduct.getID =
-                                            snapshot.data[index].id;
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                DetailsProductScreen(
-                                              products: snapshot.data[index],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: const Text(
-                                        'Xem ngay',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                        ),
-                                      ),
+                                    width: size.width * 0.5,
+                                  ),
+                                  SizedBox(
+                                    height: 45,
+                                    width: 45,
+                                    child: Image.asset(
+                                      'assets/images/icons-png/best_seller.png',
                                     ),
                                   ),
-                                  Row(
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    height: 130,
+                                    width: 130,
+                                    child: Image.network(image[0]),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Đã bán : ",
+                                        snapshot.data[index].name,
                                         style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.grey[500]),
+                                          fontSize: 26,
+                                          color: Colors.grey.shade500,
+                                        ),
+                                        maxLines: 2,
                                       ),
-                                      Text(
-                                        snapshot.data[index].total,
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.grey[500]),
-                                      )
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text:
+                                                  "${convertToVND(snapshot.data[index].price)}đ",
+                                              style: TextStyle(
+                                                fontSize: 19,
+                                                color: Colors.grey.shade500,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: "\\",
+                                              style: TextStyle(
+                                                fontSize: 19,
+                                                color: Colors.grey.shade500,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  " ${snapshot.data[index].unit}",
+                                              style: TextStyle(
+                                                fontSize: 19,
+                                                color: Colors.grey.shade500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 130,
+                                        child: ElevatedButton(
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    buttonColor),
+                                          ),
+                                          onPressed: () {
+                                            RepositoryProduct.getID =
+                                                snapshot.data[index].id;
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailsProductScreen(
+                                                  products:
+                                                      snapshot.data[index],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: const Text(
+                                            'Xem ngay',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Đã bán : ",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.grey[500]),
+                                          ),
+                                          Text(
+                                            snapshot.data[index].total,
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.grey[500]),
+                                          )
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                        ),
+                      );
+                    }),
               ),
             ],
           );

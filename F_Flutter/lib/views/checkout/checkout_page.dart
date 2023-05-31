@@ -4,6 +4,7 @@ import 'package:fluter_19pmd/repository/cart_api.dart';
 import 'package:fluter_19pmd/repository/invoice_api.dart';
 import 'package:fluter_19pmd/repository/voucher_api.dart';
 import 'package:fluter_19pmd/views/checkout/widgets/body.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
 class CheckOutPage extends StatefulWidget {
@@ -34,6 +35,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
           leading: IconButton(
               onPressed: () {
                 RepositoryVoucher.sale = 0;
+                RepositoryInvoice.paymentMethodSelected = "1";
                 Navigator.of(context).pop();
               },
               icon: const Icon(Icons.arrow_back)),
@@ -110,26 +112,65 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       ),
                     ),
                     onPressed: () async {
-                      var code = await RepositoryInvoice.payment();
-                      RepositoryVoucher.sale = 0;
-                      if (code == 200) {
-                        await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDiaLogCustom(
-                                json: "assets/delivery.json",
-                                text: "Xin vui lòng đợi trong giây lát.",
-                              );
-                            });
-                        await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDiaLogCustom(
-                                json: "assets/done.json",
-                                text: "Đặt hàng thành công.",
-                                navigator: "Go",
-                              );
-                            });
+                      if (RepositoryInvoice.paymentMethodSelected == "1") {
+                        var code = await RepositoryInvoice.payment();
+                        RepositoryVoucher.sale = 0;
+                        if (code == 200) {
+                          await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDiaLogCustom(
+                                  json: "assets/done.json",
+                                  text: "Đặt hàng thành công.",
+                                  navigator: "Go",
+                                );
+                              });
+                        }
+                      } else if (RepositoryInvoice.paymentMethodSelected ==
+                          "2") {
+                        await RepositoryInvoice.paymentMomo();
+                        _launchUrl(Uri.parse(RepositoryInvoice.url));
+                        for (int i = 0; i < 120; i++) {
+                          var status = await RepositoryInvoice.checkPayment(
+                              RepositoryInvoice.orderId);
+                          await Future.delayed(const Duration(seconds: 5));
+                          if (status == null) {}
+                          if (status == 200) {
+                            RepositoryInvoice.paymentMethodSelected = "1";
+                            await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDiaLogCustom(
+                                    json: "assets/done.json",
+                                    text: "Đặt hàng thành công.",
+                                    navigator: "Go",
+                                  );
+                                });
+                            i = 120;
+                          }
+                        }
+                      } else {
+                        await RepositoryInvoice.paymentAtm();
+                        _launchUrl(Uri.parse(RepositoryInvoice.url));
+                        for (int i = 0; i < 120; i++) {
+                          var status = await RepositoryInvoice.checkPayment(
+                              RepositoryInvoice.orderId);
+                          await Future.delayed(const Duration(seconds: 5));
+                          if (status == null) {}
+                          if (status == 200) {
+                            RepositoryInvoice.paymentMethodSelected = "1";
+                            await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDiaLogCustom(
+                                    json: "assets/done.json",
+                                    text: "Đặt hàng thành công.",
+                                    navigator: "Go",
+                                  );
+                                });
+                            i = 120;
+                          }
+                        }
                       }
                     },
                     child: Row(
@@ -153,5 +194,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _launchUrl(Uri _url) async {
+    if (await canLaunchUrl(_url)) {
+      // ignore: deprecated_member_use
+      await launch(RepositoryInvoice.url, forceSafariVC: false);
+    }
   }
 }

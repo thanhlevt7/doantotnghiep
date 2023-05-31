@@ -75,6 +75,7 @@ class InvoiceController extends Controller
                 ->select('invoices.*')
                 ->where('invoices.userID', $userID)
                 ->whereIn('invoices.status', [-1, -2])
+                ->orderBy('dateCreated', 'desc')
                 ->addSelect(DB::raw("null as products"))->get();
 
             foreach ($query  as $item) {
@@ -345,4 +346,186 @@ class InvoiceController extends Controller
             ], 201);
         }
     }
+
+
+
+
+
+
+
+    public function paymentMomo()
+    {
+        $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
+        $orderId = time() . "";
+        $redirectUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b";
+        $ipnUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b";
+        $extraData = "";
+        $partnerCode = 'MOMOBKUN20180529';
+        $accessKey = 'klm05TvNBzhg7h7j';
+        $serectkey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
+        $orderInfo = "HD456";
+        $amount = "10000";
+        $requestId = time() . "";
+        $requestType = "captureWallet";
+        //before sign HMAC SHA256 signature
+        $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
+        $signature = hash_hmac("sha256", $rawHash, $serectkey);
+        $data = array(
+            'partnerCode' => $partnerCode,
+            'partnerName' => "Test",
+            "storeId" => "MomoTestStore",
+            'requestId' => $requestId,
+            'amount' => $amount,
+            'orderId' => $orderId,
+            'orderInfo' => $orderInfo,
+            'redirectUrl' => $redirectUrl,
+            'ipnUrl' => $ipnUrl,
+            'lang' => 'vi',
+            'extraData' => $extraData,
+            'requestType' => $requestType,
+            'signature' => $signature
+        );
+
+        //endddddddddd
+        $ch = curl_init($endpoint);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen(json_encode($data))
+            )
+        );
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        //execute post
+        $result1 = curl_exec($ch);
+        //close connection
+        curl_close($ch);
+        $result = $result1;
+        $jsonResult = json_decode($result, true);  // decode json
+        return $jsonResult;
+        //Just a example, please check more in there
+
+
+    }
+
+    public function paymentAtm()
+    {
+        function execPostRequest($url, $data)
+        {
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt(
+                $ch,
+                CURLOPT_HTTPHEADER,
+                array(
+                    'Content-Type: application/json',
+                    'Content-Length: ' . strlen($data)
+                )
+            );
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+            //execute post
+            $result = curl_exec($ch);
+            //close connection
+            curl_close($ch);
+            return $result;
+        }
+        $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
+        $partnerCode = 'MOMOBKUN20180529';
+        $accessKey = 'klm05TvNBzhg7h7j';
+        $serectkey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
+        $orderInfo = "HD123";
+        $amount = "20000";
+        $orderId = time() . "";
+        $redirectUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b";
+        $ipnUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b";
+        $extraData = "";
+        $requestId = time() . "";
+        $requestType = "payWithATM";
+        //before sign HMAC SHA256 signature
+        $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
+        $signature = hash_hmac("sha256", $rawHash, $serectkey);
+        $data = array(
+            'partnerCode' => $partnerCode,
+            'partnerName' => "Test",
+            "storeId" => "MomoTestStore",
+            'requestId' => $requestId,
+            'amount' => $amount,
+            'orderId' => $orderId,
+            'orderInfo' => $orderInfo,
+            'redirectUrl' => $redirectUrl,
+            'ipnUrl' => $ipnUrl,
+            'lang' => 'vi',
+            'extraData' => $extraData,
+            'requestType' => $requestType,
+            'signature' => $signature
+        );
+        $result = execPostRequest($endpoint, json_encode($data));
+        $jsonResult = json_decode($result, true);  // decode json
+        return $jsonResult;
+    }
+
+    public function checkPayment($id)
+    {
+        $endpoint = "https://test-payment.momo.vn/v2/gateway/api/query";
+        $partnerCode = 'MOMOBKUN20180529';
+        $accessKey = 'klm05TvNBzhg7h7j';
+        $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
+        $requestId = time() . "";
+        $requestType = "captureWallet";
+
+        $orderId = $id; // Mã đơn hàng cần kiểm tra trạng thái
+
+        //before sign HMAC SHA256 signature
+        $rawHash = "accessKey=" . $accessKey . "&orderId=" . $orderId . "&partnerCode=" . $partnerCode . "&requestId=" . $requestId;
+        // echo "<script>console.log('Debug Objects: " . $rawHash . "' );</script>";
+
+        $signature = hash_hmac("sha256", $rawHash, $secretKey);
+
+        $data = array(
+            'partnerCode' => $partnerCode,
+            'requestId' => $requestId,
+            'orderId' => $orderId,
+            'requestType' => $requestType,
+            'signature' => $signature,
+            'lang' => 'vi'
+        );
+
+        $ch = curl_init($endpoint);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen(json_encode($data))
+            )
+        );
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        //execute post
+        $result = curl_exec($ch);
+        //close connection
+        curl_close($ch);
+
+        $jsonResult = json_decode($result, true);  // decode json
+        if ($jsonResult["resultCode"] == 0) {
+            return $jsonResult;
+        }
+        if ($jsonResult["resultCode"] == 42) {
+            return response()->json([
+                "message" => "Không tìm thấy mã đơn hàng"
+            ], 201);
+        }
+    }
+    
 }

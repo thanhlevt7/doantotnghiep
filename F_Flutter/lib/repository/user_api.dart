@@ -5,6 +5,8 @@ import 'package:fluter_19pmd/models/user_models.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../constant.dart';
+
 class RepositoryUser {
   static User info;
   static List<String> image = [];
@@ -33,7 +35,7 @@ class RepositoryUser {
   static Future<User> fetchUserOnline() async {
     var client = http.Client();
     var response = await client.get(
-      Uri.parse('http://10.0.2.2:8000/api/users/return-user/${info.id}'),
+      Uri.parse('$hostDomainLocal/api/users/return-user/${info.id}'),
     );
     if (response.statusCode == 200) {
       var user = userFromJson(response.body);
@@ -49,7 +51,7 @@ class RepositoryUser {
     var client = http.Client();
 
     var response =
-        await client.post(Uri.parse('http://10.0.2.2:8000/api/users/login'),
+        await client.post(Uri.parse('$hostDomainLocal/api/users/login'),
             body: ({
               'email': email.text,
               'password': password.text,
@@ -68,7 +70,7 @@ class RepositoryUser {
   static Future<dynamic> logout(context) async {
     var client = http.Client();
     var response =
-        await client.get(Uri.parse('http://10.0.2.2:8000/api/users/logout'));
+        await client.get(Uri.parse('$hostDomainLocal/api/users/logout'));
     if (response.statusCode == 200) {
       info = User();
       return response.statusCode;
@@ -82,7 +84,7 @@ class RepositoryUser {
     var client = http.Client();
 
     var response = await client.put(
-        Uri.parse('http://10.0.2.2:8000/api/users/editUser/${info.id}'),
+        Uri.parse('$hostDomainLocal/api/users/editUser/${info.id}'),
         body: ({
           'username': username,
           'fullName': fullName,
@@ -102,7 +104,7 @@ class RepositoryUser {
     var client = http.Client();
 
     var response = await client.put(
-        Uri.parse('http://10.0.2.2:8000/api/users/editImage/${info.id}'),
+        Uri.parse('$hostDomainLocal/api/users/editImage/${info.id}'),
         body: ({
           'image': image,
         }));
@@ -115,7 +117,7 @@ class RepositoryUser {
       String fullname, String phone) async {
     var client = http.Client();
     var response = await client.post(
-        Uri.parse('http://10.0.2.2:8000/api/users/register'),
+        Uri.parse('$hostDomainLocal/api/users/register'),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -139,7 +141,7 @@ class RepositoryUser {
   static Future createAddress(String name) async {
     var client = http.Client();
     var response = await client.post(
-        Uri.parse('http://10.0.2.2:8000/api/users/create-Address'),
+        Uri.parse('$hostDomainLocal/api/users/create-Address'),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -160,7 +162,7 @@ class RepositoryUser {
   static Future deleteAddress(int id) async {
     var client = http.Client();
     var response = await client
-        .delete(Uri.parse('http://10.0.2.2:8000/api/users/delete-address/$id'));
+        .delete(Uri.parse('$hostDomainLocal/api/users/delete-address/$id'));
     if (response.statusCode == 200) {
       return 200;
     } else if (response.statusCode == 201) {
@@ -174,7 +176,7 @@ class RepositoryUser {
     var client = http.Client();
 
     var response = await client.post(
-        Uri.parse('http://10.0.2.2:8000/api/users/check/$email'),
+        Uri.parse('$hostDomainLocal/api/users/check/$email'),
         body: ({
           'email': email,
         }));
@@ -190,7 +192,7 @@ class RepositoryUser {
   static Future changePassword(String email, String password) async {
     var client = http.Client();
     var response = await client.put(
-        Uri.parse('http://10.0.2.2:8000/api/users/change-Password/$email'),
+        Uri.parse('$hostDomainLocal/api/users/change-Password/$email'),
         body: ({'password': password}));
     if (response.statusCode == 200) {
       return 200;
@@ -208,7 +210,6 @@ class RepositoryUser {
       'file': 'data:image/png;base64,' + base64Encode(image.readAsBytesSync()),
       'upload_preset': "amdyfjvl",
     });
-
     final json = jsonDecode(response.body);
     if (response.statusCode == 200) {
       RepositoryUser.image.add(json['secure_url']);
@@ -248,7 +249,7 @@ class RepositoryUser {
     var client = http.Client();
 
     var response = await client.get(
-      Uri.parse('http://10.0.2.2:8000/api/users/count-Address/$id'),
+      Uri.parse('$hostDomainLocal/api/users/count-Address/$id'),
     );
     final json = jsonDecode(response.body);
     if (response.statusCode == 200) {

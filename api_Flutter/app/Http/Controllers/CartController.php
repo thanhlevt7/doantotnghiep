@@ -245,7 +245,7 @@ class CartController extends Controller
             ->where('userID', $userID)
             ->where('status', 0)
             ->get();
-        $getDetails = DB::table('invoice_details')
+        DB::table('invoice_details')
             ->where('invoiceID', $getInvoice[0]->id)
             ->where('productID', $request->productID)
             ->delete();

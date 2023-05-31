@@ -96,12 +96,12 @@ class _NotYetRatedState extends State<NotYetRated> {
             ListTile(
               leading: SizedBox(
                 height: 100,
-                width: 100,
+                width: 50,
                 child: Image.network(image[0]),
               ),
               trailing: Text(
                 '${convertToVND(snapshot.data[index].products[index].price)}đ',
-                style: const TextStyle(fontSize: 20, color: Colors.black),
+                style: const TextStyle(fontSize: 18, color: Colors.black),
               ),
               title: Text(
                 snapshot.data[index].products[index].name,

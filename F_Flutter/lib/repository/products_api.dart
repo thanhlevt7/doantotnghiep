@@ -3,6 +3,8 @@ import 'package:fluter_19pmd/models/reviews_models.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:http/http.dart' as http;
 
+import '../constant.dart';
+
 class RepositoryProduct {
   static var getID;
   static List<Product> products = [];
@@ -29,9 +31,9 @@ class RepositoryProduct {
     var client = http.Client();
     List<Product> newProduct;
     var response = await client.get(
-      Uri.parse(
-          'http://10.0.2.2:8000/api/products/getAllProduct/${RepositoryUser.info.id}'),
+      Uri.parse('$hostDomainLocal/api/products/getAllProduct/${RepositoryUser.info.id}'),
     );
+    print(response);
     if (response.statusCode == 200) {
       var jsonString = response.body;
       newProduct = productFromJson(jsonString);
@@ -45,8 +47,7 @@ class RepositoryProduct {
     var client = http.Client();
     List<Product> newProduct;
     var response = await client.get(
-      Uri.parse(
-          'http://10.0.2.2:8000/api/products/newProduct/${RepositoryUser.info.id}'),
+      Uri.parse('$hostDomainLocal/api/products/newProduct/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -61,8 +62,7 @@ class RepositoryProduct {
     var client = http.Client();
     List<Product> newProduct;
     var response = await client.get(
-      Uri.parse(
-          'http://10.0.2.2:8000/api/products/Fruit/${RepositoryUser.info.id}'),
+      Uri.parse('$hostDomainLocal/api/products/Fruit/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -77,8 +77,7 @@ class RepositoryProduct {
     var client = http.Client();
     List<Product> newProduct;
     var response = await client.get(
-      Uri.parse(
-          'http://10.0.2.2:8000/api/products/Meat/${RepositoryUser.info.id}'),
+      Uri.parse('$hostDomainLocal/api/products/Meat/${RepositoryUser.info.id}'),
     );
 
     if (response.statusCode == 200) {
@@ -93,8 +92,7 @@ class RepositoryProduct {
     var client = http.Client();
     List<Product> newProduct;
     var response = await client.get(
-      Uri.parse(
-          'http://10.0.2.2:8000/api/products/Drink/${RepositoryUser.info.id}'),
+      Uri.parse('$hostDomainLocal/api/products/Drink/${RepositoryUser.info.id}'),
     );
 
     if (response.statusCode == 200) {
@@ -110,8 +108,7 @@ class RepositoryProduct {
     var client = http.Client();
     List<Product> newProduct;
     var response = await client.get(
-      Uri.parse(
-          'http://10.0.2.2:8000/api/products/Vegetable/${RepositoryUser.info.id}'),
+      Uri.parse('$hostDomainLocal/api/products/Vegetable/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -125,9 +122,8 @@ class RepositoryProduct {
     var client = http.Client();
     List<Product> newProduct;
     var response = await client.get(
-      Uri.parse('http://10.0.2.2:8000/api/products/getBestSeller'),
+      Uri.parse('$hostDomainLocal/api/products/getBestSeller'),
     );
-    print(response.body);
     if (response.statusCode == 200) {
       var jsonString = response.body;
       newProduct = productFromJson(jsonString);
@@ -143,7 +139,7 @@ class RepositoryProduct {
     List<Product> newProduct;
     var response = await client.post(
         Uri.parse(
-            'http://10.0.2.2:8000/api/products/result-filter/${RepositoryUser.info.id}'),
+            '$hostDomainLocal/api/products/result-filter/${RepositoryUser.info.id}'),
         body: ({
           'keyword': value,
           'maxPrice': maxPrice ?? "",
