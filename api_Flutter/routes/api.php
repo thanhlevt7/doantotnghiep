@@ -43,7 +43,6 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/getBestSeller', [ProductController::class, 'getProductBestSeller']);
 
     Route::post('/result-filter/{userID}', [ProductController::class, 'Filter']);
-
 });
 
 //user controller
@@ -75,6 +74,12 @@ Route::group(['prefix' => 'invoices'], function () {
     Route::get('/getInvoiceForUser/{id}', [InvoiceController::class, 'getInvoiceForUser']);
 
     Route::get('/review/{id}', [InvoiceController::class, 'review']);
+
+    Route::get('/paymentMomo', [InvoiceController::class, 'paymentMomo']);
+
+    Route::get('/paymentAtm', [InvoiceController::class, 'paymentAtm']);
+
+    Route::get('/checkPayment/{id}', [InvoiceController::class, 'checkPayment']);
 
     Route::post('/createInvoice', [InvoiceController::class, 'createInvoice']);
 

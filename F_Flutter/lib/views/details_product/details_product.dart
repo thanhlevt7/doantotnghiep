@@ -99,7 +99,8 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                               autoplay: true,
                               viewportFraction: 0.95,
                               scale: 0.8,
-                              pagination: const SwiperPagination(alignment: Alignment.bottomRight),
+                              pagination: const SwiperPagination(
+                                  alignment: Alignment.bottomRight),
                               itemCount: image.length,
                               control: const SwiperControl(
                                   color: Colors.black, size: 15),

@@ -59,6 +59,8 @@ dependencies:
   cloudinary_public: ^0.20.0
   flutter_easyloading: ^3.0.5
   full_screen_image: ^2.0.0
+  flutter_inappwebview: ^5.6.0+2
+  url_launcher: ^6.1.8
   
 
  

@@ -2,6 +2,8 @@ import 'package:fluter_19pmd/models/favorites_model.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:http/http.dart' as http;
 
+import '../constant.dart';
+
 class RepositoryFavorite {
   static getHeightItem(var length) {
     double dem = 0;
@@ -39,7 +41,7 @@ class RepositoryFavorite {
     var client = http.Client();
     var response = await client.get(
       Uri.parse(
-        'http://10.0.2.2:8000/api/favorites/show/${RepositoryUser.info.id}',
+        '$hostDomainLocal/api/favorites/show/${RepositoryUser.info.id}',
       ),
     );
     if (response.statusCode == 200) {
@@ -55,7 +57,7 @@ class RepositoryFavorite {
     var client = http.Client();
     var response = await client.post(
       Uri.parse(
-        'http://10.0.2.2:8000/api/favorites/AddFavoriteTitle/${RepositoryUser.info.id}',
+        '$hostDomainLocal/api/favorites/AddFavoriteTitle/${RepositoryUser.info.id}',
       ),
       body: ({
         'userID': RepositoryUser.info.id.toString(),
@@ -74,7 +76,7 @@ class RepositoryFavorite {
     var client = http.Client();
     var response = await client.delete(
       Uri.parse(
-        'http://10.0.2.2:8000/api/favorites/DeleteFavoriteTitle',
+        '$hostDomainLocal/api/favorites/DeleteFavoriteTitle',
       ),
       body: ({
         'id': id.toString(),
@@ -92,7 +94,7 @@ class RepositoryFavorite {
     var client = http.Client();
     var response = await client.post(
       Uri.parse(
-        'http://10.0.2.2:8000/api/favorites/Add-product',
+        '$hostDomainLocal/api/favorites/Add-product',
       ),
       body: ({
         'favoriteID': favoriteID.toString(),
@@ -112,7 +114,7 @@ class RepositoryFavorite {
     var response = (favoriteID == null)
         ? await client.post(
             Uri.parse(
-              'http://10.0.2.2:8000/api/favorites/delete-product',
+              '$hostDomainLocal/api/favorites/delete-product',
             ),
             body: ({
               'productID': productID.toString(),
@@ -120,7 +122,7 @@ class RepositoryFavorite {
           )
         : await client.post(
             Uri.parse(
-              'http://10.0.2.2:8000/api/favorites/delete-product',
+              '$hostDomainLocal/api/favorites/delete-product',
             ),
             body: ({
               'favoriteID': favoriteID.toString(),

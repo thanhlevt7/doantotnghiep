@@ -1,7 +1,8 @@
-
 import 'package:fluter_19pmd/models/notification_models.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:http/http.dart' as http;
+
+import '../constant.dart';
 
 class RepositoryNotification {
   // ignore: missing_return
@@ -9,7 +10,7 @@ class RepositoryNotification {
     var client = http.Client();
     List<Notifications> notification;
     var response = await client.get(
-      Uri.parse('http://10.0.2.2:8000/api/notifications/show'),
+      Uri.parse('$hostDomainLocal/api/notifications/show'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -24,7 +25,8 @@ class RepositoryNotification {
     var client = http.Client();
     List<Notifications> notification;
     var response = await client.get(Uri.parse(
-        'http://10.0.2.2:8000/api/notifications/getNoticationsForUser/${RepositoryUser.info.id}'));
+        '$hostDomainLocal/api/notifications/getNoticationsForUser/${RepositoryUser.info.id}'));
+    print(response.body);
     if (response.statusCode == 200) {
       var jsonString = response.body;
       notification = notificationsFromJson(jsonString);

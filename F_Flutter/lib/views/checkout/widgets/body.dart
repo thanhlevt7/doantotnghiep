@@ -1,4 +1,5 @@
 import 'package:fluter_19pmd/models/invoices_models.dart';
+import 'package:fluter_19pmd/repository/invoice_api.dart';
 import 'package:fluter_19pmd/repository/voucher_api.dart';
 import 'package:fluter_19pmd/services/cart/cart_bloc.dart';
 import 'package:fluter_19pmd/services/cart/cart_event.dart';
@@ -22,6 +23,7 @@ class _BodyState extends State<Body> {
   final voucherController = TextEditingController();
   final _cartBloc = CartBloc();
   final getValue = VoucherBloc();
+  String selected;
   @override
   void initState() {
     _cartBloc.eventSink.add(CartEvent.fetchCart);
@@ -58,12 +60,19 @@ class _BodyState extends State<Body> {
                         trailing:
                             const Icon(Icons.keyboard_arrow_right_outlined),
                       ))),
-                  const Card(
+                  Card(
                     child: ListTile(
-                      title: Text("Phương thức thanh toán :"),
-                      trailing: Icon(Icons.keyboard_arrow_right_outlined),
-                      subtitle: Text("Thanh toán khi nhận hàng"),
-                    ),
+                        onTap: () {
+                          paymentMethod(context);
+                        },
+                        title: const Text("Phương thức thanh toán :"),
+                        trailing:
+                            const Icon(Icons.keyboard_arrow_right_outlined),
+                        subtitle: RepositoryInvoice.paymentMethodSelected == "1"
+                            ? const Text("Thanh toán khi nhận hàng")
+                            : RepositoryInvoice.paymentMethodSelected == "2"
+                                ? const Text("Thanh toán qua Momo")
+                                : const Text("Thanh toán qua Atm")),
                   ),
                   Card(
                     child: Padding(
@@ -187,7 +196,7 @@ class _BodyState extends State<Body> {
   Future<void> _showMyDialog(context) async {
     return showDialog<String>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
           scrollable: true,
@@ -258,6 +267,56 @@ class _BodyState extends State<Body> {
               ],
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Future<void> paymentMethod(context) async {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          scrollable: true,
+          content: Center(
+            child: Column(
+              children: [
+                RadioListTile<String>(
+                  groupValue: selected,
+                  title: const Text("Thanh toán khi nhận hàng"),
+                  value: "1",
+                  onChanged: (value) {
+                    setState(() {
+                      RepositoryInvoice.paymentMethodSelected = value;
+                    });
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+                RadioListTile<String>(
+                  groupValue: selected,
+                  title: const Text("Thanh toán qua Momo"),
+                  value: "2",
+                  onChanged: (value) {
+                    setState(() {
+                      RepositoryInvoice.paymentMethodSelected = value;
+                    });
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+                RadioListTile<String>(
+                  groupValue: selected,
+                  title: const Text("Thanh toán qua Atm"),
+                  value: "3",
+                  onChanged: (value) {
+                    setState(() {
+                      RepositoryInvoice.paymentMethodSelected = value;
+                    });
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
         );
       },
     );

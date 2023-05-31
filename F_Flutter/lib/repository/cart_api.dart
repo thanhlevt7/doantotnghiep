@@ -3,6 +3,8 @@ import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/repository/voucher_api.dart';
 import 'package:http/http.dart' as http;
 
+import '../constant.dart';
+
 class RepositoryCart {
   static int getID;
   static List<Invoices> cartClient = [];
@@ -43,7 +45,7 @@ class RepositoryCart {
     List<Cart> listProduct;
     var response = await client.get(
       Uri.parse(
-          'http://10.0.2.2:8000/api/invoices/getCart/${RepositoryUser.info.id}'),
+          '$hostDomainLocal/api/invoices/getCart/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -61,7 +63,7 @@ class RepositoryCart {
     var client = http.Client();
     var response = await client.post(
       Uri.parse(
-        'http://10.0.2.2:8000/api/invoices/AddToCart/${RepositoryUser.info.id}',
+        '$hostDomainLocal/api/invoices/AddToCart/${RepositoryUser.info.id}',
       ),
       body: ({
         'productID': productID.toString(),
@@ -84,7 +86,7 @@ class RepositoryCart {
 
     var response = await client.post(
       Uri.parse(
-        'http://10.0.2.2:8000/api/invoices/AddToCart/${RepositoryUser.info.id}',
+        '$hostDomainLocal/api/invoices/AddToCart/${RepositoryUser.info.id}',
       ),
       body: ({
         'productID': product.toString(),
@@ -104,7 +106,7 @@ class RepositoryCart {
     var client = http.Client();
     var response = await client.delete(
       Uri.parse(
-        'http://10.0.2.2:8000/api/invoices/DeleteProductCart/${RepositoryUser.info.id}',
+        '$hostDomainLocal/api/invoices/DeleteProductCart/${RepositoryUser.info.id}',
       ),
       body: ({
         'productID': productID.toString(),
@@ -122,7 +124,7 @@ class RepositoryCart {
     var client = http.Client();
     var response = await client.put(
       Uri.parse(
-        'http://10.0.2.2:8000/api/invoices/UpdateQuantityDecrement',
+        '$hostDomainLocal/api/invoices/UpdateQuantityDecrement',
       ),
       body: ({
         'productID': getID.toString(),
@@ -139,7 +141,7 @@ class RepositoryCart {
     var client = http.Client();
     var response = await client.put(
       Uri.parse(
-        'http://10.0.2.2:8000/api/invoices/UpdateQuantityIncrement',
+        '$hostDomainLocal/api/invoices/UpdateQuantityIncrement',
       ),
       body: ({
         'productID': getID.toString(),
@@ -156,7 +158,7 @@ class RepositoryCart {
     var client = http.Client();
     var response = await client.put(
       Uri.parse(
-        'http://10.0.2.2:8000/api/invoices/UpdateQuantity',
+        '$hostDomainLocal/api/invoices/UpdateQuantity',
       ),
       body: ({
         'invoiceID': cartClient[0].id,

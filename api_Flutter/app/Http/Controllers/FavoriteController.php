@@ -28,7 +28,7 @@ class FavoriteController extends Controller
                     ->addSelect(DB::raw('SUM(invoice_details.quantity) as total'))
                     ->where('invoice_details.productID', $key->id)
                     ->groupBy('invoice_details.productID')
-                    ->get();
+                    ->get()->implode('total', ', ');
                 $key->checkFavorite =  DB::table('favorites')
                     ->join('favorite_details', 'favorites.id', 'favorite_details.favoriteID')
                     ->where('favorites.userID', $userID)

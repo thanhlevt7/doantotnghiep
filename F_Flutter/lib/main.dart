@@ -1,5 +1,8 @@
+import 'package:fluter_19pmd/views/home/home_page.dart';
 import 'package:fluter_19pmd/views/introduction_page.dart';
 import 'package:fluter_19pmd/views/login/signIn_screen.dart';
+import 'package:fluter_19pmd/views/openMomo.dart';
+import 'package:fluter_19pmd/views/test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 

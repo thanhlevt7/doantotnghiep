@@ -1,12 +1,19 @@
+import 'dart:convert';
+
 import 'package:fluter_19pmd/models/invoices_models.dart';
 import 'package:fluter_19pmd/repository/cart_api.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/repository/voucher_api.dart';
 import 'package:http/http.dart' as http;
 
+import '../constant.dart';
+
 class RepositoryInvoice {
   static var getInvoiceID;
+  static String url = "";
+  static String orderId;
   static String getAddress;
+  static String paymentMethodSelected = "1";
   static double heightMyOrder() {
     double dem = 0;
     for (var i = 1; i <= RepositoryCart.cartClient[0].products.length; i++) {
@@ -24,7 +31,7 @@ class RepositoryInvoice {
 
     var response = await client.put(
       Uri.parse(
-          'http://10.0.2.2:8000/api/invoices/payment/${RepositoryCart.cartClient[0].id}'),
+          '$hostDomainLocal/api/invoices/payment/${RepositoryCart.cartClient[0].id}'),
       body: ({
         'address': getAddress,
         'total': (RepositoryCart.totalMoney).toString(),
@@ -43,7 +50,7 @@ class RepositoryInvoice {
     var client = http.Client();
 
     var response = await client.post(
-      Uri.parse('http://10.0.2.2:8000/api/invoices/buynow'),
+      Uri.parse('$hostDomainLocal/api/invoices/buynow'),
       body: ({
         'total': total.toString(),
         'shippingName': RepositoryUser.info.fullName,
@@ -67,7 +74,7 @@ class RepositoryInvoice {
 
     var response = await client.get(
       Uri.parse(
-          'http://10.0.2.2:8000/api/invoices/getInvoiceSuccess/${RepositoryUser.info.id}'),
+          '$hostDomainLocal/api/invoices/getInvoiceSuccess/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       List<Invoices> invoices;
@@ -84,7 +91,7 @@ class RepositoryInvoice {
 
     var response = await client.get(
       Uri.parse(
-          'http://10.0.2.2:8000/api/invoices/getWaitingToAccept/${RepositoryUser.info.id}'),
+          '$hostDomainLocal/api/invoices/getWaitingToAccept/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -96,15 +103,13 @@ class RepositoryInvoice {
     }
   }
 
-  
-
   static Future<List<Invoices>> notYetRated() async {
     var client = http.Client();
     List<Invoices> invoices;
 
     var response = await client.get(
       Uri.parse(
-          'http://10.0.2.2:8000/api/invoices/notYetRated/${RepositoryUser.info.id}'),
+          '$hostDomainLocal/api/invoices/notYetRated/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -121,7 +126,7 @@ class RepositoryInvoice {
 
     var response = await client.get(
       Uri.parse(
-          'http://10.0.2.2:8000/api/invoices/getPickingUpGood/${RepositoryUser.info.id}'),
+          '$hostDomainLocal/api/invoices/getPickingUpGood/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -138,7 +143,7 @@ class RepositoryInvoice {
 
     var response = await client.get(
       Uri.parse(
-          'http://10.0.2.2:8000/api/invoices/getOnDelivery/${RepositoryUser.info.id}'),
+          '$hostDomainLocal/api/invoices/getOnDelivery/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -155,7 +160,7 @@ class RepositoryInvoice {
 
     var response = await client.get(
       Uri.parse(
-          'http://10.0.2.2:8000/api/invoices/getCancelOrder/${RepositoryUser.info.id}'),
+          '$hostDomainLocal/api/invoices/getCancelOrder/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -170,7 +175,7 @@ class RepositoryInvoice {
     var client = http.Client();
 
     var response = await client.delete(
-      Uri.parse('http://10.0.2.2:8000/api/invoices/CancelOrder/$id'),
+      Uri.parse('$hostDomainLocal/api/invoices/CancelOrder/$id'),
     );
     if (response.statusCode == 200) {
       return 200;
@@ -183,8 +188,7 @@ class RepositoryInvoice {
     var client = http.Client();
 
     var response = await client.get(
-      Uri.parse(
-          'http://10.0.2.2:8000/api/invoices/order-details/$getInvoiceID'),
+      Uri.parse('$hostDomainLocal/api/invoices/order-details/$getInvoiceID'),
     );
     if (response.statusCode == 200) {
       var jsonData = response.body;
@@ -193,5 +197,52 @@ class RepositoryInvoice {
       return invoice;
     }
     return throw Exception("Lỗi");
+  }
+
+  static paymentMomo() async {
+    var client = http.Client();
+
+    var response = await client.get(
+      Uri.parse('$hostDomainLocal/api/invoices/paymentMomo'),
+    );
+    final data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      url = data["payUrl"];
+      orderId = data["orderId"];
+      return 200;
+    }
+    return throw Exception("Lỗi");
+  }
+
+  static paymentAtm() async {
+    var client = http.Client();
+
+    var response = await client.get(
+      Uri.parse('$hostDomainLocal/api/invoices/paymentAtm'),
+    );
+    print(response.body);
+    final data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      url = data["payUrl"];
+      orderId = data["orderId"];
+      return 200;
+    }
+    return throw Exception("Lỗi");
+  }
+
+  static checkPayment(String id) async {
+    var client = http.Client();
+
+    var response = await client.get(
+      Uri.parse('$hostDomainLocal/api/invoices/checkPayment/$id'),
+    );
+    if (response.body.isNotEmpty) {
+      var data = jsonDecode(response.body);
+      if (data["message"] == "Thành công.") {
+        return 200;
+      } else if (response.statusCode == 201) {
+        return throw Exception("Lỗi");
+      }
+    }
   }
 }

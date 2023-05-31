@@ -45,7 +45,7 @@ class AccountController extends Controller
 
         if (isset($_GET['keyWord'])) {
             $searchText = $_GET['keyWord'];
-            $data = DB::table('users')->where('fullName', 'LIKE', '%' . $searchText . '%')
+            $data = DB::table('users')->where('Email', 'LIKE', '%' . $searchText . '%')
                 // ->where('type','LIKE','%NV%')
                 ->paginate(4);
             $data->appends($request->all());
