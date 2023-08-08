@@ -41,7 +41,6 @@
                 <tr>
               
                 <th scope="col">Mã hóa đơn</th>
-                <th scope="col">Nhân viên</th>
                 <th scope="col">Khách hàng</th>
                 <th scope="col">Ngày tạo hóa đơn</th>
                 <th scope="col">Tổng</th>
@@ -54,14 +53,13 @@
                 <tr>
                   
                     <td>{{$item->id}}</td>
-                    <td>{{$item->NV}}</td>
                     <td>{{$item->fullName}}</td>
                     <td>{{$item->dateCreated}}</td>
                     <td>{{number_format($item->total)}}VNĐ</td>
                   
                     <td>
                     <div class="btn-group">
-                        <a class="btn btn-primary" href="{{route('admin.invoice.details',$item->id)}}"><i class="fa fa-eye"></i></a>
+                        <a class="btn btn-primary" href="#"><i class="fa fa-eye"></i></a>
                         <a class="btn btn-primary" href="#"><i class="fa fa-lg fa-edit"></i></a>
                     </div>
                     </td>

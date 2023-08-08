@@ -59,6 +59,7 @@ class _AlertTextFieldCustomState extends State<AlertTextFieldCustom> {
   final controller = TextEditingController();
   final _eventFavorite = EventForUserInFavorite();
   final _favorites = ProfileBloc();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -76,13 +77,16 @@ class _AlertTextFieldCustomState extends State<AlertTextFieldCustom> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+    return Form(
+      key: _formKey,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        child: dialogContent(context),
       ),
-      elevation: 0,
-      backgroundColor: Colors.white,
-      child: dialogContent(context),
     );
   }
 
@@ -119,18 +123,15 @@ class _AlertTextFieldCustomState extends State<AlertTextFieldCustom> {
                                 }
                                 return SizedBox(
                                   width: 300,
-                                  height:
-                                      RepositoryFavorite.getHeightForScreenHome(
-                                          snapshot.data.length),
+                                  height: 180,
                                   child: ListView.separated(
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
                                       itemBuilder: (context, index) => ListTile(
                                             leading: Text(
                                               '${index + 1}.',
                                               style: TextStyle(
-                                                  fontSize: 22,
-                                                  color: Colors.grey.shade600),
+                                                  fontSize: 18,
+                                                  color: Colors.black
+                                                      .withOpacity(0.8)),
                                             ),
                                             title: Container(
                                               padding:
@@ -140,8 +141,9 @@ class _AlertTextFieldCustomState extends State<AlertTextFieldCustom> {
                                               child: Text(
                                                 snapshot.data[index].title,
                                                 style: TextStyle(
-                                                  fontSize: 22,
-                                                  color: Colors.grey.shade600,
+                                                  fontSize: 18,
+                                                  color: Colors.black
+                                                      .withOpacity(0.8),
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                 ),
@@ -194,6 +196,11 @@ class _AlertTextFieldCustomState extends State<AlertTextFieldCustom> {
                                                 buttonColor),
                                       ),
                                       onPressed: () async {
+                                        final isValid =
+                                            _formKey.currentState.validate();
+                                        if (!isValid) {
+                                          return;
+                                        }
                                         var data =
                                             await RepositoryFavorite.addTitle(
                                                 controller.text);
@@ -208,15 +215,7 @@ class _AlertTextFieldCustomState extends State<AlertTextFieldCustom> {
                                               });
                                           _favorites.eventSink
                                               .add(UserEvent.showFavorite);
-                                        } else {
-                                          await showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDiaLogCustom(
-                                                  json: "assets/error.json",
-                                                  text: "Tạo mới thất bại.",
-                                                );
-                                              });
+                                          controller.clear();
                                         }
                                         _eventFavorite.openFavoriteSink
                                             .add(false);
@@ -307,10 +306,8 @@ class _AlertTextFieldCustomState extends State<AlertTextFieldCustom> {
           ),
         ),
         validator: (value) {
-          if (value.isEmpty ||
-              !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                  .hasMatch(value)) {
-            return 'Enter a valid email!';
+          if (value.isEmpty) {
+            return 'Không được để trống';
           }
           return null;
         },

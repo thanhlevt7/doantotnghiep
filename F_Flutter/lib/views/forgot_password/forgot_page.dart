@@ -219,7 +219,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     _isLoading.loadingSink.add(true);
     var data = await RepositoryUser.check(email);
     if (data == 200) {
-      RepositoryUser.sendEmail(email, RepositoryUser.templateForgot);
+      RepositoryUser.sendEmail(email, templateForgot);
       await showDialog(
           context: context,
           builder: (context) {

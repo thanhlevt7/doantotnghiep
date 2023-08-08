@@ -89,11 +89,16 @@ class _BodyState extends State<Body> {
                             width: 30,
                             height: 30,
                           ),
-                          Text(
-                            widget.products[index].name,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
+                          SizedBox(
+                            width: size.width * 0.5,
+                            child: Text(
+                              widget.products[index].name,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
                             ),
                           ),
                         ],
@@ -106,15 +111,15 @@ class _BodyState extends State<Body> {
                           widget.products[index].description,
                           style: const TextStyle(
                             fontSize: 19,
-                            overflow: TextOverflow.ellipsis,
                           ),
+                          overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         ),
                       ),
                       Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: _buildItemInfo(
-                            text: "Giá bán:",
+                            text: "Giá bán : ",
                             number: widget.products[index].price,
                           )),
                     ],

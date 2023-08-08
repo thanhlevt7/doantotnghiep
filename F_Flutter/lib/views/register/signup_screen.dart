@@ -296,7 +296,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _isLoading.loadingSink.add(true);
     var data = await RepositoryUser.check(email);
     if (data == 201) {
-      await RepositoryUser.sendEmail(email, RepositoryUser.templateRegister);
+      await RepositoryUser.sendEmail(email, templateRegister);
       await showDialog(
           context: context,
           builder: (context) {

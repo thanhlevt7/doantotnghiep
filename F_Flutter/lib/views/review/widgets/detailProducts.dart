@@ -75,7 +75,7 @@ class _DetailProductsState extends State<DetailProducts> {
                         children: [
                           SizedBox(
                             height:
-                                200 * widget.invoice.products.length.toDouble(),
+                                100 * widget.invoice.products.length.toDouble(),
                             child: ListView.separated(
                               padding: const EdgeInsets.all(20.0),
                               itemBuilder: (context, index) => Column(
@@ -84,29 +84,24 @@ class _DetailProductsState extends State<DetailProducts> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text(
-                                        'x${widget.invoice.products[index].quantity}',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.grey.shade500),
-                                      ),
-                                      Text(
-                                        widget.invoice.products[index].name,
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.grey.shade500),
-                                      ),
-                                      Text(
-                                        '${convertToVND(widget.invoice.products[index].price)}đ',
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.grey.shade500),
-                                      ),
-                                    ],
+                                  ListTile(
+                                    leading: Text(
+                                      'x${widget.invoice.products[index].quantity}',
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.black),
+                                    ),
+                                    title: Text(
+                                      widget.invoice.products[index].name,
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.black),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    trailing: Text(
+                                      '${convertToVND(widget.invoice.products[index].price)}đ',
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.red),
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 10,

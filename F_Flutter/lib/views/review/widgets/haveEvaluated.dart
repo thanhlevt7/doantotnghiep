@@ -1,3 +1,4 @@
+import 'package:fluter_19pmd/constant.dart';
 import 'package:fluter_19pmd/models/product_models.dart';
 import 'package:fluter_19pmd/models/reviews_models.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
@@ -65,8 +66,10 @@ class _HaveEvaluatedState extends State<HaveEvaluated> {
                                 .format(snapshot.data[index].postedDate);
                             return ListTile(
                               leading: CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(RepositoryUser.info.avatar)),
+                                  backgroundImage: NetworkImage(
+                                      RepositoryUser.info.avatar.isNotEmpty
+                                          ? RepositoryUser.info.avatar
+                                          : imageUser)),
                               title: Text(RepositoryUser.info.username),
                               subtitle: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -121,6 +124,13 @@ class _HaveEvaluatedState extends State<HaveEvaluated> {
                                                     imageReviews[index],
                                                     height: 100,
                                                     width: 100,
+                                                    errorBuilder:
+                                                        (context, url, error) =>
+                                                            const Icon(
+                                                      Icons.error,
+                                                      size: 50,
+                                                    ),
+                                                    fit: BoxFit.scaleDown,
                                                   );
                                                 }),
                                           ),
@@ -134,9 +144,15 @@ class _HaveEvaluatedState extends State<HaveEvaluated> {
                                           width: 80,
                                         ),
                                         const SizedBox(width: 10),
-                                        Text(
-                                          snapshot.data[index].nameProduct,
-                                          style: const TextStyle(fontSize: 16),
+                                        SizedBox(
+                                          width: 200,
+                                          child: Text(
+                                            snapshot.data[index].nameProduct,
+                                            style:
+                                                const TextStyle(fontSize: 16),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         ),
                                       ],
                                     ),

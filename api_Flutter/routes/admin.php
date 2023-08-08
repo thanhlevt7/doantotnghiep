@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\VoucherController;
+use App\Http\Controllers\Admin\ProductImportsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => '/'], function () {
@@ -15,6 +16,8 @@ Route::group(['prefix' => '/'], function () {
     Route::post('login', [LoginController::class, 'login'])->name('admin.login.post');
     Route::get('logout', [LoginController::class, 'logout'])->
         name('admin.logout');
+        Route::get('/abcdef', [ProductController::class, 'loadProduct'])->
+        name('admin.product');
 
     Route::group(['middleware' => ['auth:admin']], function () {
         Route::get('/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
@@ -118,6 +121,7 @@ Route::group(['prefix' => '/'], function () {
             Route::get('/delete/{id}', [NotificationController::class, 'deleteNotification'])->name('admin.notifications.delete');
 
         });
+
     });
 
 });

@@ -14,7 +14,7 @@ enum UserEvent {
 
 class ProfileBloc {
   final _stateStreamController = StreamController<User>();
-  StreamSink<User> get userOnlineSink => _stateStreamController.sink;
+  StreamSink<User> get _userOnlineSink => _stateStreamController.sink;
   Stream<User> get userOnlineStream => _stateStreamController.stream;
 
   final _stateAddressController = StreamController<List<Address>>();
@@ -36,7 +36,7 @@ class ProfileBloc {
     _eventStream.listen((event) async {
       if (event == UserEvent.fetch) {
         var user = await RepositoryUser.fetchUserOnline();
-        userOnlineSink.add(user);
+        _userOnlineSink.add(user);
       } else if (event == UserEvent.fetchAddress) {
         var user = await RepositoryUser.fetchUserOnline();
         _userAddressSink.add(user.address);

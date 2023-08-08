@@ -46,6 +46,7 @@ class ForeignKey extends Migration
             $table->foreign('productID')->references('id')->on('products');
             $table->foreign('invoiceID')->references('id')->on('invoices');
         });
+
     }
 
     /**

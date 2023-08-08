@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'dart:math';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
+import '../../constant.dart';
 import '../../function.dart';
 
 class OtpRegisterPage extends StatefulWidget {
@@ -132,8 +133,7 @@ class _OtpRegisterPageState extends State<OtpRegisterPage> {
                       )));
                     } else {
                       RepositoryUser.delay = 30;
-                      RepositoryUser.sendEmail(
-                          widget.email, RepositoryUser.templateRegister);
+                      RepositoryUser.sendEmail(widget.email, templateRegister);
                       EasyLoading.showSuccess('Đã gửi otp');
                       startTimer();
                     }
@@ -200,7 +200,7 @@ class _OtpRegisterPageState extends State<OtpRegisterPage> {
       _submit(context, widget.email, widget.pass, widget.displayname,
           widget.fullname, widget.phone);
     } else {
-     EasyLoading.showError('Mã otp không hợp lệ');
+      EasyLoading.showError('Mã otp không hợp lệ');
     }
   }
 

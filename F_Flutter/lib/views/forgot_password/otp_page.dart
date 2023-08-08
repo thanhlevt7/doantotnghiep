@@ -6,6 +6,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'dart:math';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
+import '../../constant.dart';
+
 class OtpPage extends StatefulWidget {
   const OtpPage({this.otp, Key key, this.email}) : super(key: key);
   final int otp;
@@ -122,8 +124,7 @@ class _OtpPageState extends State<OtpPage> {
                             style: const TextStyle(fontSize: 20),
                           )));
                     } else {
-                      RepositoryUser.sendEmail(
-                          widget.email, RepositoryUser.templateForgot);
+                      RepositoryUser.sendEmail(widget.email, templateForgot);
                       RepositoryUser.delay = 30;
                       EasyLoading.showSuccess('Đã gửi otp');
                       startTimer();

@@ -134,7 +134,6 @@ Route::group(['prefix' => 'invoice_details'], function () {
 
 Route::group(['prefix' => 'notifications'], function () {
 
-    Route::get('/show', [NotificationController::class, 'loadNotification']);
     Route::get('/getNoticationsForUser/{id}', [NotificationController::class, 'loadNotificationForUser']);
 });
 

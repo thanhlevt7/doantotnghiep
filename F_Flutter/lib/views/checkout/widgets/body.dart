@@ -284,7 +284,7 @@ class _BodyState extends State<Body> {
                 RadioListTile<String>(
                   groupValue: selected,
                   title: const Text("Thanh toán khi nhận hàng"),
-                  value: "1",
+                  value: "0",
                   onChanged: (value) {
                     setState(() {
                       RepositoryInvoice.paymentMethodSelected = value;
@@ -295,7 +295,7 @@ class _BodyState extends State<Body> {
                 RadioListTile<String>(
                   groupValue: selected,
                   title: const Text("Thanh toán qua Momo"),
-                  value: "2",
+                  value: "1",
                   onChanged: (value) {
                     setState(() {
                       RepositoryInvoice.paymentMethodSelected = value;
@@ -306,7 +306,7 @@ class _BodyState extends State<Body> {
                 RadioListTile<String>(
                   groupValue: selected,
                   title: const Text("Thanh toán qua Atm"),
-                  value: "3",
+                  value: "2",
                   onChanged: (value) {
                     setState(() {
                       RepositoryInvoice.paymentMethodSelected = value;

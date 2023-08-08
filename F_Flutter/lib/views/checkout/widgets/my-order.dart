@@ -40,36 +40,28 @@ class _MyOrderState extends State<MyOrder> {
                     final images = widget.carts[index].image;
                     image = images.split(",");
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                height: 60,
-                                width: 80,
-                                child: Image.network(image[0]),
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                "x${widget.carts[index].quantity}",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.grey.shade400,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              Text(
-                                widget.carts[index].name,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: ListTile(
+                          trailing: Text(
+                            "x${widget.carts[index].quantity}",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey.shade400,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          Text(
+                          title: SizedBox(
+                            width: 200,
+                            child: Text(
+                              widget.carts[index].name,
+                              style: const TextStyle(
+                                fontSize: 18,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                          ),
+                          subtitle: Text(
                             "${convertToVND(widget.carts[index].price)}đ",
                             style: TextStyle(
                               fontSize: 18,
@@ -77,9 +69,12 @@ class _MyOrderState extends State<MyOrder> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
-                    );
+                          leading: SizedBox(
+                            height: 60,
+                            width: 80,
+                            child: Image.network(image[0]),
+                          ),
+                        ));
                   },
                 ),
               ),

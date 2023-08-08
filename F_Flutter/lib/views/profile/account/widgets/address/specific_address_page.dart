@@ -4,6 +4,7 @@ import 'package:fluter_19pmd/function.dart';
 import 'package:fluter_19pmd/views/profile/account/widgets/address/google_map_address_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../constant.dart';
 import '../../../../../repository/user_api.dart';
 import 'package:http/http.dart' as https;
 
@@ -17,8 +18,6 @@ class SpecificAddress extends StatefulWidget {
 class _SpecificAddressState extends State<SpecificAddress> {
   List suggest = [];
   String experiment;
-  String components = "country%3Avn";
-  String state;
   final _formKey = GlobalKey<FormState>();
   String placeid;
   double latitude;
@@ -50,7 +49,6 @@ class _SpecificAddressState extends State<SpecificAddress> {
                         const EdgeInsets.only(top: 12, bottom: 12, right: 80),
                     itemBuilder: (context, index) {
                       final option = options.elementAt(index);
-
                       return GestureDetector(
                         onTap: () {
                           FocusManager.instance.primaryFocus?.unfocus();
@@ -61,7 +59,11 @@ class _SpecificAddressState extends State<SpecificAddress> {
                             placeid = suggest[index]["placeid"];
                             suggest.clear();
                           });
-                          location();
+                          RepositoryUser.location(placeid, experiment)
+                              .then((value) {
+                            latitude = value['lat'];
+                            longitude = value['lng'];
+                          });
                         },
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,9 +77,9 @@ class _SpecificAddressState extends State<SpecificAddress> {
                               child: Text(
                                 option.toString(),
                                 style: const TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                   ),
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -123,13 +125,9 @@ class _SpecificAddressState extends State<SpecificAddress> {
                                   });
                                 }),
                       ),
-                      onChanged: (value) {
+                      onChanged: (value) async {
                         if (value.isNotEmpty) {
-                          suggestAddress(
-                              RepositoryUser.province,
-                              RepositoryUser.district,
-                              RepositoryUser.ward,
-                              value);
+                          suggestAddress(value);
                         }
                       },
                       // ignore: missing_return
@@ -173,24 +171,11 @@ class _SpecificAddressState extends State<SpecificAddress> {
     );
   }
 
-  Future suggestAddress(
-      String province, String district, String ward, String input) async {
-    String tinh = "Tỉnh ";
-    String tphcm = "Thành phố Hồ Chí Minh";
-    String thanhpho = "Thành phố ";
-    if (province.contains(tinh)) {
-      state = province.replaceAll(RegExp(tinh), "");
-    }
-
-    if (province.contains(thanhpho)) {
-      if (province == tphcm) {
-        state = province.replaceAll(RegExp(thanhpho), "TP. ");
-      } else {
-        state = province.replaceAll(RegExp(thanhpho), "");
-      }
-    }
-    RepositoryUser.province = state;
-
+  Future suggestAddress(String input) async {
+    suggest.clear();
+    var state = RepositoryUser.province;
+    var district = RepositoryUser.district;
+    var ward = RepositoryUser.ward;
     String sessiontoken = "a11ba2b3-v2a4-s2g2-ssw2-a2g2g4s3fs34";
     final url = Uri.parse(
         "https://shopee.vn/api/v4/geo/autocomplete?city=$district&components=$components&district=$ward&input=$input&sessiontoken=$sessiontoken&state=$state&use_case=shopee.account&v=3");
@@ -198,7 +183,6 @@ class _SpecificAddressState extends State<SpecificAddress> {
     final json = jsonDecode(response.body);
     experiment = json['experiment'];
     final predictions = json['predictions'];
-    suggest.clear();
     if (suggest.isEmpty) {
       predictions.forEach((e) {
         suggest.add({
@@ -209,17 +193,5 @@ class _SpecificAddressState extends State<SpecificAddress> {
         setState(() {});
       });
     }
-  }
-
-  void location() async {
-    String fields = "geometry";
-    String group = "DS";
-    String sessiontoken = "a11ba2b3-v2a4-s2g2-ssw2-a2g2g4s3fs34";
-    final url = Uri.parse(
-        "https://shopee.vn/api/v4/geo/details?components=$components&experiment=$experiment&fields=$fields&group=$group&placeid=$placeid&sessiontoken=$sessiontoken&use_case=shopee.account&v=3");
-    final response = await https.get(url);
-    final json = jsonDecode(response.body);
-    latitude = json['result']['geometry']['location']['lat'];
-    longitude = json['result']['geometry']['location']['lng'];
   }
 }

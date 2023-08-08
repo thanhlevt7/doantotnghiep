@@ -13,6 +13,15 @@ class InvoiceController extends Controller
 {
     function buynow(Request $request)
     {
+        $isPaid = null;
+        $status = null;
+        if ($request->isPaid == 0) {
+            $isPaid = 0;
+            $status = 1;
+        } else {
+            $isPaid = $request->isPaid;
+            $status = 2;
+        }
         $countInv =  DB::table('invoices')->count() + 1;
         $randomIDInvoice = 'HD' . Date('Ymd') .  $countInv;
         DB::table('invoices')
@@ -24,15 +33,22 @@ class InvoiceController extends Controller
                 'shippingPhone' => $request->shippingPhone,
                 'dateCreated' => $request->dateCreated,
                 'total' =>    $request->total,
-                'isPaid' => 0,
-                'status' => 1,
+                'isPaid' => $isPaid,
+                'status' => $status,
             ]);
         DB::table('invoice_details')
             ->insert([
                 'invoiceID' => $randomIDInvoice,
                 'productID' => $request->productID,
                 'quantity' => $request->quantity,
-                'status' => 1
+            ]);
+        $stock = DB::table('products')
+            ->where('id', $request->productID)
+            ->select('stock')->get();
+        DB::table('products')
+            ->where('id', $request->productID)
+            ->update([
+                'stock' => $stock[0]->stock - $request->quantity
             ]);
         return response()->json([
             "Message" => "Đặt hàng thành công"
@@ -40,11 +56,20 @@ class InvoiceController extends Controller
     }
     function payment(Request $request, $invoiceID)
     {
+        $isPaid = 0;
+        $status = null;
+        if ($request->isPaid == 0) {
+            $status = 1;
+        } else {
+            $isPaid = $request->isPaid;
+            $status = 2;
+        }
         DB::table('invoices')->where('id', $invoiceID)
             ->update([
                 'shippingAddress' => $request->address,
                 'total' => $request->total,
-                'status' => 1,
+                'status' => $status,
+                'isPaid' => $isPaid,
             ]);
         $data = DB::table('invoice_details')
             ->where('invoiceID', $invoiceID)->get();
@@ -527,5 +552,4 @@ class InvoiceController extends Controller
             ], 201);
         }
     }
-    
 }

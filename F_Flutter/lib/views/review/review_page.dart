@@ -78,7 +78,6 @@ class _ReviewPageState extends State<ReviewPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(dataReviews);
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
@@ -152,9 +151,14 @@ class _ReviewPageState extends State<ReviewPage> {
                             height: 80,
                           ),
                           const SizedBox(width: 10),
-                          Text(
-                            widget.invoice.products[index].name.toString(),
-                            style: const TextStyle(fontSize: 18),
+                          SizedBox(
+                            width: 300,
+                            child: Text(
+                              widget.invoice.products[index].name.toString(),
+                              style: const TextStyle(fontSize: 18),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           )
                         ],
                       ),
