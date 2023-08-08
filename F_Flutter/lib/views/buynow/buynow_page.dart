@@ -1,8 +1,10 @@
 import 'package:fluter_19pmd/constant.dart';
 import 'package:fluter_19pmd/function.dart';
+import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/repository/voucher_api.dart';
 import 'package:fluter_19pmd/views/buynow/widgets/body.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../models/product_models.dart';
 import '../../repository/invoice_api.dart';
 
@@ -121,30 +123,33 @@ class _BuyNowPageState extends State<BuyNowPage> {
                       ),
                     ),
                     onPressed: () async {
-                      var response = await RepositoryInvoice.buynow(
-                          RepositoryInvoice.total(
-                              widget.quantity, widget.products.price),
-                          widget.products.id,
-                          widget.quantity);
-                      RepositoryVoucher.sale = 0;
-                      if (response == 200) {
-                        await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDiaLogCustom(
-                                json: "assets/delivery.json",
-                                text: "Xin vui lòng đợi trong giây lát.",
-                              );
-                            });
-                        await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDiaLogCustom(
-                                json: "assets/done.json",
-                                text: "Đặt hàng thành công.",
-                                navigator: "Go",
-                              );
-                            });
+                      if (RepositoryInvoice.paymentMethodSelected == "0") {
+                        payment();
+                      } else if (RepositoryInvoice.paymentMethodSelected ==
+                          "1") {
+                        await RepositoryInvoice.paymentMomo();
+                        _launchUrl(Uri.parse(RepositoryInvoice.url));
+                        for (int i = 0; i < 120; i++) {
+                          var status = await RepositoryInvoice.checkPayment(
+                              RepositoryInvoice.orderId);
+                          await Future.delayed(const Duration(seconds: 5));
+                          if (status == 200) {
+                            payment();
+                            i = 120;
+                          }
+                        }
+                      } else {
+                        await RepositoryInvoice.paymentAtm();
+                        _launchUrl(Uri.parse(RepositoryInvoice.url));
+                        for (int i = 0; i < 120; i++) {
+                          var status = await RepositoryInvoice.checkPayment(
+                              RepositoryInvoice.orderId);
+                          await Future.delayed(const Duration(seconds: 5));
+                          if (status == 200) {
+                            payment();
+                            i = 120;
+                          }
+                        }
                       }
                     },
                     child: Row(
@@ -168,5 +173,30 @@ class _BuyNowPageState extends State<BuyNowPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _launchUrl(Uri _url) async {
+    if (await canLaunchUrl(_url)) {
+      // ignore: deprecated_member_use
+      await launch(RepositoryInvoice.url, forceSafariVC: false);
+    }
+  }
+
+  void payment() async {
+    RepositoryVoucher.sale = 0;
+    await RepositoryInvoice.buynow(
+        RepositoryInvoice.total(widget.quantity, widget.products.price),
+        widget.products.id,
+        widget.quantity,
+        RepositoryInvoice.paymentMethodSelected);
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDiaLogCustom(
+            json: "assets/done.json",
+            text: "Đặt hàng thành công.",
+            navigator: "Go",
+          );
+        });
   }
 }

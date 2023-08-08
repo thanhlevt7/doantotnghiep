@@ -18,12 +18,6 @@ class RepositoryUser {
   static int otp;
   static int delay = 0;
   static int countAddress;
-  static String serviceId = 'service_yed4dhz';
-  static String templateRegister = 'template_tmzua9o';
-  static String templateForgot = 'template_zirzlbc';
-  static String userId = 'MsE9IzXWqJEcqdVgd';
-  static String cookie =
-      "__LOCALE__null=VN; _gcl_au=1.1.1858533460.1683281844; _fbp=fb.1.1683281844519.2031783287; csrftoken=3coMs7dbsCsFq3CM85uRvloH8tsBsP5Y; SPC_SI=q2dHZAAAAABKWXJ1d1ljMwAEEgAAAAAAZ3JyQk94QVA=; SPC_F=eB0IBNmVn2HDzRZf67932sxdr3i2sxol; REC_T_ID=07be9953-eb2e-11ed-beed-2cea7f9dcc6b; _QPWSDCXHZQA=e428f455-597b-46f4-e34a-b87683856f42; _hjFirstSeen=1; _hjSession_868286=eyJpZCI6ImRmOTk3MzE3LTJhMWEtNGRiOC1hMDVjLTFjZTMxMzBlMWI2ZSIsImNyZWF0ZWQiOjE2ODMyODE4NTAwNjYsImluU2FtcGxlIjpmYWxzZX0=; _hjAbsoluteSessionInProgress=0; AMP_TOKEN=%24NOT_FOUND; _gid=GA1.2.1337360275.1683281851; SPC_CLIENTID=ZUIwSUJObVZuMkhEfsxzeeuwkzwnjqrs; _hjSessionUser_868286=eyJpZCI6IjBiY2U5MmU1LTBmNWMtNWM3NS05MTJlLTQzOWY3ZjFmMzZjNyIsImNyZWF0ZWQiOjE2ODMyODE4NTAwNTYsImV4aXN0aW5nIjp0cnVlfQ==; fblo_421039428061656=y; _ga=GA1.1.1267620568.1683281850; _dc_gtm_UA-61914164-6=1; shopee_webUnique_ccd=P8Nz6%2BhnTRoq03piBddEHw%3D%3D%7CemDeiDuc1wm0pah78CLGt6INLOhkyY%2BMNG35Xz8FvQzIkwju%2BXGxhz4xLHsDZGMzmnp76gu82zVUVeLEtyrEy7OSQNJYTXwhuxg%3D%7CJZ%2BsjYNLL2A4llbb%7C06%7C3; ds=f5e1f7f61a5ba93f82a39dbe47c6f935; SPC_ST=.am4wYUJsZGhscEF2aVZId3n2ZC/lNXtmyihnsE6WG5q2apV0IEtEBZ/mNPRRrr5TcM5qclP3y3p9QT7qzCCKWca/3AiIyCvAjGjqTwPhDP0YaWV/2HubZYa5Jeq2yi5pI7BmZPwPgTnuI/vKM7ikIlpkekKX2vBGn/ZpdZpqKBKq0DRmGds1pLkPUpqTqWQjwOYTQtxmr/AFquXtsr7jpA==; _ga_M32T05RVZT=GS1.1.1683281849.1.1.1683283093.54.0.0; SPC_U=953323022; SPC_T_IV=ZXR4VmJlWmdaRzNSdmJDdw==; SPC_EC=RTFTUlRaVUtnRjNPYldPYuQxx5W+Z18ABgRGrXRtrrz/qq3J6vIdG4oBrgQE0RAcZ5ka7q5X80sYreOG5nhdO2Ba8xQyx1oHuESOnkrC3cWc6j7yK3ybFa6XQuRbnAGFyO342Ue4fbkrpGhUOhZqEk82WefUNHntVW4hGV/kzoY=; SPC_R_T_ID=nvXEZrgArkaJ0uzF8Y7Z0QqNjMmWBObYZQqQ7uM9YAq18pdkeKqCHddf06EdI+mUuwvt3tpGlosU+k02FXr+jNZgQq1kQohTRpCXEcKcuny4YXndTzkRqeBZpDi/FLRWezmi37yayGs0gg4JjJpW/7m7dCx6C824QccqyqrVTGo=; SPC_R_T_IV=ZXR4VmJlWmdaRzNSdmJDdw==; SPC_T_ID=nvXEZrgArkaJ0uzF8Y7Z0QqNjMmWBObYZQqQ7uM9YAq18pdkeKqCHddf06EdI+mUuwvt3tpGlosU+k02FXr+jNZgQq1kQohTRpCXEcKcuny4YXndTzkRqeBZpDi/FLRWezmi37yayGs0gg4JjJpW/7m7dCx6C824QccqyqrVTGo=; useragent=TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzExMy4wLjAuMCBTYWZhcmkvNTM3LjM2; _uafec=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F113.0.0.0%20Safari%2F537.36; ";
   static double getHeightAddress() {
     double dem = 0;
     for (var i = 0; i < info.address.length; i++) {
@@ -175,11 +169,11 @@ class RepositoryUser {
   static Future check(String email) async {
     var client = http.Client();
 
-    var response = await client.post(
-        Uri.parse('$hostDomainLocal/api/users/check/$email'),
-        body: ({
-          'email': email,
-        }));
+    var response =
+        await client.post(Uri.parse('$hostDomainLocal/api/users/check/$email'),
+            body: ({
+              'email': email,
+            }));
     if (response.statusCode == 200) {
       return 200;
     } else if (response.statusCode == 201) {
@@ -226,9 +220,9 @@ class RepositoryUser {
           'Content-Type': 'application/json',
         },
         body: json.encode({
-          'service_id': RepositoryUser.serviceId,
+          'service_id': serviceId,
           'template_id': template,
-          'user_id': RepositoryUser.userId,
+          'user_id': userId,
           'template_params': {
             'otp': otp,
             'user_name': 'name',
@@ -255,5 +249,103 @@ class RepositoryUser {
     if (response.statusCode == 200) {
       RepositoryUser.countAddress = (json['countAddressForUser']);
     }
+  }
+
+  static Future getProvinces() async {
+    List<dynamic> provinces = [];
+    var client = http.Client();
+    final url = Uri.parse(
+        "https://shopee.vn/api/v4/location/get_child_division_list?division_id=0&use_case=shopee.account");
+    final response = await client.get(url);
+    final json = jsonDecode((const Utf8Decoder().convert(response.bodyBytes)));
+    final data = json['data']['divisions'];
+    data.forEach((element) {
+      provinces.add({"id": element['id'], "name": element['division_name']});
+    });
+    return provinces;
+  }
+
+  static Future getLocation(double latitude, double longitude) async {
+    List province = [];
+    var client = http.Client();
+    final url = Uri.parse(
+        "https://shopee.vn/api/v4/location/get_division_hierarchy_by_geo?lat=$latitude&lon=$longitude&useCase=shopee.account");
+    var response = await client.get(url, headers: {'cookie': cookie});
+    final json = jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
+    if (json['data'] == null) {
+      return null;
+    } else {
+      final data = json['data']['division_info_list'];
+
+      data.forEach((e) {
+        province.add(e['division_name']);
+      });
+      return province;
+    }
+  }
+
+  static Future getDistricts(id) async {
+    List districts = [];
+    final url = Uri.parse(
+        "https://shopee.vn/api/v4/location/get_child_division_list?division_id=$id&use_case=shopee.account");
+    var client = http.Client();
+    final response = await client.get(url);
+    final json = jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
+    final data = json['data']['divisions'];
+    data.forEach((element) {
+      districts.add({"id": element['id'], "name": element['division_name']});
+    });
+    return districts;
+  }
+
+  static Future getWards(id) async {
+    List wards = [];
+    final url = Uri.parse(
+        "https://shopee.vn/api/v4/location/get_child_division_list?division_id=$id&use_case=shopee.account");
+    var client = http.Client();
+    final response = await client.get(url);
+    final json = jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
+    final data = json['data']['divisions'];
+    data.forEach((element) {
+      wards.add({"id": element['id'], "name": element['division_name']});
+    });
+    return wards;
+  }
+
+  static Future suggestAddress(String input) async {
+    List suggest = [];
+    var state = RepositoryUser.province;
+    var district = RepositoryUser.district;
+    var ward = RepositoryUser.ward;
+    var client = http.Client();
+    String sessiontoken = "a11ba2b3-v2a4-s2g2-ssw2-a2g2g4s3fs34";
+    final url = Uri.parse(
+        "https://shopee.vn/api/v4/geo/autocomplete?city=$district&components=$components&district=$ward&input=$input&sessiontoken=$sessiontoken&state=$state&use_case=shopee.account&v=3");
+    final response = await client.get(url);
+    final json = jsonDecode(response.body);
+    final predictions = json['predictions'];
+    if (response.statusCode == 200) {
+      predictions.forEach((e) {
+        suggest.add({
+          "main_text": e['structured_formatting']['main_text'],
+          "description": e['description'],
+          "placeid": e['place_id']
+        });
+      });
+      return suggest;
+    }
+    return null;
+  }
+
+  static Future location(String placeid, String experiment) async {
+    var client = http.Client();
+    String fields = "geometry";
+    String group = "DS";
+    String sessiontoken = "a11ba2b3-v2a4-s2g2-ssw2-a2g2g4s3fs34";
+    final url = Uri.parse(
+        "https://shopee.vn/api/v4/geo/details?components=$components&experiment=$experiment&fields=$fields&group=$group&placeid=$placeid&sessiontoken=$sessiontoken&use_case=shopee.account&v=3");
+    final response = await client.get(url);
+    final json = jsonDecode(response.body);
+    return json['result']['geometry']['location'];
   }
 }

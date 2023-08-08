@@ -98,8 +98,7 @@ class _HeaderWithAvatarState extends State<HeaderWithAvatar> {
                     );
                   } else {
                     return const CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            "https://res.cloudinary.com/thanhlevt7/image/upload/v1682571666/image_flutter/nlfptupmdv1bh4xwkptw.jpg"));
+                        backgroundImage: NetworkImage(imageUser));
                   }
                 })),
         Positioned(

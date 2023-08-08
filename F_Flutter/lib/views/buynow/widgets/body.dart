@@ -20,6 +20,7 @@ class BodyBuyNow extends StatefulWidget {
 class _BodyBuyNowState extends State<BodyBuyNow> {
   final getValueVoucher = VoucherBloc();
   final _formKey = GlobalKey<FormState>();
+  String selected;
   final voucherController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -42,12 +43,18 @@ class _BodyBuyNowState extends State<BodyBuyNow> {
                 title: const Text("Voucher"),
                 trailing: const Icon(Icons.keyboard_arrow_right_outlined),
               ))),
-          const Card(
+          Card(
             child: ListTile(
-              title: Text("Phương thức thanh toán :"),
-              trailing: Icon(Icons.keyboard_arrow_right_outlined),
-              subtitle: Text("Thanh toán khi nhận hàng"),
-            ),
+                onTap: () {
+                  paymentMethod(context);
+                },
+                title: const Text("Phương thức thanh toán :"),
+                trailing: const Icon(Icons.keyboard_arrow_right_outlined),
+                subtitle: RepositoryInvoice.paymentMethodSelected == "0"
+                    ? const Text("Thanh toán khi nhận hàng")
+                    : RepositoryInvoice.paymentMethodSelected == "1"
+                        ? const Text("Thanh toán qua Momo")
+                        : const Text("Thanh toán qua Atm")),
           ),
           Card(
             child: Padding(
@@ -218,7 +225,7 @@ class _BodyBuyNowState extends State<BodyBuyNow> {
                       Navigator.of(context).pop();
                       EasyLoading.showSuccess('Voucher hợp lệ! ');
                     } else if (check == 202) {
-                      EasyLoading.showSuccess('KHông thể sử dụng! ');
+                      EasyLoading.showSuccess('Không thể sử dụng! ');
                     } else {
                       EasyLoading.showError('Voucher không hợp lệ! ');
                     }
@@ -227,6 +234,56 @@ class _BodyBuyNowState extends State<BodyBuyNow> {
               ],
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Future<void> paymentMethod(context) async {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          scrollable: true,
+          content: Center(
+            child: Column(
+              children: [
+                RadioListTile<String>(
+                  groupValue: selected,
+                  title: const Text("Thanh toán khi nhận hàng"),
+                  value: "0",
+                  onChanged: (value) {
+                    setState(() {
+                      RepositoryInvoice.paymentMethodSelected = value;
+                    });
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+                RadioListTile<String>(
+                  groupValue: selected,
+                  title: const Text("Thanh toán qua Momo"),
+                  value: "1",
+                  onChanged: (value) {
+                    setState(() {
+                      RepositoryInvoice.paymentMethodSelected = value;
+                    });
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+                RadioListTile<String>(
+                  groupValue: selected,
+                  title: const Text("Thanh toán qua Atm"),
+                  value: "2",
+                  onChanged: (value) {
+                    setState(() {
+                      RepositoryInvoice.paymentMethodSelected = value;
+                    });
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
         );
       },
     );

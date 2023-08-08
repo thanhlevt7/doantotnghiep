@@ -103,9 +103,17 @@ class _NotYetRatedState extends State<NotYetRated> {
                 '${convertToVND(snapshot.data[index].products[index].price)}đ',
                 style: const TextStyle(fontSize: 18, color: Colors.black),
               ),
-              title: Text(
-                snapshot.data[index].products[index].name,
-                style: const TextStyle(fontSize: 24, color: Colors.black),
+              title: SizedBox(
+                height: 40,
+                child: Text(
+                  snapshot.data[index].products[index].name,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.black.withOpacity(0.8),
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
             const SizedBox(height: 20),

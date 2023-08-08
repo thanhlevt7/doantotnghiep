@@ -39,6 +39,8 @@ class Body extends StatelessWidget {
                                 invoice.products[index].name,
                                 style: TextStyle(
                                     fontSize: 20, color: Colors.grey.shade500),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               trailing: Text(
                                 '${convertToVND(invoice.products[index].price)}đ',

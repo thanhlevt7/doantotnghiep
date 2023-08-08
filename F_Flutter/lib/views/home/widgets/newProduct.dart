@@ -33,7 +33,6 @@ class _newProductPageState extends State<newProductPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return StreamBuilder<List<Product>>(
         initialData: const [],
         stream: _newProduct.newproductStream,
@@ -68,102 +67,108 @@ class _newProductPageState extends State<newProductPage> {
                         final results = currentTime.difference(createDate);
                         final images = snapshot.data[index].image;
                         image = images.split(",");
-                        return Card(
-                          color: Colors.white,
-                          shadowColor: Colors.teal,
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          margin: const EdgeInsets.all(12),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: InkWell(
-                              onTap: () {
-                                RepositoryProduct.getID =
-                                    snapshot.data[index].id;
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailsProductScreen(
-                                      products: snapshot.data[index],
+                        return SizedBox(
+                          height: size.height * 0.45,
+                          width: size.width * 0.9,
+                          child: Card(
+                            color: Colors.white,
+                            shadowColor: Colors.teal,
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            margin: const EdgeInsets.all(12),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: InkWell(
+                                onTap: () {
+                                  RepositoryProduct.getID =
+                                      snapshot.data[index].id;
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailsProductScreen(
+                                        products: snapshot.data[index],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        snapshot.data[index].type,
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.grey.shade600,
-                                          fontWeight: FontWeight.bold,
+                                  );
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          snapshot.data[index].type,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.grey.shade600,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 150),
-                                      _timeNewProduct(results),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        height: 130,
-                                        width: 130,
-                                        child: Image.network(image[0]),
-                                      ),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            snapshot.data[index].name,
-                                            style: TextStyle(
-                                              fontSize: 24,
-                                              color: Colors.grey.shade500,
+                                        const SizedBox(width: 150),
+                                        _timeNewProduct(results),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 130,
+                                          width: 130,
+                                          child: Image.network(image[0]),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: 160,
+                                              height: 60,
+                                              child: Text(
+                                                snapshot.data[index].name,
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.black
+                                                      .withOpacity(0.8),
+                                                ),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
                                             ),
-                                          ),
-                                          RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text:
-                                                      "${convertToVND(snapshot.data[index].price)}đ",
-                                                  style: TextStyle(
-                                                    fontSize: 19,
-                                                    color: Colors.grey.shade500,
+                                            RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text:
+                                                        "${convertToVND(snapshot.data[index].price)}đ",
+                                                    style: const TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.red,
+                                                    ),
                                                   ),
-                                                ),
-                                                TextSpan(
-                                                  text: "\\",
-                                                  style: TextStyle(
-                                                    fontSize: 19,
-                                                    color: Colors.grey.shade500,
+                                                  TextSpan(
+                                                    text:
+                                                        "\\ ${snapshot.data[index].unit}",
+                                                    style: const TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.red,
+                                                    ),
                                                   ),
-                                                ),
-                                                TextSpan(
-                                                  text:
-                                                      " ${snapshot.data[index].unit}",
-                                                  style: TextStyle(
-                                                    fontSize: 19,
-                                                    color: Colors.grey.shade500,
-                                                  ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

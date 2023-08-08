@@ -119,16 +119,21 @@ class _BodyState extends State<Body> {
                     height: 130,
                     child: Image.network(image[0]),
                   ),
-                  const SizedBox(width: 30),
+                  const SizedBox(width: 15),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        snapshot.data[index].name,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.grey.shade700,
-                          fontWeight: FontWeight.bold,
+                      SizedBox(
+                        width: 170,
+                        child: Text(
+                          snapshot.data[index].name,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey.shade700,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const SizedBox(

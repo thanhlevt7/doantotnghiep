@@ -70,7 +70,7 @@ class Product extends Seeder
                 'unit' => 'Kg',
                 'description' => 'Quả cam rất giàu vitamin C, một dưỡng chất giúp hấp thụ sắt, làm tăng số lượng huyết sắc tố và ngăn ngừa các triệu chứng thiếu máu như mệt mỏi và chóng mặt',
                 'createDate' => "2022/10/07",
-                'image' => 'https://images.f99.com.vn/images/38a528d1-1a8a-46e3-988a-6a8d79a87198.png',
+                'image' => 'https://cooponline.vn/wp-content/uploads/2021/09/cam-vinh-kg.jpg,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC_6Be6fAMAE5ta5rIoPw3D7aqT5Fm8GrHjA&usqp=CAU',
                 'status' => 1,
             ],
             ['id' => 6,
@@ -125,7 +125,7 @@ class Product extends Seeder
             'unit' => 'Kg',
             'description' => 'Quả cherry rất tốt cho những người bị cao huyết áp.  Nếu bạn ăn cherry thường xuyên, tình trạng mất ngủ của bạn sẽ được cải thiện. Cherry chứa melatonin làm cho giấc ngủ sâu và ngon hơn;',
             'createDate'=>$currentDate,
-            'image' => 'https://dl.airtable.com/o44jZuvYS9uCzhQNiGCB_cherry-large%402x.jpg.jpg?ts=1656382458&userId=usrk5orn56sTujaim&cs=45e954106d9bd68f',
+            'image' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX9u4xVS-1KtooVh_F00ijZY8a2dtZqPkOtg&usqp=CAU',
             'status' => 1,
         ],
         ]);

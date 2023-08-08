@@ -31,9 +31,9 @@ class RepositoryProduct {
     var client = http.Client();
     List<Product> newProduct;
     var response = await client.get(
-      Uri.parse('$hostDomainLocal/api/products/getAllProduct/${RepositoryUser.info.id}'),
+      Uri.parse(
+          '$hostDomainLocal/api/products/getAllProduct/${RepositoryUser.info.id}'),
     );
-    print(response);
     if (response.statusCode == 200) {
       var jsonString = response.body;
       newProduct = productFromJson(jsonString);
@@ -47,7 +47,8 @@ class RepositoryProduct {
     var client = http.Client();
     List<Product> newProduct;
     var response = await client.get(
-      Uri.parse('$hostDomainLocal/api/products/newProduct/${RepositoryUser.info.id}'),
+      Uri.parse(
+          '$hostDomainLocal/api/products/newProduct/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -62,7 +63,8 @@ class RepositoryProduct {
     var client = http.Client();
     List<Product> newProduct;
     var response = await client.get(
-      Uri.parse('$hostDomainLocal/api/products/Fruit/${RepositoryUser.info.id}'),
+      Uri.parse(
+          '$hostDomainLocal/api/products/Fruit/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -92,7 +94,8 @@ class RepositoryProduct {
     var client = http.Client();
     List<Product> newProduct;
     var response = await client.get(
-      Uri.parse('$hostDomainLocal/api/products/Drink/${RepositoryUser.info.id}'),
+      Uri.parse(
+          '$hostDomainLocal/api/products/Drink/${RepositoryUser.info.id}'),
     );
 
     if (response.statusCode == 200) {
@@ -108,7 +111,8 @@ class RepositoryProduct {
     var client = http.Client();
     List<Product> newProduct;
     var response = await client.get(
-      Uri.parse('$hostDomainLocal/api/products/Vegetable/${RepositoryUser.info.id}'),
+      Uri.parse(
+          '$hostDomainLocal/api/products/Vegetable/${RepositoryUser.info.id}'),
     );
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -149,9 +153,8 @@ class RepositoryProduct {
     if (response.statusCode == 200) {
       var jsonString = response.body;
       newProduct = productFromJson(jsonString);
-      products = newProduct;
       return newProduct;
     }
-    return newProduct;
+    return null;
   }
 }

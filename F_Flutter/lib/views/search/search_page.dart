@@ -54,12 +54,15 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 actions: [
                   Builder(builder: (context) {
-                    return buildIcon(
-                      size: size,
-                      img: "assets/icons/filter.svg",
-                      press: () {
-                        Scaffold.of(context).openEndDrawer();
-                      },
+                    return Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: buildIcon(
+                        size: size,
+                        img: "assets/icons/filter.svg",
+                        press: () {
+                          Scaffold.of(context).openEndDrawer();
+                        },
+                      ),
                     );
                   }),
                 ],
@@ -109,7 +112,7 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _search(size) => Container(
         width: size.width * 0.65,
-        height: size.height * 0.06,
+        height: size.height * 0.055,
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(

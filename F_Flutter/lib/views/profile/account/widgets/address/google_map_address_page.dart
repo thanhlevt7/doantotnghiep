@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:fluter_19pmd/function.dart';
 import 'package:fluter_19pmd/repository/user_api.dart';
 import 'package:fluter_19pmd/views/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as https;
 
 // ignore: must_be_immutable
 class GoogleMapAddress extends StatefulWidget {
@@ -84,7 +81,7 @@ class GoogleMapAddressState extends State<GoogleMapAddress> {
               alignment: Alignment.bottomRight,
               child: Container(
                 height: 42,
-                width: 40,
+                width: 42,
                 alignment: Alignment.center,
                 color: Colors.white,
                 child: Center(
@@ -119,14 +116,17 @@ class GoogleMapAddressState extends State<GoogleMapAddress> {
                               MaterialStateProperty.all<Color>(Colors.white),
                         ),
                         onPressed: () async {
-                          await getLocation();
-                          if (province.isEmpty) {
+                          await RepositoryUser.getLocation(latitude, longitude)
+                              .then((value) {
+                            province = value;
+                          });
+                          if (province == null) {
                             _notification(context, "Không tìm thấy địa chỉ",
                                 RepositoryUser.province);
                           } else {
                             if (RepositoryUser.province == (province[0])) {
                               if (RepositoryUser.district == (province[1])) {
-                                if (RepositoryUser.ward == (province[2])) {
+                                if (RepositoryUser.ward.contains(province[2])) {
                                   RepositoryUser.createAddress(
                                       RepositoryUser.address);
                                   EasyLoading.showSuccess(
@@ -162,25 +162,6 @@ class GoogleMapAddressState extends State<GoogleMapAddress> {
     );
   }
 
-  Future getLocation() async {
-    province.clear();
-    final url = Uri.parse(
-        "https://shopee.vn/api/v4/location/get_division_hierarchy_by_geo?lat=$latitude&lon=$longitude&useCase=shopee.account");
-    var response =
-        await https.get(url, headers: {'cookie': RepositoryUser.cookie});
-    final json = jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
-    if (json['data'] == null) {
-    } else {
-      final data = json['data']['division_info_list'];
-      if (province.isEmpty) {
-        data.forEach((e) {
-          province.add(e['division_name']);
-        });
-        setState(() {});
-      }
-    }
-  }
-
   Future<void> _notification(
       context, String thisPosition, String selectedArea) async {
     return showDialog<void>(
@@ -194,7 +175,7 @@ class GoogleMapAddressState extends State<GoogleMapAddress> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                  "Ui, địa điểm này không nằm trong khu vực của bạn đã chọn"),
+                  "Ui, địa điểm này không nằm trong khu vực của bạn đã chọn \n"),
               const SizedBox(height: 5),
               const Text("Địa điểm này: "),
               Padding(
@@ -208,7 +189,7 @@ class GoogleMapAddressState extends State<GoogleMapAddress> {
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                 child: Text(selectedArea),
               ),
-              const Text("Ban hãy kiểm tra khu vực đã chọn ở trang trước nhé"),
+              const Text("Bạn hãy kiểm tra khu vực đã chọn ở trang trước nhé"),
             ],
           ),
           actions: <Widget>[

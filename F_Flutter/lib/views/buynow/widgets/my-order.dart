@@ -29,46 +29,40 @@ class _MyOrderBuyNowState extends State<MyOrderBuyNow> {
                 fontSize: 20,
               ),
             ),
-            SizedBox(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 60,
-                          width: 80,
-                          child: Image.network(image[0]),
-                        ),
-                        const SizedBox(width: 5),
-                        Text(
-                          "x${widget.quantity}",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey.shade400,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Text(
-                          widget.product.name,
-                          style: const TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: ListTile(
+                trailing: Text(
+                  "x${widget.quantity}",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey.shade400,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                title: SizedBox(
+                  width: 200,
+                  child: Text(
+                    widget.product.name,
+                    style: const TextStyle(
+                      fontSize: 18,
                     ),
-                    Text(
-                      "${convertToVND(widget.product.price)}đ",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey.shade800,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                ),
+                subtitle: Text(
+                  "${convertToVND(widget.product.price)}đ",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey.shade800,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                leading: SizedBox(
+                  height: 60,
+                  width: 80,
+                  child: Image.network(image[0]),
                 ),
               ),
             ),

@@ -100,11 +100,16 @@ class _MeetPageState extends State<MeetPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          snapshot.data[index].name,
-          style: TextStyle(
-            fontSize: 22,
-            color: Colors.grey.shade500,
+        SizedBox(
+          height: 35,
+          child: Text(
+            snapshot.data[index].name,
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.black.withOpacity(0.8),
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         const SizedBox(height: 10),
@@ -113,29 +118,22 @@ class _MeetPageState extends State<MeetPage> {
             children: [
               TextSpan(
                 text: "${convertToVND(snapshot.data[index].price)}đ",
-                style: TextStyle(
-                  fontSize: 19,
-                  color: Colors.grey.shade500,
+                style: const TextStyle(
+                  fontSize: 15,
+                  color: Colors.red,
                 ),
               ),
               TextSpan(
-                text: "\\",
-                style: TextStyle(
-                  fontSize: 19,
-                  color: Colors.grey.shade500,
-                ),
-              ),
-              TextSpan(
-                text: " ${snapshot.data[index].unit}",
-                style: TextStyle(
-                  fontSize: 19,
-                  color: Colors.grey.shade500,
+                text: "\\ ${snapshot.data[index].unit}",
+                style: const TextStyle(
+                  fontSize: 15,
+                  color: Colors.red,
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Row(
           children: [
             SizedBox(

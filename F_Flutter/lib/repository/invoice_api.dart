@@ -13,11 +13,11 @@ class RepositoryInvoice {
   static String url = "";
   static String orderId;
   static String getAddress;
-  static String paymentMethodSelected = "1";
+  static String paymentMethodSelected = "0";
   static double heightMyOrder() {
     double dem = 0;
     for (var i = 1; i <= RepositoryCart.cartClient[0].products.length; i++) {
-      dem += 0.11;
+      dem += 0.13;
     }
     return dem;
   }
@@ -35,6 +35,7 @@ class RepositoryInvoice {
       body: ({
         'address': getAddress,
         'total': (RepositoryCart.totalMoney).toString(),
+        'isPaid': paymentMethodSelected.toString(),
       }),
     );
 
@@ -46,9 +47,9 @@ class RepositoryInvoice {
     }
   }
 
-  static Future<dynamic> buynow(var total, var productId, var quantity) async {
+  static Future<dynamic> buynow(
+      var total, var productId, var quantity, paymentMethodSelected) async {
     var client = http.Client();
-
     var response = await client.post(
       Uri.parse('$hostDomainLocal/api/invoices/buynow'),
       body: ({
@@ -60,8 +61,10 @@ class RepositoryInvoice {
         'productID': productId.toString(),
         'quantity': quantity.toString(),
         'userID': RepositoryUser.info.id.toString(),
+        'isPaid': paymentMethodSelected.toString(),
       }),
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return 200;
     } else {

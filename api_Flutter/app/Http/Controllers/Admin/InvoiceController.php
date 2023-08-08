@@ -109,7 +109,7 @@ class InvoiceController extends Controller
                 ->update(
                     [
                         'status' => -1,
-                        'isPaid' => 1
+                        // 'isPaid' => -1
                     ]
                 );
         } else {
@@ -134,7 +134,7 @@ class InvoiceController extends Controller
         } else if ($int_status == 2) {
             return redirect()->route('admin.invoice.delivery');
         } else if ($int_status == 3) {
-            return redirect()->route('admin.invoice.delivery');
+            return redirect()->route('admin.invoice.success');
         }
     }
 
@@ -161,10 +161,10 @@ class InvoiceController extends Controller
 
         $load = DB::table('invoices')
             ->join('users', 'invoices.userID', '=', 'users.id')
+            ->select('invoices.*', 'users.fullName')
             ->orderBy('dateCreated', 'desc')
             ->where('invoices.status', 5)
             ->paginate(7);
-
         return view('admin.invoices.order_tracking_details.cancel', compact('load'));
     }
 
@@ -201,6 +201,7 @@ class InvoiceController extends Controller
     {
         $load = DB::table('invoices')
             ->join('users', 'invoices.userID', '=', 'users.id')
+            ->select('invoices.*', 'users.fullName')
             ->orderBy('dateCreated', 'desc')
             ->where('invoices.status', -1)
             ->paginate(7);

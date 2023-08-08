@@ -102,8 +102,8 @@ class _BodyState extends State<Body> {
                     size: 50,
                   ),
                   fit: BoxFit.scaleDown,
-                  height: 80,
-                  width: 80,
+                  height: 100,
+                  width: 100,
                 ),
                 const SizedBox(
                   width: 15,

@@ -321,6 +321,7 @@ class _DetailsProductScreenState extends State<DetailsProductScreen> {
                 ),
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   Icon(Icons.card_travel),
                   Text(

@@ -1,3 +1,4 @@
+import 'package:fluter_19pmd/constant.dart';
 import 'package:fluter_19pmd/models/reviews_models.dart';
 import 'package:fluter_19pmd/repository/products_api.dart';
 import 'package:flutter/material.dart';
@@ -153,8 +154,8 @@ class _UserReviewState extends State<UserReview> {
                                               widget.userReview[index].avatar
                                                   .isEmpty)
                                           ? const CircleAvatar(
-                                              backgroundImage: NetworkImage(
-                                                  "https://res.cloudinary.com/thanhlevt7/image/upload/v1678943288/image_flutter/u2swpnxwfv3s15on7ngo.png"),
+                                              backgroundImage:
+                                                  NetworkImage(imageUser),
                                             )
                                           : CircleAvatar(
                                               backgroundImage: NetworkImage(
@@ -233,6 +234,13 @@ class _UserReviewState extends State<UserReview> {
                                                   strarray[snapshot],
                                                   width: 80,
                                                   height: 100,
+                                                  errorBuilder:
+                                                      (context, url, error) =>
+                                                          const Icon(
+                                                    Icons.error,
+                                                    size: 50,
+                                                  ),
+                                                  fit: BoxFit.scaleDown,
                                                 ),
                                               );
                                             }),

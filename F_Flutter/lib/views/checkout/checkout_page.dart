@@ -112,40 +112,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       ),
                     ),
                     onPressed: () async {
-                      if (RepositoryInvoice.paymentMethodSelected == "1") {
-                        var code = await RepositoryInvoice.payment();
-                        RepositoryVoucher.sale = 0;
-                        if (code == 200) {
-                          await showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDiaLogCustom(
-                                  json: "assets/done.json",
-                                  text: "Đặt hàng thành công.",
-                                  navigator: "Go",
-                                );
-                              });
-                        }
+                      if (RepositoryInvoice.paymentMethodSelected == "0") {
+                        payment();
                       } else if (RepositoryInvoice.paymentMethodSelected ==
-                          "2") {
+                          "1") {
                         await RepositoryInvoice.paymentMomo();
                         _launchUrl(Uri.parse(RepositoryInvoice.url));
                         for (int i = 0; i < 120; i++) {
                           var status = await RepositoryInvoice.checkPayment(
                               RepositoryInvoice.orderId);
                           await Future.delayed(const Duration(seconds: 5));
-                          if (status == null) {}
                           if (status == 200) {
-                            RepositoryInvoice.paymentMethodSelected = "1";
-                            await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDiaLogCustom(
-                                    json: "assets/done.json",
-                                    text: "Đặt hàng thành công.",
-                                    navigator: "Go",
-                                  );
-                                });
+                            payment();
                             i = 120;
                           }
                         }
@@ -156,18 +134,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           var status = await RepositoryInvoice.checkPayment(
                               RepositoryInvoice.orderId);
                           await Future.delayed(const Duration(seconds: 5));
-                          if (status == null) {}
                           if (status == 200) {
-                            RepositoryInvoice.paymentMethodSelected = "1";
-                            await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDiaLogCustom(
-                                    json: "assets/done.json",
-                                    text: "Đặt hàng thành công.",
-                                    navigator: "Go",
-                                  );
-                                });
+                            payment();
                             i = 120;
                           }
                         }
@@ -201,5 +169,19 @@ class _CheckOutPageState extends State<CheckOutPage> {
       // ignore: deprecated_member_use
       await launch(RepositoryInvoice.url, forceSafariVC: false);
     }
+  }
+
+  void payment() async {
+    RepositoryVoucher.sale = 0;
+    await RepositoryInvoice.payment();
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDiaLogCustom(
+            json: "assets/done.json",
+            text: "Đặt hàng thành công.",
+            navigator: "Go",
+          );
+        });
   }
 }

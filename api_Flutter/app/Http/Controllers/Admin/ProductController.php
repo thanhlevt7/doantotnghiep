@@ -16,7 +16,6 @@ class ProductController extends Controller
 {
     public function loadProduct()
     {
-
         $data = DB::table('products')
             ->orderBy('id', 'desc')
             ->paginate(4);
